@@ -1,0 +1,60 @@
+/* Login-specific art direction. The shared theme remains available to the form. */
+/* Uses the shared semantic theme tokens. */
+body { font-family: Inter, Arial, Helvetica, sans-serif; }
+.login-layout { grid-template-columns: minmax(0, 50%) minmax(0, 50%); max-width: none; }
+.brand-panel { --brand:var(--brand-on-dark); min-height: 100svh; padding: clamp(26px,3vw,48px) clamp(32px,5vw,92px) 30px; background: radial-gradient(ellipse at 72% 67%,rgba(115,150,105,.16),transparent 38%),linear-gradient(145deg,#18251f,#0d1713 72%); border-right-color: rgba(200,225,194,.15); }
+.brand-panel::before { content:""; position:absolute; inset: 15% -22% -25% 16%; z-index:-1; border:1px solid rgba(215,235,200,.06); border-radius:50%; transform:rotate(-31deg); box-shadow:0 0 0 90px rgba(205,230,194,.015),0 0 0 190px rgba(205,230,194,.012); }
+.brand-panel::after { opacity:.35; background-image:linear-gradient(rgba(0,232,148,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(0,232,148,.08) 1px,transparent 1px); background-size:60px 60px; mask-image:linear-gradient(to bottom,transparent 5%,#000 45%,#000 82%,transparent); }
+.brand { width:110px; }
+.brand img { filter:invert(1) hue-rotate(180deg) brightness(1.45); opacity:1; mix-blend-mode:screen; }
+.brand-content { width:min(100%,660px); padding:50px 0 35px; }
+.brand-panel .eyebrow { color:#b8c8b7; font-size:10px; font-weight:700; letter-spacing:.18em; }
+.brand-panel .eyebrow>span { background:var(--brand); box-shadow:0 0 16px rgba(0,232,148,.46); }
+.brand-panel h1 { margin:26px 0 22px; font-size:clamp(56px,6vw,102px); line-height:.98; letter-spacing:-.07em; font-weight:650; }
+.brand-panel h1 em { font-family:inherit; font-style:normal; font-weight:650; color:var(--brand); }
+.brand-description { margin:0; font-size:clamp(15px,1.25vw,19px); color:#c8d1c8; line-height:1.6; }
+.journey { margin-top:clamp(54px,8vh,110px); padding:20px 22px 17px; border:1px solid rgba(212,230,205,.17); border-radius:18px; background:linear-gradient(145deg,rgba(30,49,39,.9),rgba(19,33,27,.77)); box-shadow:0 30px 70px rgba(0,0,0,.19),inset 0 1px rgba(255,255,255,.035); overflow:hidden; }
+.journey-top,.journey-labels { display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:9px; letter-spacing:.17em; font-weight:700; color:#a9b9a8; }
+.journey-top span:last-child { color:var(--brand); text-align:right; }
+.journey-map { display:block; width:100%; height:auto; margin:6px 0 -4px; overflow:visible; }
+.route-shadow,.route-line { fill:none; stroke-linecap:round; stroke-linejoin:round; }
+.route-shadow { stroke:rgba(204,222,194,.18); stroke-width:2; }
+.route-line { stroke:var(--brand); stroke-width:3; stroke-dasharray:0 100; transition:stroke-dasharray .8s cubic-bezier(.22,.7,.22,1); filter:drop-shadow(0 0 6px rgba(0,232,148,.32)); }
+.route-node { fill:#26382d; stroke:rgba(220,236,208,.5); stroke-width:2; }
+.route-end { fill:transparent; stroke:rgba(0,232,148,.7); stroke-width:2; }
+.route-marker { fill:var(--brand); stroke:#18251f; stroke-width:4; filter:drop-shadow(0 0 10px rgba(0,232,148,.65)); transition:transform .8s cubic-bezier(.22,.7,.22,1); animation:marker-breathe 3s ease-in-out infinite; }
+.journey-labels { color:#829587; font-size:8px; letter-spacing:.12em; }
+.brand-bottom { border-top:1px solid rgba(222,235,210,.13); padding-top:20px; color:#91a297; font-size:9px; letter-spacing:.16em; }
+.brand-bottom>span:last-child { font-size:10px; font-weight:700; color:var(--brand); }
+.form-panel { background:#111b17; padding:clamp(25px,3vw,48px) clamp(30px,6vw,110px) 26px; }
+.form-header { font-size:12px; }
+.form-header>span { font-size:10px; }
+.form-header>span a,.join-copy a { color:var(--brand); }
+.form-container { max-width:430px; }
+.form-container>.eyebrow { color:#b9c8b8; font-size:10px; letter-spacing:.16em; font-weight:700; }
+.welcome-mark { color:var(--brand); border-color:rgba(0,232,148,.38); background:rgba(0,232,148,.07); }
+.form-container h2 { font-size:clamp(39px,3.6vw,54px); font-weight:650; letter-spacing:-.055em; line-height:1.05; }
+.form-description { font-size:14px; color:#aebcb2; }
+.field label { font-size:12px; font-weight:700; }
+.input-wrap>svg { stroke:#b9c8b8; }
+.form-panel input { background:#19261f; border-color:rgba(205,226,200,.2); border-radius:10px; font-size:14px; }
+.form-panel input:focus { border-color:var(--brand); box-shadow:0 0 0 3px rgba(0,232,148,.13); }
+.form-panel input::placeholder { color:#829388; }
+.submit-button { background:var(--brand); color:#142018; border-radius:10px; font-size:14px; }
+.submit-button:hover:not(:disabled) { background:var(--brand-hover); box-shadow:0 9px 25px rgba(0,232,148,.15); }
+.forgot-link:hover,.professional-links a:hover,.form-footer a:hover { color:var(--brand); }
+.form-divider p { color:#8ea092; }
+
+:root[data-theme="light"] .brand-panel { color:#f7f9ef; background:radial-gradient(ellipse at 72% 67%,rgba(115,150,105,.16),transparent 38%),linear-gradient(145deg,#18251f,#0d1713 72%); }
+:root[data-theme="light"] .brand-panel h1 em,:root[data-theme="light"] .brand-panel .eyebrow,:root[data-theme="light"] .brand-panel .brand-description,:root[data-theme="light"] .brand-panel p { color:inherit; }
+:root[data-theme="light"] .brand-panel h1 em { color:var(--brand); }
+:root[data-theme="light"] .brand-panel img { filter:invert(1) hue-rotate(180deg) brightness(1.45); mix-blend-mode:screen; }
+:root[data-theme="light"] .brand-panel .journey-top span:last-child { color:var(--brand); }
+:root[data-theme="light"] .form-panel { background:#f8faf8; }
+:root[data-theme="light"] .form-panel input { color:#17251c; }
+:root[data-theme="light"] .submit-button { color:#142018; }
+@keyframes marker-breathe { 50% { opacity:.66; } }
+@media(max-width:1000px) { .login-layout { grid-template-columns:44% 56%; } .brand-panel { padding-inline:35px; } .brand-panel h1 { font-size:clamp(52px,6vw,70px); } .journey { padding:15px; } .journey-top,.journey-labels { font-size:7px; } }
+@media(max-width:700px) { .login-layout { display:block; } .brand-panel { --brand:var(--brand-on-dark); min-height:auto; padding:20px 7% 20px; } .brand { width:92px; } .brand-content { display:block; margin:0; padding:22px 0 0; } .brand-panel h1 { font-size:clamp(48px,12vw,70px); margin:12px 0 10px; } .brand-description { font-size:13px; } .journey { margin-top:18px; padding:10px 13px; } .journey-map { max-height:88px; } .journey-labels { font-size:6px; } .brand-bottom { display:none; } .form-panel { min-height:auto; padding:22px 7% 32px; } .form-container { padding-block:32px 30px; } .form-container h2 { font-size:37px; } .form-panel input { font-size:16px; } }
+@media(max-width:420px) { .journey-top { font-size:7px; letter-spacing:.08em; } .journey-labels span:nth-child(2) { display:none; } .form-header>span { display:none; } }
+@media(prefers-reduced-motion:reduce) { .route-marker { animation:none; } .route-line,.route-marker { transition:none; } }

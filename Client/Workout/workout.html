@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090D0E">
+  <title>Workout | LIFT</title>
+  <meta name="description" content="Your LIFT client experience, shaped by your subscription and goals.">
+  <link rel="stylesheet" href="../../Shared/Components/Client/Navbar/navbar.css">
+  <link rel="stylesheet" href="workout.css">
+  <script src="../../Shared/Components/Client/Navbar/navbar.js" defer></script>
+  <script src="../../Shared/JS/coach-plan.js" defer></script>
+  <script src="../../Shared/JS/exercise-library.js" defer></script>
+  <script src="workout.js" defer></script>
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <link rel="stylesheet" href="../client-design-system.css">
+  <script src="../../Shared/JS/theme.js"></script>
+  <script src="../client-preview-states.js" defer></script>
+<link rel="stylesheet" href="../client-dark-mode.css">
+  <link rel="stylesheet" href="../client-tier.css">
+  <script src="../client-access.js"></script>
+</head>
+<body>
+  <div class="workout-shell">
+    <lift-client-navbar></lift-client-navbar>
+    <main class="workout-layout">
+      <div class="workout-main">
+        <div class="page-heading"><div><p class="eyebrow">YOUR APPROVED TRAINING PLAN</p><h1>Workout schedule</h1></div><span class="premium-badge">PREMIUM PLAN</span></div>
+        <section class="schedule-card" aria-labelledby="schedule-title"><div class="section-heading"><h2 id="schedule-title">This week</h2><span>4 TRAINING DAYS · 3 RECOVERY DAYS</span></div><div class="week-strip" aria-label="Weekly workout schedule"><div class="day"><strong>Mon</strong><span class="day-dot training"></span><small>Upper body</small></div><div class="day"><strong>Tue</strong><span class="day-dot training"></span><small>Conditioning</small></div><div class="day selected" aria-current="date"><strong>Wed</strong><span class="day-dot training"></span><small>Lower body</small></div><div class="day"><strong>Thu</strong><span class="day-dot rest"></span><small>Recovery</small></div><div class="day"><strong>Fri</strong><span class="day-dot training"></span><small>Upper body</small></div><div class="day"><strong>Sat</strong><span class="day-dot rest"></span><small>Mobility</small></div><div class="day"><strong>Sun</strong><span class="day-dot rest"></span><small>Rest</small></div></div></section>
+        <section class="exercise-section" aria-labelledby="exercises-title"><div class="section-heading exercise-title-row"><div><p class="eyebrow">WEDNESDAY / LOWER BODY</p><h2 id="exercises-title">Today's exercises</h2></div><span id="progress-count" class="progress-count">1 OF 2 COMPLETED</span></div><div class="exercise-list"><article class="exercise-card" data-exercise="squat"><div class="exercise-top"><div><span class="exercise-number">01 / STRENGTH</span><h3>Barbell Back Squat</h3><p>Warm-up + 3 working sets</p></div><button class="status-button complete" type="button" aria-label="Mark Barbell Back Squat as pending" aria-pressed="true">COMPLETED</button></div><div class="exercise-meta"><span><b>REPS</b> 8, 8, 8</span><span><b>LOAD</b> Coach-set</span><span><b>FOCUS</b> Quads · Glutes</span></div><div class="exercise-actions"><button class="video-button" type="button" data-video-id="-bJIpOq-LWk" data-video-title="How to do a Barbell Back Squat">▶ <span>How to perform</span></button><span>VIDEO GUIDE · NASM</span></div></article><article class="exercise-card" data-exercise="rdl"><div class="exercise-top"><div><span class="exercise-number">02 / STRENGTH</span><h3>Romanian Deadlift</h3><p>3 working sets</p></div><button class="status-button" type="button" aria-label="Mark Romanian Deadlift as completed" aria-pressed="false">PENDING</button></div><div class="exercise-meta"><span><b>REPS</b> 10, 10, 10</span><span><b>LOAD</b> Coach-set</span><span><b>FOCUS</b> Hamstrings · Glutes</span></div><div class="exercise-actions"><button class="video-button" type="button" data-video-id="2bmuYtv4HbQ" data-video-title="How to do a Romanian Deadlift">▶ <span>How to perform</span></button><span>VIDEO GUIDE · NASM</span></div></article></div></section>
+      </div>
+      <aside class="workout-sidebar" aria-label="Workout details"><section class="side-card"><div class="side-title"><span class="side-icon" aria-hidden="true">✳</span><h2>Session Context</h2></div><dl><div><dt>Equipment</dt><dd>Full Commercial Gym</dd></div><div><dt>Estimated duration</dt><dd>45 minutes</dd></div><div><dt>Target muscle group</dt><dd>Quads, Glutes, Hamstrings</dd></div></dl></section><section class="side-card coach-card"><p class="eyebrow">YOUR COACH SPECIALIST</p><div class="specialist"><span class="specialist-avatar" aria-hidden="true">SC</span><div><h2>Sarah Chen</h2><p>Strength &amp; conditioning coach</p></div></div><div class="review-status"><span aria-hidden="true">✓</span><div><strong>Plan reviewed</strong><small>Your training plan is shaped with Sarah's input.</small></div></div><p class="specialist-note">Need to adjust a session, exercise or training time? Discuss it with Sarah before changing your approved plan.</p><a class="message-link" href="../Messages/messages.html?chat=coach">Message Sarah <span aria-hidden="true">↗</span></a></section></aside>
+    </main>
+  </div>
+  <dialog id="video-dialog" aria-labelledby="video-title"><div class="dialog-header"><div><p>EXERCISE GUIDE</p><h2 id="video-title"></h2></div><button id="close-video" type="button" aria-label="Close video">×</button></div><div class="video-frame" id="video-frame"></div><div class="dialog-footer"><p>Follow your coach's approved plan and use the video to review technique.</p><a id="watch-on-youtube" href="#" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a></div></dialog>
+</body>
+</html>
+

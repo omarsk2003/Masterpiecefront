@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090D0E">
+  <title>My profile | LIFT</title>
+  <meta name="description" content="Your LIFT client experience, shaped by your subscription and goals.">
+  <link rel="stylesheet" href="../../Shared/Components/Client/Navbar/navbar.css">
+  <link rel="stylesheet" href="profile.css">
+  <link rel="stylesheet" href="profile-preview.css">
+  <script src="../../Shared/Components/Client/Navbar/navbar.js" defer></script>
+  <script src="../../Shared/JS/client-accounts.js" defer></script>
+  <script src="account-profile.js" defer></script>
+  <script src="profile.js" defer></script>
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <link rel="stylesheet" href="../client-design-system.css">
+  <script src="../../Shared/JS/theme.js"></script>
+<link rel="stylesheet" href="../client-dark-mode.css">
+  <link rel="stylesheet" href="../client-tier.css">
+  <script src="../client-access.js"></script>
+</head>
+<body>
+  <div class="profile-shell">
+    <lift-client-navbar></lift-client-navbar>
+    <main class="profile-page" id="main">
+      <div class="page-heading"><div><p class="eyebrow">YOUR LIFT ACCOUNT</p><h1>My profile<span class="accent-dot">.</span></h1><p>A home for your details, your goals, and the people supporting your plan.</p></div><span class="premium-pill"><span aria-hidden="true">✳</span> PREMIUM MEMBER</span></div>
+      <section class="identity-card" aria-labelledby="member-name"><div class="identity-avatar" aria-hidden="true">AD</div><div class="identity-copy"><p class="eyebrow">MEMBER PROFILE</p><h2 id="member-name">Alexander Drake</h2><p>Working toward a stronger, healthier routine — with a plan shaped around real life.</p></div><span class="identity-mark" aria-hidden="true">✳</span></section>
+      <div class="profile-grid">
+        <div class="profile-main">
+          <section class="profile-card" aria-labelledby="details-title"><div class="card-heading"><div><p class="eyebrow">THE BASICS</p><h2 id="details-title">Personal details</h2></div><button class="edit-profile" id="edit-profile" type="button" aria-controls="profile-form" aria-expanded="false">Edit profile <span aria-hidden="true">↗</span></button></div><dl class="detail-grid" id="profile-details"><div><dt>FULL NAME</dt><dd id="display-name">Alexander Drake</dd></div><div><dt>EMAIL ADDRESS</dt><dd>client@lift.demo <span class="locked-note" aria-label="Email cannot be changed">⌁ Fixed</span></dd></div><div><dt>PHONE NUMBER</dt><dd id="display-phone">Not added</dd></div><div><dt>FITNESS GOAL</dt><dd id="display-goal">Build strength</dd></div><div><dt>MEMBERSHIP</dt><dd>Premium</dd></div><div><dt>ACCOUNT TYPE</dt><dd>Client</dd></div></dl><form id="profile-form" class="profile-form" hidden><div class="edit-grid"><label for="profile-name">Full name<input id="profile-name" name="fullName" type="text" value="Alexander Drake" autocomplete="name" maxlength="80" required></label><div class="locked-field"><span>Email address</span><strong>client@lift.demo</strong><small>This email stays fixed.</small></div><label for="profile-phone">Phone number <small>optional</small><input id="profile-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="Add a phone number" maxlength="24"></label><label for="profile-goal">Fitness goal<select id="profile-goal" name="goal"><option>Build strength</option><option>Lose weight</option><option>Improve fitness</option><option>Build endurance</option></select></label></div><p class="edit-hint">Changes are shown in this preview until the page is refreshed.</p><div class="edit-actions"><button type="button" class="cancel-edit" id="cancel-edit">Cancel</button><button type="submit" class="save-profile">Save changes <span aria-hidden="true">↗</span></button></div></form><p class="save-status" id="save-status" role="status" hidden>Profile updated for this preview.</p></section>
+          <section class="profile-card" aria-labelledby="journey-title"><div class="card-heading"><div><p class="eyebrow">YOUR DIRECTION</p><h2 id="journey-title">Fitness journey</h2></div><span class="card-symbol" aria-hidden="true">02</span></div><p class="card-intro">Your training and nutrition plans are reviewed by your specialists and can be discussed with them whenever your routine changes.</p><div class="journey-links"><a href="../Workout/workout.html"><span><small>TRAINING</small><strong>View your workout plan</strong></span><b aria-hidden="true">↗</b></a><a href="../Nutrition/nutrition.html"><span><small>NUTRITION</small><strong>View your nutrition plan</strong></span><b aria-hidden="true">↗</b></a><a href="../Progress/progress.html"><span><small>YOUR PROGRESS</small><strong>See how you're doing</strong></span><b aria-hidden="true">↗</b></a></div></section>
+        </div>
+        <aside class="profile-aside" aria-label="Membership and specialist team"><section class="profile-card membership-card"><p class="eyebrow">YOUR MEMBERSHIP</p><h2>Premium, with people in your corner.</h2><p>Your coach and nutritionist review your AI-generated plans and help you adjust them to your life.</p><span class="membership-status"><span aria-hidden="true"></span> PREMIUM PLAN ACTIVE</span></section><section class="profile-card team-card"><div class="card-heading"><div><p class="eyebrow">YOUR PEOPLE</p><h2>Specialist team</h2></div><span class="card-symbol" aria-hidden="true">✳</span></div><div class="specialist"><span class="specialist-avatar" aria-hidden="true">SC</span><div><small>YOUR COACH</small><strong>Sarah Chen</strong><span>Strength &amp; conditioning</span></div></div><div class="specialist"><span class="specialist-avatar" aria-hidden="true">MH</span><div><small>YOUR NUTRITIONIST</small><strong>Maya Haddad</strong><span>Everyday nutrition</span></div></div><a class="team-link" href="../Messages/messages.html">Message your team <span aria-hidden="true">↗</span></a></section></aside>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
+

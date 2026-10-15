@@ -1,0 +1,16 @@
+.suggested-prompts{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:13px 0;border-bottom:1px solid var(--border)}
+.suggested-prompts>span{margin-right:4px;color:var(--text-muted);font-size:var(--type-caption);font-weight:750;letter-spacing:.08em}
+.suggested-prompts button{min-height:32px;padding:6px 10px;border:1px solid var(--border);border-radius:999px;background:var(--surface);color:var(--text-secondary);font-size:var(--type-small);cursor:pointer}
+.suggested-prompts button:hover{border-color:var(--border-strong);background:var(--surface-hover);color:var(--text-primary)}
+.assistant-sidebar .sidebar-card,.chat-bubble{border-radius:var(--radius-md)}
+.composer{border-radius:var(--radius-md);box-shadow:var(--shadow-sm)}
+.composer:focus-within{border-color:var(--focus-ring);box-shadow:0 0 0 3px var(--brand-soft)}
+:root[data-theme="light"] .personalization-banner{background:var(--brand-soft);border-color:var(--border)}
+:root[data-theme="light"] .personalization-banner p,:root[data-theme="light"] .profile-card p,:root[data-theme="light"] .assistant-actions span{color:var(--text-secondary)}
+:root[data-theme="light"] .profile-card small{color:var(--text-muted)}
+:root[data-theme="light"] :is(.personalization-banner button:last-child,.assistant-actions button,.profile-card button){color:var(--brand);border-color:var(--border-strong)}
+:root[data-theme="light"] .personalization-banner button:first-child{background:var(--brand);border-color:var(--brand);color:var(--brand-contrast)}
+@media(max-width:700px){.suggested-prompts>span{width:100%}.suggested-prompts button{font-size:.75rem}}
+.assistant-upgrade-link{display:inline-flex;margin-top:12px;padding:9px 12px;border:1px solid var(--accent);border-radius:6px;color:var(--accent);font-size:12px;font-weight:700;text-decoration:none}
+.assistant-upgrade-link:hover{background:var(--surface-2)}
+.assistant-upgrade-link:focus-visible{outline:2px solid var(--accent);outline-offset:3px}

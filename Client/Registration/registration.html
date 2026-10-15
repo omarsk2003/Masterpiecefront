@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#090D0E">
+ <title>Create your account | LIFT</title>
+ <link rel="stylesheet" href="../../Shared/Components/Client/Onboarding/onboarding.css">
+ <link rel="stylesheet" href="registration.css"><link rel="stylesheet" href="registration-redesign.css">
+ <script src="../../Shared/JS/client-accounts.js" defer></script>
+ <script src="registration.js" defer></script>
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <link rel="stylesheet" href="../client-design-system.css">
+  <link rel="stylesheet" href="registration-client-polish.css">
+  <script src="../../Shared/JS/theme.js"></script>
+<link rel="stylesheet" href="../client-dark-mode.css">
+  <link rel="stylesheet" href="../client-tier.css">
+  <script src="../client-access.js"></script>
+</head>
+<body>
+ <div class="app">
+  <header class="flow-header"><a href="../../Public/LandingPage/landing-page.html"><span class="header-mark" aria-hidden="true"></span>LIFT</a><span id="flow-label">CREATE YOUR ACCOUNT</span><button class="auth-theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode"><span data-theme-icon aria-hidden="true">☼</span></button><a class="header-login" href="../../Shared/Login/login.html">Already a member? <b>Sign in ↗</b></a></header>
+  <div class="flow-body" id="flow-body"><main id="registration-main">
+<section class="step-view account-view" data-step="0" aria-labelledby="account-title">
+  <aside class="account-aside">
+    <a class="brand" href="../../Public/LandingPage/landing-page.html" aria-label="LIFT home"><img src="../../Shared/Assets/Images/lift-logo.png" alt="LIFT"></a>
+    <div class="account-intro"><p class="register-eyebrow">YOUR NEXT CHAPTER STARTS HERE</p><h1>Your journey starts<br><em>with a few essentials.</em></h1><p>Create your account and start on Free Plan. The details that shape a personal plan can come later.</p><div class="activation-scene" data-progress="0" aria-hidden="true"><div class="activation-top"><span>ACCOUNT ACTIVATION</span><span>00 / 05</span></div><svg viewBox="0 0 600 280" class="activation-map" preserveAspectRatio="xMidYMid meet"><path class="activation-guide" d="M30 220 H130 V115 H260 V185 H390 V72 H555"/><path class="activation-signal" d="M30 220 H130 V115 H260 V185 H390 V72 H555"/><path class="activation-segment segment-1" d="M30 220 H130"/><path class="activation-segment segment-2" d="M130 220 V115 H260"/><path class="activation-segment segment-3" d="M260 115 V185 H390"/><path class="activation-segment segment-4" d="M390 185 V72 H475"/><path class="activation-segment segment-5" d="M475 72 H555"/><circle class="activation-point point-1" cx="130" cy="220" r="6"/><circle class="activation-point point-2" cx="260" cy="115" r="6"/><circle class="activation-point point-3" cx="390" cy="185" r="6"/><circle class="activation-point point-4" cx="475" cy="72" r="6"/><circle class="activation-end" cx="555" cy="72" r="11"/></svg><div class="activation-label label-1">IDENTITY <b>01</b></div><div class="activation-label label-2">ACCESS <b>02</b></div><div class="activation-label label-3">SECURE <b>03</b></div><div class="activation-label label-4">CONFIRM <b>04</b></div><div class="activation-label label-5">READY <b>05</b></div><div class="activation-bottom"><span>BUILDING YOUR WAY FORWARD</span><span>✳ LIFT</span></div></div></div>
+    <p class="aside-caption">Step 1 of your LIFT journey.</p>
+  </aside>
+  <div class="account-main">
+    <a class="back-home" href="../../Public/LandingPage/landing-page.html">↖ Back to home</a>
+    <form id="account-form" class="account-form" novalidate>
+      <p class="register-eyebrow">CREATE YOUR ACCOUNT</p><h2 id="account-title" tabindex="-1">Start with the essentials.</h2><p class="form-subtitle">You’ll enter the Free Plan dashboard right after creating your account.</p>
+      <div class="field"><label for="full-name">FULL NAME</label><input id="full-name" name="fullName" autocomplete="name" placeholder="Your full name" maxlength="100" required><p class="field-error" id="full-name-error"></p></div>
+      <div class="field"><label for="register-email">EMAIL ADDRESS</label><input id="register-email" name="email" type="email" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false" placeholder="you@example.com" required><p class="field-error" id="register-email-error"></p></div>
+      <div class="field"><label for="register-password">PASSWORD</label><div class="password-wrap"><input id="register-password" name="password" type="password" autocomplete="new-password" placeholder="Minimum 8 characters" minlength="8" required><button type="button" class="password-toggle" data-password="register-password" aria-label="Show password" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg></button></div><p class="field-error" id="register-password-error"></p></div>
+      <div class="field"><label for="confirm-password">CONFIRM PASSWORD</label><div class="password-wrap"><input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" placeholder="Repeat password" required><button type="button" class="password-toggle" data-password="confirm-password" aria-label="Show confirmation password" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg></button></div><p class="field-error" id="confirm-password-error"></p></div>
+      <div class="consent"><label for="terms"><input id="terms" name="terms" type="checkbox" required><span>I agree to the LIFT <button type="button" class="inline-link" id="open-terms">Digital Onboarding &amp; Health Terms</button></span></label><p class="field-error" id="terms-error"></p></div>
+      <button class="primary-button full-width" type="submit"><span>Create &amp; Continue</span><span class="button-arrow" aria-hidden="true">↗</span></button>
+      <p class="login-link">Already registered? <a href="../../Shared/Login/login.html">Sign in</a></p>
+    </form>
+  </div>
+</section>
+   </main>
+  </div>
+ </div>
+ <dialog id="terms-dialog" aria-labelledby="terms-title"><button type="button" class="dialog-close" data-close-dialog aria-label="Close terms">×</button><p class="step-eyebrow">ONBOARDING PREVIEW</p><h2 id="terms-title">Digital Onboarding &amp; Health Terms</h2><p>This registration creates a browser-local preview account on Free Plan. No payment is collected, and information entered here is not sent to a server.</p><p>The final service terms and health information policy will be supplied before launch. Please use sample information for this preview.</p><button type="button" class="primary-button full-width" data-close-dialog>Back to registration</button></dialog>
+</body>
+</html>
+

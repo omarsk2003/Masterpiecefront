@@ -1,0 +1,24 @@
+:root[data-theme="light"] .account-aside{background:radial-gradient(circle at 55% 74%,#314c39 0%,#172a20 37%,#111d17 79%);color:#f4f7ed}
+:root[data-theme="light"] .account-aside .brand img{filter:invert(1) hue-rotate(180deg) brightness(1.45);mix-blend-mode:screen}
+:root[data-theme="light"] .account-intro h1{color:#f4f7ed}
+:root[data-theme="light"] .account-intro>p:not(.register-eyebrow){color:#c5d2c4}
+:root[data-theme="light"] .flow-header{background:transparent;border:0}
+:root[data-theme="light"] .account-main{background:var(--bg)}
+:root[data-theme="light"] .account-form input:not([type="checkbox"]){background:var(--surface);border-color:var(--border);color:var(--text-primary)}
+:root[data-theme="light"] .account-form input::placeholder{color:var(--text-muted)}
+:root[data-theme="light"] .account-form label{color:var(--text-secondary)}
+.account-form label{font-size:.8125rem}
+
+/* Match the approved Login primary action without changing other onboarding buttons. */
+.account-form .primary-button{
+  display:flex;align-items:center;justify-content:space-between;gap:18px;
+  width:100%;height:52px;min-height:52px;margin-top:26px;padding:0 20px;
+  border:0;border-radius:var(--radius-sm);background:var(--brand);color:var(--brand-contrast);
+  font-size:14px;font-weight:700;line-height:1.5;
+  transition:background .25s,transform .25s,box-shadow .25s;
+}
+.account-form .primary-button .button-arrow{font-size:22px;font-weight:400;line-height:1}
+.account-form .primary-button:hover:not(:disabled),.account-form .primary-button:active:not(:disabled){background:var(--brand-hover);transform:translateY(-2px);box-shadow:none}
+.account-form .primary-button:focus-visible{outline:3px solid var(--focus-ring)!important;outline-offset:3px!important}
+.account-form .primary-button:disabled{opacity:.7}
+:root[data-theme="light"] .account-form .primary-button:hover:not(:disabled),:root[data-theme="light"] .account-form .primary-button:active:not(:disabled){box-shadow:0 9px 25px color-mix(in srgb,var(--brand) 15%,transparent)}

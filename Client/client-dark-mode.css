@@ -1,0 +1,83 @@
+/* Dark mode only. The approved light palette and its component rules stay intact. */
+:root[data-theme="dark"] body { background: var(--bg); color: var(--text-primary); }
+:root[data-theme="dark"] :is(.dashboard-shell,.assistant-shell,.workout-shell,.nutrition-shell,.progress-shell,.profile-shell,.messages-shell,.meetings-shell,.support-shell) { background: var(--bg); border-color: var(--border); }
+:root[data-theme="dark"] :is(.client-navbar,.client-nav-links.open) { background: var(--nav-bg); border-color: var(--border); }
+:root[data-theme="dark"] .client-nav-links a { color: var(--text-secondary); }
+:root[data-theme="dark"] .client-nav-links a:hover { color: var(--text-primary); }
+:root[data-theme="dark"] .client-nav-links a[aria-current="page"] { color: var(--brand); background: var(--brand-soft); }
+:root[data-theme="dark"] :is(.client-account-menu,.client-avatar,.client-theme-toggle,.floating-theme-toggle,.auth-theme-toggle) { background: var(--surface); border-color: var(--border); color: var(--text-primary); box-shadow: none; }
+:root[data-theme="dark"] .selection-shell~.floating-theme-toggle { top: 112px; right: 32px; }
+:root[data-theme="dark"] .client-account-menu a:hover { background: var(--surface-hover); color: var(--brand); }
+
+:root[data-theme="dark"] :is(.schedule-card,.exercise-card,.side-card,.overview-card,.meal-card,.summary-card,.chart-card,.consistency-card,.history-card,.team-card,.context-card,.conversation-list,.chat-panel,.request-card,.faq-section,.profile-card,.identity-card,.sidebar-card,.metric-card,.engine-card,.today-card,.premium-panel,.meeting-card,.subscription-card,.client-panel,.topic-card,.approved-menu,.specialist-guidance,.sample-weekly,.sample-actions,.overview-panel,.overview-stats article,.client-empty-card) {
+  background: var(--surface); border-color: var(--border); box-shadow: none;
+}
+:root[data-theme="dark"] :is(.summary-card.primary,.review-status,.request-preview,.chat-panel,.message-bubble,.team-member,.contact-button.active,.contact-button:hover,.meeting-card,.approved-menu-lines p,.guidance-items article,.overview-today>div,.overview-actions a) { background: var(--surface-raised); border-color: var(--border); }
+:root[data-theme="dark"] :is(.page-heading,.conversation-heading,.client-empty-heading) h1,
+:root[data-theme="dark"] :is(.profile-card,.side-card,.sidebar-card,.team-card,.sample-weekly,.sample-actions,.overview-panel) h2 { color: var(--text-primary); }
+:root[data-theme="dark"] :is(.eyebrow,.section-eyebrow,.metric-label,.card-label,.client-empty-kicker) { color: var(--text-muted); }
+:root[data-theme="dark"] :is(.page-heading,.conversation-heading) p:not(.eyebrow) { color: var(--text-secondary); }
+:root[data-theme="dark"] :is(.premium-badge,.premium-label,.review-label,.approved,.plan-badge,.progress-count,.target-achieved,.meal-top>span,.exercise-number,.client-empty-symbol) { color: var(--brand) !important; }
+:root[data-theme="dark"] :is(.premium-badge,.premium-label,.plan-badge,.day.selected,.client-empty-symbol) { background: var(--brand-soft); border-color: var(--border-strong); }
+:root[data-theme="dark"] :is(.side-icon,.meal-icon,.team-avatar,.specialist-avatar,.contact-avatar,.profile-avatar,.person-avatar,.client-avatar) { background: var(--brand-soft); color: var(--brand); border-color: var(--border); }
+:root[data-theme="dark"] :is(.review-check,.review-status>span,.chat-status,.card-note.positive,.metric-note.positive) { color: var(--success); }
+:root[data-theme="dark"] :is(.chart-line-path,.route-line) { filter: none; }
+
+:root[data-theme="dark"] :is(.field input,.field select,.field textarea,.entry-fields input,.composer,.composer input,.engine-form,.engine-form input,.profile-form input,.profile-form select,.account-form input:not([type="checkbox"]),.form-panel input,.message-composer textarea) { background: var(--surface-raised); border-color: var(--border); color: var(--text-primary); }
+:root[data-theme="dark"] :is(.field input,.field select,.field textarea,.entry-fields input,.composer,.engine-form,.profile-form input,.profile-form select,.account-form input:not([type="checkbox"]),.form-panel input,.message-composer textarea):focus-within { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); }
+:root[data-theme="dark"] :is(.add-entry,.save-entry,.submit-button,.message-link,.message-button,.composer button,.engine-form button,.preview-dashboard-actions a:first-child,.selection-actions button,.personalization-banner button:first-child,.profile-actions button[type="submit"]) { background: var(--brand); border-color: var(--brand); color: var(--brand-contrast); box-shadow: none; }
+:root[data-theme="dark"] :is(.add-entry,.save-entry,.submit-button,.message-link,.message-button,.composer button,.engine-form button,.selection-actions button):hover { background: var(--brand-hover); box-shadow: none; }
+:root[data-theme="dark"] :is(.log-button,.video-button,.status-button,.meeting-actions button,.meeting-actions a,.assistant-actions button,.profile-card button,.personalization-banner button:last-child,.profile-actions button:not([type="submit"]),.save-later) { border-color: var(--border-strong); color: var(--brand); background: transparent; }
+:root[data-theme="dark"] :is(.log-button,.video-button,.status-button,.meeting-actions button,.meeting-actions a,.assistant-actions button,.profile-card button,.personalization-banner button:last-child,.profile-actions button:not([type="submit"]),.save-later):hover { background: var(--surface-hover); }
+:root[data-theme="dark"] :is(.meeting-actions button:first-of-type,.meeting-actions a) { background: var(--brand); color: var(--brand-contrast); border-color: var(--brand); }
+
+:root[data-theme="dark"] .preview-dashboard { background: var(--surface); border-color: var(--border); color: var(--text-primary); }
+:root[data-theme="dark"] .preview-dashboard :is(.preview-kicker,.preview-dashboard-note strong,.returning-cards article span) { color: var(--brand); }
+:root[data-theme="dark"] .preview-dashboard>p,
+:root[data-theme="dark"] .preview-dashboard-note p,
+:root[data-theme="dark"] .returning-cards article p { color: var(--text-secondary); }
+:root[data-theme="dark"] :is(.returning-cards article,.preview-dashboard-note) { background: var(--surface-raised); border-color: var(--border); }
+:root[data-theme="dark"] .preview-dashboard-actions a { border-color: var(--border-strong); color: var(--brand); }
+:root[data-theme="dark"] .preview-dashboard-actions a:first-child { color: var(--brand-contrast); }
+
+:root[data-theme="dark"] .personalization-banner { background: var(--brand-soft); border-color: var(--border); }
+:root[data-theme="dark"] .personalization-banner p,
+:root[data-theme="dark"] .profile-card p,
+:root[data-theme="dark"] .assistant-actions span { color: var(--text-secondary); }
+:root[data-theme="dark"] .profile-card small { color: var(--text-muted); }
+:root[data-theme="dark"] .profile-dialog { background: var(--surface); border-color: var(--border); color: var(--text-primary); box-shadow: var(--shadow-lg); }
+:root[data-theme="dark"] .profile-top { background: var(--surface); border-color: var(--border); color: var(--brand); }
+:root[data-theme="dark"] :is(.profile-top button,.profile-heading p,.review-list span,.review-list button) { color: var(--brand); }
+:root[data-theme="dark"] .profile-progress { background: var(--brand-soft); }
+:root[data-theme="dark"] .profile-progress i { background: var(--brand); }
+:root[data-theme="dark"] #profile-form :is(input,select,textarea) { background: var(--surface-raised); color: var(--text-primary); border-color: var(--border); }
+:root[data-theme="dark"] .profile-choices span { border-color: var(--border); color: var(--text-secondary); }
+:root[data-theme="dark"] .profile-choices input:checked+span { background: var(--brand); border-color: var(--brand); color: var(--brand-contrast); }
+
+:root[data-theme="dark"] .form-panel,
+:root[data-theme="dark"] .account-main { background: var(--bg); }
+:root[data-theme="dark"] :is(.brand-panel,.account-aside) { background: radial-gradient(circle at 50% 70%,#153326 0%,#0c1b14 48%,#07100d 100%); }
+:root[data-theme="dark"] :is(.brand-panel h1 em,.account-intro h1 em,.brand-panel .eyebrow,.register-eyebrow,.journey-top span:last-child,.activation-top span:last-child,.activation-bottom span:last-child) { color: var(--brand) !important; }
+:root[data-theme="dark"] .brand-panel .eyebrow>span { background: var(--brand); box-shadow: none; }
+:root[data-theme="dark"] .route-line { stroke: var(--brand); }
+:root[data-theme="dark"] .route-marker { fill: var(--brand); stroke: var(--deep); filter: none; }
+:root[data-theme="dark"] .route-end { stroke: var(--border-strong); }
+:root[data-theme="dark"] .journey,
+:root[data-theme="dark"] .activation-scene { background: var(--surface); border-color: var(--border); box-shadow: none; }
+:root[data-theme="dark"] .activation-signal { stroke: var(--border-strong); }
+:root[data-theme="dark"] .activation-segment { stroke: var(--brand); filter: none; }
+:root[data-theme="dark"] :is(.activation-point,.activation-end) { stroke: var(--border-strong); filter: none; }
+:root[data-theme="dark"] :is(.activation-point.active,.activation-end.active) { fill: var(--brand); stroke: var(--brand); filter: none; }
+:root[data-theme="dark"] .activation-label { border-color: var(--border); color: var(--text-secondary); }
+:root[data-theme="dark"] .activation-label b { color: var(--brand); }
+:root[data-theme="dark"] .activation-label.active { border-color: var(--border-strong); color: var(--text-primary); }
+:root[data-theme="dark"] .welcome-mark { color: var(--brand); background: var(--brand-soft); border-color: var(--border); }
+:root[data-theme="dark"] :is(.form-header>span a,.join-copy a,.forgot-link:hover,.professional-links a:hover,.form-footer a:hover) { color: var(--brand); }
+:root[data-theme="dark"] .form-panel input:focus { border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-soft); }
+:root[data-theme="dark"] .auth-theme-toggle { --accent: var(--brand); }
+
+:root[data-theme="dark"] .card-body { background: var(--surface); border-color: var(--border); box-shadow: none; }
+:root[data-theme="dark"] .plan-card:hover .card-body,
+:root[data-theme="dark"] .plan-card input:checked+.card-body { border-color: var(--brand); box-shadow: 0 0 0 1px var(--brand-soft); }
+:root[data-theme="dark"] .plan-name,
+:root[data-theme="dark"] .select-copy { color: var(--brand); }

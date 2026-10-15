@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090D0E">
+  <title>Coaches | LIFT Admin</title>
+  <meta name="description" content="Review coach credentials and manage approved LIFT coaches.">
+  <link rel="stylesheet" href="../../Shared/Components/Admin/Sidebar/sidebar.css">
+  <link rel="stylesheet" href="../Dashboard/dashboard.css">
+  <link rel="stylesheet" href="coach-management.css">
+  <script src="../../Shared/Components/Admin/Sidebar/sidebar.js" defer></script>
+  <script src="../../Shared/JS/matching.js" defer></script>
+  <script src="../../Shared/JS/specialist-applications.js" defer></script>
+  <script src="../SpecialistManagement/specialist-management.js" defer></script>
+  <script src="coach-management.js" defer></script>
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <script src="../../Shared/JS/theme.js"></script>
+</head>
+<body>
+  <div class="admin-shell">
+    <header class="admin-topbar"><div class="topbar-brand"><button class="admin-menu-toggle" type="button" aria-label="Open sidebar" aria-controls="admin-sidebar" aria-expanded="false">☰</button><a href="../Dashboard/dashboard.html" aria-label="LIFT admin home"><img src="../../Shared/Assets/Images/lift-logo.png" alt="LIFT"></a><span>SYSTEM ADMIN COMMAND</span></div><div class="topbar-account"><button class="admin-theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode"><span data-theme-icon aria-hidden="true">☼</span></button><span class="topbar-admin"><strong>Admin Root</strong><small><i aria-hidden="true"></i> Online</small></span><span class="admin-avatar" aria-hidden="true">AR</span></div></header>
+    <lift-admin-sidebar></lift-admin-sidebar>
+    <main class="admin-page specialist-page" id="main">
+      <header class="specialist-heading"><div><p class="eyebrow">PROFESSIONAL DIRECTORY</p><h1>Coaches</h1><p>Review qualifications, approve applications, and manage the training team.</p></div><span class="heading-pill">WORKOUT SPECIALISTS</span></header>
+      <section class="specialist-stats" aria-label="Coach statistics"><article><span>TOTAL COACHES</span><strong id="stat-total">0</strong></article><article><span>ACTIVE</span><strong id="stat-active">0</strong></article><article><span>PENDING REVIEW</span><strong id="stat-pending">0</strong></article><article><span>OPEN CLIENT SLOTS</span><strong id="stat-slots">0</strong></article></section>
+      <section class="specialist-directory" aria-labelledby="directory-title"><div class="directory-head"><div><p class="eyebrow">TEAM &amp; APPLICATIONS</p><h2 id="directory-title">Coach directory</h2><p id="result-count"></p></div><a href="../NutritionistManagement/nutritionist-management.html">View nutritionists ↗</a></div><div class="directory-tools"><label class="directory-search" for="specialist-search"><span class="sr-only">Search coaches</span><input id="specialist-search" type="search" placeholder="Search name, email or specialty…" autocomplete="off"></label><label for="status-filter">Status<select id="status-filter"><option value="all">All statuses</option><option value="pending">Pending</option><option value="active">Active</option><option value="blocked">Blocked</option><option value="rejected">Rejected</option></select></label></div><div id="specialist-list" class="specialist-list"></div><p id="directory-empty" class="directory-empty" hidden>No coaches match this search.</p></section>
+      <p id="specialist-action-status" class="sr-only" role="status"></p>
+    </main>
+  </div>
+  <dialog class="profile-dialog" id="profile-dialog" aria-labelledby="profile-title"><div class="dialog-heading"><div><p class="eyebrow">COACH PROFILE</p><h2 id="profile-title"></h2><span id="profile-status" class="profile-status"></span></div><button id="close-profile" type="button" aria-label="Close profile">×</button></div><p id="profile-bio" class="profile-bio"></p><dl id="profile-details" class="profile-details"></dl><section class="profile-certificates" aria-labelledby="certificates-title"><div><h3 id="certificates-title">Certificates</h3><span id="certificate-count"></span></div><p>Sample certificate previews for this static frontend; no uploaded files are connected.</p><div id="certificate-list"></div></section><p id="review-progress" class="review-progress"></p><div class="profile-actions"><button id="edit-profile" type="button" class="secondary-action">Edit profile</button><button id="block-profile" type="button" class="secondary-action" hidden>Block account</button><button id="reject-profile" type="button" class="reject-action" hidden>Reject</button><button id="approve-profile" type="button" class="approve-action" hidden>Approve &amp; activate ↗</button></div></dialog>
+  <dialog class="certificate-dialog" id="certificate-dialog" aria-labelledby="certificate-title"><div class="dialog-heading"><div><p class="eyebrow">CREDENTIAL PREVIEW</p><h2 id="certificate-title"></h2></div><button id="close-certificate" type="button" aria-label="Close certificate">×</button></div><div class="certificate-paper" id="sample-certificate"><span class="certificate-watermark">SAMPLE</span><p>LIFT / CREDENTIAL REVIEW</p><h3 id="certificate-name"></h3><p>Awarded to <strong id="certificate-holder"></strong></p><div><span>ISSUER <strong id="certificate-issuer"></strong></span><span>YEAR <strong id="certificate-year"></strong></span></div></div><div id="pdf-actions" class="pdf-actions" hidden><a id="open-pdf" target="_blank" rel="noopener">Open original PDF ↗</a><a id="download-pdf">Download PDF ↓</a></div><div id="pdf-preview" class="pdf-preview" hidden></div><p class="certificate-caution" id="certificate-caution">Sample content only. This is not an uploaded or verified document.</p><button id="done-certificate" type="button" class="secondary-action">Back to profile</button></dialog>
+  <dialog class="edit-dialog" id="edit-dialog" aria-labelledby="edit-title"><form id="edit-form"><div class="dialog-heading"><div><p class="eyebrow">EDIT COACH</p><h2 id="edit-title">Edit profile</h2></div><button id="close-edit" type="button" aria-label="Close edit form">×</button></div><div class="edit-grid"><label>Full name<input name="name" maxlength="80" required></label><label>Email<input name="email" type="email" maxlength="120" required></label><label>Primary specialty<select name="focus" id="focus-select"></select></label><label>Experience (years)<input name="experienceYears" type="number" min="0" max="60" required></label><label id="capacity-label">Client capacity<input name="capacity" type="number" min="1" max="100" required></label><label class="wide">Professional bio<textarea name="bio" maxlength="500" rows="3" required></textarea></label></div><p id="edit-error" class="edit-error" hidden></p><div class="edit-actions"><button type="button" class="secondary-action" id="cancel-edit">Cancel</button><button type="submit" class="approve-action">Save changes ↗</button></div></form></dialog>
+</body>
+</html>
+

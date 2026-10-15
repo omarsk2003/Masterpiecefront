@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090D0E">
+  <title>Messages | LIFT</title>
+  <meta name="description" content="Your LIFT client experience, shaped by your subscription and goals.">
+  <link rel="stylesheet" href="../../Shared/Components/Client/Navbar/navbar.css">
+  <link rel="stylesheet" href="messages.css">
+  <script src="../../Shared/Components/Client/Navbar/navbar.js" defer></script>
+  <script src="../../Shared/JS/client-coach-chat.js" defer></script>
+  <script src="../../Shared/JS/client-nutrition-chat.js" defer></script>
+  <script src="messages.js" defer></script>
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <link rel="stylesheet" href="../client-design-system.css">
+  <script src="../../Shared/JS/theme.js"></script>
+  <script src="../client-preview-states.js" defer></script>
+<link rel="stylesheet" href="../client-dark-mode.css">
+  <link rel="stylesheet" href="../client-tier.css">
+  <script src="../client-access.js"></script>
+</head>
+<body>
+  <div class="messages-shell">
+    <lift-client-navbar></lift-client-navbar>
+    <main class="messages-page">
+      <div class="page-heading"><div><p class="eyebrow">YOUR PREMIUM SUPPORT</p><h1>Messages</h1><p>Talk with the people who shape your plan.</p></div><span class="premium-badge">YOUR CARE TEAM</span></div>
+      <div class="messages-layout">
+        <aside class="conversation-list" aria-labelledby="conversations-title"><div class="list-heading"><h2 id="conversations-title">Conversations</h2><span>2 SPECIALISTS</span></div><div class="contact-list"><button class="contact-button active" type="button" data-chat="coach" aria-pressed="true"><span class="contact-avatar" aria-hidden="true">SC</span><span class="contact-details"><strong>Sarah Chen</strong><small>Your coach</small></span><span class="contact-arrow" aria-hidden="true">↗</span></button><button class="contact-button" type="button" data-chat="nutritionist" aria-pressed="false"><span class="contact-avatar" aria-hidden="true">MH</span><span class="contact-details"><strong>Maya Haddad</strong><small>Your nutritionist</small></span><span class="contact-arrow" aria-hidden="true">↗</span></button></div><p class="list-note">Your training and nutrition conversations stay separate, so each specialist can focus on their plan with you.</p></aside>
+        <section class="chat-panel" aria-labelledby="chat-title"><div class="chat-header"><span id="chat-avatar" class="contact-avatar large" aria-hidden="true">SC</span><div><h2 id="chat-title">Sarah Chen</h2><p id="chat-role">Your coach · Strength & conditioning</p></div><span class="chat-status"><span aria-hidden="true"></span> PREMIUM TEAM</span></div><div id="message-list" class="message-list" role="log" aria-label="Messages with Sarah Chen" aria-live="polite" aria-relevant="additions"><div class="empty-state"><span aria-hidden="true">✳</span><h3>Start a conversation with Sarah.</h3><p>Ask about your training schedule, exercise technique or a change to your workout plan.</p></div></div><form id="message-form" class="message-composer"><label class="sr-only" for="message-text">Write a message</label><textarea id="message-text" rows="2" placeholder="Write a message to Sarah…" maxlength="1000" required></textarea><button type="submit">Send <span aria-hidden="true">↗</span></button></form></section>
+        <aside class="context-panel" aria-label="Specialist details"><section class="context-card"><p class="eyebrow">YOUR SPECIALIST</p><span id="profile-avatar" class="profile-avatar" aria-hidden="true">SC</span><h2 id="profile-name">Sarah Chen</h2><p id="profile-role">Strength & conditioning coach</p><div class="approval-row"><span class="approval-icon" aria-hidden="true">✓</span><span id="approval-text">Discuss your training plan together.</span></div></section><section class="context-card guidance-card"><p class="eyebrow">HOW PLAN CHANGES WORK</p><h2>Discuss. Refine. Approve.</h2><p id="guidance-text">Tell Sarah what fits your schedule or what feels difficult. She can review and approve an update to your training plan.</p></section></aside>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
+

@@ -1,0 +1,17 @@
+.plan-page{min-height:calc(100svh - 72px)}
+.plan-page .tier-card h2{margin-top:8px}
+.plan-status{display:inline-flex;margin:4px 0 0!important;padding:9px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface-raised);font-size:12px}
+.plan-page .tier-action{margin-top:6px}
+.plan-options{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.plan-option{display:flex;flex-direction:column;min-height:360px}
+.plan-option.is-current{border-color:var(--brand)}
+.plan-option.is-selected{border-color:var(--brand);box-shadow:0 0 0 2px var(--brand-soft),var(--shadow-md)}
+.plan-option-head{min-height:28px}.plan-option-status{display:inline-flex;padding:6px 9px;border:1px solid var(--border-strong);border-radius:999px;color:var(--text-muted);font-size:10px;font-weight:800;letter-spacing:.1em}
+.plan-option.is-current .plan-option-status,.plan-option.is-selected .plan-option-status{border-color:var(--brand);background:var(--brand-soft);color:var(--brand)}
+.plan-option h2{margin:18px 0 6px!important}.plan-option-price{display:flex;align-items:baseline;gap:3px;margin:0 0 14px!important}.plan-option-price strong{color:var(--text-primary);font-size:clamp(28px,3vw,38px);letter-spacing:-.05em}.plan-option-price small{color:var(--text-muted);font-size:12px}
+.plan-option-features{display:grid;gap:10px;list-style:none;margin:5px 0 22px;padding:16px 0 0;border-top:1px solid var(--border)}.plan-option-features li{position:relative;padding-left:18px;color:var(--text-secondary);font-size:12px;line-height:1.4}.plan-option-features li::before{content:'✓';position:absolute;left:0;color:var(--brand);font-weight:800}
+.plan-option-action,.plan-option-note{margin-top:auto!important}.plan-option-note{display:block;padding:12px 0;color:var(--text-muted);font-size:12px;font-weight:700}
+.plan-choice{grid-column:1/-1;padding:22px 26px;border:1px solid var(--brand);border-radius:var(--radius-lg);background:var(--surface-raised)}.plan-choice[hidden]{display:none}.plan-choice-name{display:block;margin:8px 0;color:var(--text-primary);font-size:22px}.plan-choice p:not(.tier-kicker){margin:0;color:var(--text-secondary);font-size:13px}.plan-choice .tier-actions{margin-top:16px}
+@media(max-width:950px){.plan-options{grid-template-columns:repeat(2,minmax(0,1fr))}.plan-option:last-child{grid-column:1/-1}}
+@media(max-width:650px){.plan-options{grid-template-columns:1fr}.plan-option{min-height:0}.plan-option:last-child{grid-column:auto}}
+

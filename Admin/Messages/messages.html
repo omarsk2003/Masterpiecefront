@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090D0E">
+  <title>Messages | LIFT Admin</title>
+  <meta name="description" content="Review public contact messages and reply to registered LIFT clients.">
+  <link rel="stylesheet" href="../../Shared/Components/Admin/Sidebar/sidebar.css">
+  <link rel="stylesheet" href="../Dashboard/dashboard.css">
+  <link rel="stylesheet" href="messages.css">
+  <script src="../../Shared/Components/Admin/Sidebar/sidebar.js" defer></script>
+  <script src="messages.js" defer></script>
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <script src="../../Shared/JS/theme.js"></script>
+</head>
+<body>
+  <div class="admin-shell">
+    <header class="admin-topbar"><div class="topbar-brand"><button class="admin-menu-toggle" type="button" aria-label="Open sidebar" aria-controls="admin-sidebar" aria-expanded="false">☰</button><a href="../Dashboard/dashboard.html" aria-label="LIFT admin home"><img src="../../Shared/Assets/Images/lift-logo.png" alt="LIFT"></a><span>SYSTEM ADMIN COMMAND</span></div><div class="topbar-account"><button class="admin-theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode"><span data-theme-icon aria-hidden="true">☼</span></button><span class="topbar-admin"><strong>Admin Root</strong><small><i aria-hidden="true"></i> Online</small></span><span class="admin-avatar" aria-hidden="true">AR</span></div></header>
+    <lift-admin-sidebar></lift-admin-sidebar>
+    <main class="admin-page inbox-page" id="main">
+      <header class="inbox-heading"><div><p class="eyebrow">COMMUNICATION CENTER</p><h1>Messages &amp; feedback</h1><p>Read public feedback and talk with clients, coaches, and nutritionists.</p></div><span class="inbox-total" id="inbox-total">0 messages</span></header>
+      <section class="inbox-stats" aria-label="Message overview"><article><span>ALL MESSAGES</span><strong id="stat-all">0</strong></article><article><span>ACCOUNT CONVERSATIONS</span><strong id="stat-client">0</strong></article><article><span>PUBLIC CONTACT</span><strong id="stat-public">0</strong></article><article><span>AWAITING REPLY</span><strong id="stat-awaiting">0</strong></article></section>
+      <div class="inbox-layout">
+        <section class="inbox-list-panel" aria-labelledby="inbox-title"><div class="list-top"><div><p class="eyebrow">INBOX</p><h2 id="inbox-title">All messages</h2></div><span id="visible-count"></span></div><div class="inbox-filters" role="group" aria-label="Filter messages"><button type="button" class="filter-chip active" data-filter="all" aria-pressed="true">All</button><button type="button" class="filter-chip" data-filter="client" aria-pressed="false">Clients</button><button type="button" class="filter-chip" data-filter="coach" aria-pressed="false">Coaches</button><button type="button" class="filter-chip" data-filter="nutritionist" aria-pressed="false">Nutritionists</button><button type="button" class="filter-chip" data-filter="public" aria-pressed="false">Visitors</button></div><label class="inbox-search" for="message-search"><span class="sr-only">Search messages</span><input id="message-search" type="search" placeholder="Search name, subject or message…" autocomplete="off"></label><div id="message-list" class="inbox-list" aria-label="Messages"></div><p id="list-empty" class="list-empty" hidden>No messages match your search.</p></section>
+        <section class="conversation-panel" aria-labelledby="conversation-title"><div class="conversation-head"><div><p class="eyebrow" id="conversation-source">CLIENT SUPPORT</p><h2 id="conversation-title">Select a message</h2><p id="conversation-meta"></p><a id="subscription-link" class="subscription-link" href="../Subscriptions/subscriptions.html" hidden>View membership ↗</a></div><span class="source-badge" id="source-badge">CLIENT</span></div><div id="conversation-content" class="conversation-content" role="log" aria-live="polite"></div><div id="visitor-notice" class="visitor-notice" hidden><span aria-hidden="true">ⓘ</span><p>This message came from the public Contact Us page. The sender has no LIFT account, so replies are unavailable here.</p></div><form id="reply-form" class="reply-form"><label id="reply-label" for="reply-text">Reply to client</label><div><textarea id="reply-text" rows="2" maxlength="1500" placeholder="Write a reply…" required></textarea><button type="submit">Send reply <span aria-hidden="true">↗</span></button></div></form><p id="reply-status" class="sr-only" role="status"></p></section>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
+

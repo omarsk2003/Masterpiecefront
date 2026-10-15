@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0D1613">
+  <title>Welcome back | LIFT</title>
+  <link rel="stylesheet" href="login.css">
+  <script src="../JS/specialist-applications.js" defer></script>
+  <script src="../JS/client-accounts.js" defer></script>
+  <script src="login.js" defer></script>
+  <link rel="stylesheet" href="../CSS/theme.css">
+  <link rel="stylesheet" href="login-redesign.css">
+  <link rel="stylesheet" href="../../Client/client-design-system.css">
+  <script src="../JS/theme.js"></script>
+  <link rel="stylesheet" href="../../Client/client-dark-mode.css">
+  <link rel="stylesheet" href="login-client-polish.css">
+</head>
+<body>
+  <main class="login-layout">
+    <section class="brand-panel" aria-label="Welcome to LIFT">
+      <a class="brand" href="../../Public/LandingPage/landing-page.html" aria-label="LIFT home"><img src="../Assets/Images/lift-logo.png" alt="LIFT"></a>
+      <div class="brand-content">
+        <p class="eyebrow"><span></span> GOOD TO HAVE YOU BACK</p>
+        <h1>Find your<br><em>rhythm.</em></h1>
+        <p class="brand-description">Sign in to continue your LIFT journey.</p>
+        <div class="journey" aria-hidden="true">
+          <div class="journey-top"><span>YOUR JOURNEY / IN MOTION</span><span id="journey-stage">READY TO CONTINUE</span></div>
+          <svg class="journey-map" viewBox="0 0 600 220" preserveAspectRatio="xMidYMid meet"><path class="route-shadow" d="M16 159 C95 159 97 88 166 88 S252 175 315 148 S404 50 482 78 S552 135 587 38"/><path class="route-line" pathLength="100" d="M16 159 C95 159 97 88 166 88 S252 175 315 148 S404 50 482 78 S552 135 587 38"/><circle class="route-node" cx="16" cy="159" r="5"/><circle class="route-node" cx="166" cy="88" r="5"/><circle class="route-node" cx="315" cy="148" r="5"/><circle class="route-node" cx="482" cy="78" r="5"/><circle class="route-end" cx="587" cy="38" r="9"/><circle class="route-marker" cx="16" cy="159" r="8"/></svg>
+          <div class="journey-labels"><span>START HERE</span><span>KEEP MOVING</span><span>YOUR NEXT STEP</span></div>
+        </div>
+      </div>
+      <div class="brand-bottom"><span>LIFESTYLE &amp; INTELLIGENT FITNESS TECHNOLOGY</span><span>01 / 03</span></div>
+    </section>
+    <section class="form-panel" aria-labelledby="login-title">
+      <header class="form-header"><a href="../../Public/LandingPage/landing-page.html"><span aria-hidden="true">↖</span> Back to home</a><button class="auth-theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode"><span data-theme-icon aria-hidden="true">☼</span></button><span>NEW HERE? <a href="../../Client/Registration/registration.html">Join LIFT ↗</a></span></header>
+      <div class="form-container">
+        <span class="welcome-mark" aria-hidden="true">↗</span>
+        <p class="eyebrow">GOOD TO HAVE YOU BACK</p>
+        <h2 id="login-title">Welcome back.</h2>
+        <p class="form-description">Sign in to pick up where you left off.</p>
+        <form id="login-form" novalidate>
+          <div class="field">
+            <label for="email">Email address</label>
+            <div class="input-wrap"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg><input type="email" id="email" name="email" autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false" placeholder="you@example.com" required aria-describedby="email-error"></div>
+            <p class="field-error" id="email-error"></p>
+          </div>
+          <div class="field">
+            <div class="label-row"><label for="password">Password</label><button class="forgot-link" type="button" id="forgot-password">Forgot password?</button></div>
+            <div class="input-wrap"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg><input type="password" id="password" name="password" autocomplete="current-password" placeholder="Enter your password" required aria-describedby="password-error"><button type="button" class="password-toggle" id="toggle-password" aria-label="Show password" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/><path class="eye-slash" d="m3 3 18 18"/></svg></button></div>
+            <p class="field-error" id="password-error"></p>
+          </div>
+          <p class="form-message" id="form-message" role="alert" hidden></p>
+          <button class="submit-button" type="submit" id="sign-in"><span>Sign in</span><span class="button-arrow" aria-hidden="true">↗</span><span class="spinner" aria-hidden="true" hidden></span></button>
+          <p class="sign-in-status" id="sign-in-status" role="status"></p>
+        </form>
+        <div class="form-divider"><span></span><p>YOUR NEXT STEP IS WAITING</p><span></span></div>
+        <p class="join-copy">Starting your journey? <a href="../../Client/Registration/registration.html">Create an account <span aria-hidden="true">↗</span></a></p>
+      </div>
+      <footer class="form-footer"><span>© 2026 LIFT</span><a href="../../Public/ContactUs/contact-us.html">Need a hand? Contact us ↗</a></footer>
+    </section>
+  </main>
+  <dialog id="recovery-dialog" aria-labelledby="recovery-title" aria-describedby="recovery-description">
+    <button type="button" class="dialog-close" id="close-recovery" aria-label="Close password help">×</button>
+    <span class="welcome-mark" aria-hidden="true">↗</span>
+    <h2 id="recovery-title">Need a fresh start?</h2>
+    <p id="recovery-description">Password reset will be available when account services are connected. No reset email can be sent from this preview.</p>
+    <a class="support-button" href="../../Public/ContactUs/contact-us.html">Contact support ↗</a>
+  </dialog>
+</body>
+</html>
+

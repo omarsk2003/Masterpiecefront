@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090D0E">
+  <title>My clients | LIFT Coach</title>
+  <meta name="description" content="View the clients assigned to your LIFT coach account.">
+  <link rel="stylesheet" href="../../Shared/Components/Coach/Navbar/navbar.css">
+  <link rel="stylesheet" href="../../Shared/Components/Coach/Sidebar/sidebar.css">
+  <link rel="stylesheet" href="../Dashboard/dashboard.css">
+  <link rel="stylesheet" href="my-clients.css">
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <script src="../../Shared/JS/theme.js"></script>
+  <script src="../../Shared/JS/coach-plan.js" defer></script>
+  <script src="../../Shared/Components/Coach/Navbar/navbar.js" defer></script>
+  <script src="../../Shared/Components/Coach/Sidebar/sidebar.js" defer></script>
+  <script src="my-clients.js" defer></script>
+<link rel="stylesheet" href="../../Client/client-design-system.css">
+  <link rel="stylesheet" href="../../Client/client-dark-mode.css">
+  <link rel="stylesheet" href="../../Shared/CSS/specialist-workspace.css">
+</head>
+<body>
+  <div class="coach-shell">
+    <lift-coach-navbar></lift-coach-navbar>
+    <lift-coach-sidebar></lift-coach-sidebar>
+    <main class="coach-main" id="main">
+      <header class="clients-heading"><div><p class="eyebrow">COACH WORKSPACE <span class="eyebrow-line"></span> MY CLIENTS</p><h1>People, not just plans.</h1><p>Get to know the clients assigned to you and keep their training aligned with real life.</p></div><div class="client-count"><strong>01</strong><span>ASSIGNED CLIENT</span></div></header>
+
+      <section class="directory-panel" aria-labelledby="directory-title">
+        <div class="directory-head"><div><p class="eyebrow">YOUR ROSTER</p><h2 id="directory-title">Assigned clients</h2></div><span class="roster-note"><i aria-hidden="true"></i> Matched by LIFT</span></div>
+        <div class="directory-tools"><label class="search-box" for="client-search"><span aria-hidden="true">⌕</span><input id="client-search" type="search" placeholder="Search by client name or goal" autocomplete="off"><span class="sr-only">Search clients</span></label><div class="filter-tabs" role="group" aria-label="Filter clients by workout plan status"><button type="button" class="active" data-filter="all" aria-pressed="true">All <span>1</span></button><button type="button" data-filter="approved" aria-pressed="false">Plan approved <span>1</span></button><button type="button" data-filter="review" aria-pressed="false">Needs review <span>0</span></button></div></div>
+        <div class="client-list" id="client-list"></div>
+        <div class="list-empty" id="list-empty" hidden><span aria-hidden="true">⌕</span><h3>No clients in this view</h3><p>Try another search or plan status.</p></div>
+        <div class="directory-footer"><span>Showing <strong id="visible-count">1</strong> of 1 assigned client</span><span>Only clients matched to your coach account appear here.</span></div>
+      </section>
+
+      <div class="support-grid"><section class="support-card"><span class="support-icon" aria-hidden="true">✳</span><div><p class="eyebrow">YOUR ROLE</p><h2>Review the workout. Shape the outcome.</h2><p>LIFT suggests a training plan. You make sure it fits the client's goal, fitness level and available time before approving it.</p></div><button type="button" data-open-plan>Review plan <span aria-hidden="true">↗</span></button></section><section class="support-card"><span class="support-icon" aria-hidden="true">↗</span><div><p class="eyebrow">STAY CONNECTED</p><h2>Talk through the changes.</h2><p>If Alexander needs a different schedule or exercise, discuss the update in messages or a meeting before changing his approved plan.</p></div><a href="../Messages/messages.html">Open messages <span aria-hidden="true">↗</span></a></section></div>
+    </main>
+    <dialog id="plan-dialog" class="plan-dialog" aria-labelledby="plan-dialog-title"><div class="plan-dialog-head"><div><p class="eyebrow">COACH REVIEW · ALEXANDER DRAKE</p><h2 id="plan-dialog-title">Review workout plan</h2><p>Edit the plan, save it for review, or approve it for Alexander.</p></div><button type="button" id="close-plan-dialog" aria-label="Close plan review">×</button></div><span class="plan-dialog-status" id="plan-dialog-status">APPROVED</span><form id="plan-form"><div class="plan-dialog-fields"><label>Training goal<input name="goal" maxlength="120" required></label><label>Workout location<input name="location" maxlength="80" required></label><label>Days per week<input name="days" type="number" min="1" max="7" required></label><label>Minutes per session<input name="minutes" type="number" min="15" max="180" required></label></div><label>Weekly training split<textarea name="split" rows="4" maxlength="600" required></textarea></label><label>Coach notes for Alexander<textarea name="coachNotes" rows="4" maxlength="600" placeholder="Explain a change, technique focus or schedule adjustment."></textarea></label><div class="plan-dialog-actions"><button type="button" id="save-plan-draft">Save for review</button><button type="submit">Approve &amp; send to client ↗</button></div><p id="plan-feedback" role="status" aria-live="polite"></p></form></dialog>
+  </div>
+</body>
+</html>

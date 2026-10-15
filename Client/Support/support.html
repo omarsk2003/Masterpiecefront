@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090D0E">
+  <title>Support | LIFT</title>
+  <meta name="description" content="Your LIFT client experience, shaped by your subscription and goals.">
+  <link rel="stylesheet" href="../../Shared/Components/Client/Navbar/navbar.css">
+  <link rel="stylesheet" href="support.css">
+  <script src="../../Shared/Components/Client/Navbar/navbar.js" defer></script>
+  <script src="support.js" defer></script>
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <link rel="stylesheet" href="../client-design-system.css">
+  <script src="../../Shared/JS/theme.js"></script>
+<link rel="stylesheet" href="../client-dark-mode.css">
+  <link rel="stylesheet" href="../client-tier.css">
+  <script src="../client-access.js"></script>
+</head>
+<body>
+  <div class="support-shell">
+    <lift-client-navbar></lift-client-navbar>
+    <main class="support-layout" id="main">
+      <header class="page-heading"><div><p class="eyebrow">LIFT PREMIUM / MEMBER SUPPORT</p><h1>How can we help,<br><span>Alexander?</span></h1><p>Find answers, prepare a support request, or reach the right person for your plan.</p></div><span class="premium-badge">PREMIUM MEMBER</span></header>
+      <div class="content-grid"><div class="support-main">
+        <section aria-labelledby="quick-title" class="quick-section"><div class="section-heading"><div><p class="eyebrow">START HERE</p><h2 id="quick-title">What do you need help with?</h2></div><span>SELECT A TOPIC</span></div><div class="topic-grid"><button type="button" class="topic-card" data-category="account"><span class="topic-icon" aria-hidden="true">◇</span><strong>Account &amp; billing</strong><span>Access, profile or Premium account questions.</span><i aria-hidden="true">↗</i></button><button type="button" class="topic-card" data-category="meetings"><span class="topic-icon" aria-hidden="true">▣</span><strong>Video &amp; meetings</strong><span>Exercise videos or coach Zoom meeting issues.</span><i aria-hidden="true">↗</i></button><button type="button" class="topic-card" data-category="technical"><span class="topic-icon" aria-hidden="true">✳</span><strong>Technical issue</strong><span>Something on the platform isn't working.</span><i aria-hidden="true">↗</i></button></div></section>
+        <section class="request-card" id="request-section" aria-labelledby="request-title"><div class="section-heading"><div><p class="eyebrow">PLATFORM SUPPORT</p><h2 id="request-title">Prepare a support request</h2></div><span class="request-number">01 / 02</span></div><p class="request-intro">Tell us what happened so the support team can understand the issue when requests are connected.</p><form id="support-form"><div class="form-row"><div class="field"><label for="support-category">Issue category</label><select id="support-category" required><option value="">Choose a category</option><option value="account">Account &amp; billing</option><option value="meetings">Video &amp; meetings</option><option value="technical">Technical issue</option><option value="other">Something else</option></select></div><div class="field"><label for="support-subject">Subject</label><input id="support-subject" type="text" maxlength="100" placeholder="A short summary" required></div></div><div class="field"><label for="support-description">What happened?</label><textarea id="support-description" rows="5" maxlength="1500" placeholder="Include the page, what you expected, and what you saw instead…" required></textarea></div><button class="submit-button" type="submit">Preview request <span aria-hidden="true">↗</span></button></form><div id="request-preview" class="request-preview" hidden aria-live="polite"><div class="preview-heading"><span class="preview-icon" aria-hidden="true">✓</span><div><h3>Request ready to review</h3><p>This request has not been sent. Support delivery will be available when the service is connected.</p></div></div><dl><div><dt>Category</dt><dd id="preview-category"></dd></div><div><dt>Subject</dt><dd id="preview-subject"></dd></div><div><dt>Description</dt><dd id="preview-description"></dd></div></dl><button id="edit-request" type="button">Edit request</button></div></section>
+        <section class="faq-section" aria-labelledby="faq-title"><div class="section-heading"><div><p class="eyebrow">HELPFUL ANSWERS</p><h2 id="faq-title">Frequently asked questions</h2></div></div><div class="faq-list"><details><summary>Where do I talk to my coach or nutritionist?<span aria-hidden="true">+</span></summary><p>Open Messages from your navigation. Sarah handles your training plan, and Maya handles your nutrition plan. Each conversation is separate.</p></details><details><summary>How do I request a change to my plan?<span aria-hidden="true">+</span></summary><p>Discuss the change with the relevant specialist in Messages. They can review it with you before an updated plan is approved.</p></details><details><summary>Where can I find my coach meetings?<span aria-hidden="true">+</span></summary><p>Open Coach Zoom meetings from your dashboard. If a meeting link does not work, choose Video &amp; meetings above to prepare a support request.</p></details></div></section>
+      </div><aside class="support-aside" aria-label="Your Premium team"><section class="team-card"><p class="eyebrow">YOUR PREMIUM TEAM</p><h2>Plan question?</h2><p>For workouts or meals, speak directly with the specialist responsible for your plan.</p><div class="team-person"><span class="avatar" aria-hidden="true">SC</span><div><strong>Sarah Chen</strong><small>Your coach</small></div><a href="../Messages/messages.html?chat=coach" aria-label="Message Sarah Chen">↗</a></div><div class="team-person"><span class="avatar" aria-hidden="true">MH</span><div><strong>Maya Haddad</strong><small>Your nutritionist</small></div><a href="../Messages/messages.html?chat=nutritionist" aria-label="Message Maya Haddad">↗</a></div></section><section class="aside-note"><span aria-hidden="true">✳</span><p><strong>One place for each question.</strong><br>Messages are for plan decisions. Support is for account and platform issues.</p></section></aside></div>
+    </main>
+  </div>
+</body>
+</html>

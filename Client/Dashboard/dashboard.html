@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090D0E">
+  <title>Dashboard | LIFT</title>
+  <meta name="description" content="Your LIFT client experience, shaped by your subscription and goals.">
+  <link rel="stylesheet" href="../../Shared/Components/Client/Navbar/navbar.css">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="dashboard-preview.css">
+  <script src="../../Shared/Components/Client/Navbar/navbar.js" defer></script>
+  <script src="../../Shared/JS/matching.js" defer></script>
+  <script src="../client-preview-states.js" defer></script>
+  <script src="dashboard.js" defer></script>
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <link rel="stylesheet" href="../client-design-system.css">
+  <link rel="stylesheet" href="dashboard-overview.css">
+  <script src="../../Shared/JS/theme.js"></script>
+<link rel="stylesheet" href="../client-dark-mode.css">
+  <link rel="stylesheet" href="../client-tier.css">
+  <script src="../client-access.js"></script>
+</head>
+<body>
+  <div class="dashboard-shell">
+    <lift-client-navbar></lift-client-navbar>
+    <main class="dashboard-grid" id="main">
+      <div class="dashboard-main">
+        <section class="welcome-card" aria-labelledby="welcome-title"><div><p class="section-eyebrow">YOUR SPACE / PREMIUM MEMBER</p><h1 id="welcome-title">Welcome back, Alexander<span class="wave" aria-hidden="true">✳</span></h1><p>Your plan is ready for today's training. Your coach and nutritionist have reviewed what works for you.</p></div><span class="plan-badge"><span aria-hidden="true"></span> PREMIUM PLAN ACTIVE</span></section>
+        <section class="metrics" aria-label="Your daily overview"><article class="metric-card"><span class="metric-label">CURRENT WEIGHT</span><strong>78.2 <small>kg</small></strong><span class="metric-note positive">↓ 0.8 kg this week</span></article><article class="metric-card"><span class="metric-label">DAILY ACTIVE ENERGY</span><strong>640 <small>kcal</small></strong><span class="metric-note">Target: 800 kcal</span></article><article class="metric-card"><span class="metric-label">HYDRATION</span><strong>2.4 <small>L</small></strong><span class="metric-note positive">Target achieved</span></article></section>
+        <section class="sample-overview-row" aria-label="Weekly progress and quick actions"><article class="sample-weekly"><p class="section-eyebrow">WEEKLY PROGRESS · SAMPLE</p><h2>Consistency this week</h2><div class="sample-weekly-bars" role="img" aria-label="Sample workout consistency: three of four planned sessions completed"><span style="--bar:72%"><b>MON</b></span><span style="--bar:90%"><b>TUE</b></span><span style="--bar:76%"><b>WED</b></span><span style="--bar:0%"><b>THU</b></span><span style="--bar:0%"><b>FRI</b></span><span style="--bar:0%"><b>SAT</b></span><span style="--bar:0%"><b>SUN</b></span></div><p>3 of 4 planned sessions completed in this sample week.</p></article><nav class="sample-actions" aria-label="Quick actions"><p class="section-eyebrow">QUICK ACTIONS</p><h2>Where to next?</h2><a href="../Workout/workout.html">View workout <span aria-hidden="true">↗</span></a><a href="../Nutrition/nutrition.html">View nutrition <span aria-hidden="true">↗</span></a><a href="../Progress/progress.html">Track progress <span aria-hidden="true">↗</span></a><a href="../Messages/messages.html">Messages <span aria-hidden="true">↗</span></a></nav></section>
+        <section class="engine-card" aria-labelledby="engine-title"><div class="section-head"><div><p class="section-eyebrow">YOUR INTELLIGENT COMPANION</p><h2 id="engine-title">Ask LIFT Engine</h2></div><span class="engine-spark" aria-hidden="true">✳</span></div><form id="engine-form" class="engine-form"><label class="sr-only" for="engine-prompt">Ask LIFT Engine</label><input id="engine-prompt" name="prompt" type="text" placeholder="Adjust today's workout for a slight shoulder strain…" maxlength="180" required><button type="submit" aria-label="Preview response">↗</button></form><p id="engine-response" class="engine-response" role="status" hidden></p></section>
+        <section class="today-grid" aria-label="Today's plan"><article class="today-card"><div class="today-card-top"><h2>TODAY'S WORKOUT</h2><span aria-hidden="true">↗</span></div><p class="today-highlight">Lower Body Hypertrophy</p><p>45 min <span class="separator">·</span> Commercial Gym</p><span class="approved"><span aria-hidden="true">✓</span> Reviewed by Coach Sarah</span></article><article class="today-card"><div class="today-card-top"><h2>NUTRITION TARGETS</h2><span aria-hidden="true">↗</span></div><p class="today-strong">2,400 kcal remaining</p><p>P: 180g <span class="separator">|</span> C: 220g <span class="separator">|</span> F: 65g</p><span class="approved"><span aria-hidden="true">✓</span> Reviewed by Nutritionist Maya</span></article></section>
+        <p class="dashboard-footnote">Static preview for one Premium member. Daily values and plans are sample information.</p>
+      </div>
+      <aside class="premium-panel" aria-labelledby="team-title"><div class="panel-heading"><span class="panel-icon" aria-hidden="true">✳</span><span>PREMIUM EXPERIENCE</span></div><h2 id="team-title">Your people.<br>Your progress.</h2><p class="panel-intro">Your automatically matched specialists review your AI plans and help shape them around your real life.</p><div class="team-list"><article class="team-member"><span class="team-avatar coach" aria-hidden="true">SC</span><div><span class="member-role">YOUR COACH</span><strong>Sarah Chen</strong><small>Strength & conditioning</small></div><span class="online-dot" aria-label="Available"></span></article><article class="team-member"><span class="team-avatar nutritionist" aria-hidden="true">MH</span><div><span class="member-role">YOUR NUTRITIONIST</span><strong>Maya Haddad</strong><small>Everyday nutrition</small></div><span class="online-dot" aria-label="Available"></span></article></div><div class="match-explainer" id="dashboard-match-reason" aria-label="Why this team was matched"></div><div class="review-box"><div class="review-header"><h3>Plan review</h3><span>2 OF 2 APPROVED</span></div><div class="review-row"><span class="review-check" aria-hidden="true">✓</span><div><strong>Training plan</strong><small>Approved by Sarah</small></div></div><div class="review-row"><span class="review-check" aria-hidden="true">✓</span><div><strong>Nutrition plan</strong><small>Approved by Maya</small></div></div></div><div class="panel-actions"><a class="message-button" href="../Messages/messages.html">Message your team <span>↗</span></a><a class="meeting-button" href="../Meetings/meetings.html">Coach Zoom meetings <span>↗</span></a></div><p class="panel-note">Need an adjustment? Discuss it with your specialists before your plan is updated.</p></aside>
+    </main>
+  </div>
+</body>
+</html>
+

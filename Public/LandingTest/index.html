@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101713"><meta name="description" content="LIFT builds fitness and nutrition plans around your real life.">
+  <title>LIFT — A plan built around your life</title>
+  <link rel="stylesheet" href="../../Shared/Components/Public/Navbar/navbar.css">
+  <link rel="stylesheet" href="../../Shared/Components/Public/Footer/footer.css">
+  <link rel="stylesheet" href="full-3d-experience.css">
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <link rel="stylesheet" href="hero-test.css">
+  <script src="../../Shared/JS/theme.js"></script>
+  <script src="../../Shared/Components/Public/Navbar/navbar.js" defer></script>
+  <script src="../../Shared/Components/Public/Footer/footer.js" defer></script>
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.js"}}</script>
+  <script type="module" src="test-world-bootstrap.js"></script><script src="hero-test.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a><lift-navbar></lift-navbar>
+  <div class="world" aria-hidden="true"><canvas id="lift-world"></canvas><div class="world-vignette"></div></div>
+  <div class="chapter-rail" aria-hidden="true"><span>THE LIFT JOURNEY</span><i id="rail-progress"></i><b id="chapter-count">01 / 07</b></div>
+  <main id="main">
+    <section class="chapter chapter--intro" id="home" data-scene="intro" aria-labelledby="test-hero-title">
+      <div class="test-hero-layout">
+        <div class="test-hero-copy"><p class="eyebrow">BUILT AROUND YOUR LIFE</p><h1 id="test-hero-title">Built around your life.<br><em>Not the other way around.</em></h1><p>Tell LIFT how you live — your goals, schedule, energy, food habits, available time, and where you train. LIFT turns those details into a plan that adapts with you.</p><div class="test-hero-actions"><a class="lift-button" href="../../Client/Registration/registration.html">START YOUR JOURNEY <span aria-hidden="true">↗</span></a><a class="test-hero-secondary" href="#personalization">SEE HOW IT WORKS <span aria-hidden="true">↘</span></a></div><div class="test-hero-note"><span aria-hidden="true"></span> YOUR CONTEXT → YOUR PLAN</div></div>
+        <figure class="human-journey">
+          <img src="assets/human-walk.jpg" alt="A woman walking along a sunlit path" fetchpriority="high" decoding="async">
+          <figcaption><span>REAL LIFE / REAL MOVEMENT</span><strong>Move at your own pace.</strong></figcaption>
+        </figure>
+      </div>
+      <div class="scroll-cue">SCROLL TO FOLLOW YOUR DAY ↓</div>
+    </section>
+    <section class="chapter chapter--day" id="your-day" data-scene="day"><div class="chapter-inner align-left"><p class="eyebrow">01 / YOUR DAY</p><h2>REAL LIFE IS<br>THE INPUT.</h2><p>Home. Work. Movement. Food. Rest. We start with the whole day, because a plan only works when it has room to live.</p><div class="day-change" aria-live="polite"><span id="day-stage-kicker">YOUR DAY BEGINS</span><strong id="day-stage-detail">A plan starts with your real life.</strong><b id="day-stage-result">HOME →</b></div><div class="scene-caption" aria-label="Home, Work, Move, Fuel, Recover"><b data-day-stage="0">HOME</b> <span>→</span> <b data-day-stage="1">WORK</b> <span>→</span> <b data-day-stage="2">MOVE</b> <span>→</span> <b data-day-stage="3">FUEL</b> <span>→</span> <b data-day-stage="4">RECOVER</b></div></div></section>
+    <section class="chapter chapter--goals" id="goals" data-scene="goals"><div class="chapter-inner align-right"><p class="eyebrow">02 / YOUR DIRECTION</p><h2>YOU SET THE<br>DIRECTION.<br><em>LIFT BUILDS THE WAY.</em></h2><p>Different goals. Different starting points. One system that adapts to you.</p><div class="direction-note">YOUR START <span>→</span> YOUR WAY FORWARD</div></div></section>
+    <section class="chapter chapter--inputs" id="personalization" data-scene="inputs"><div class="chapter-inner align-left"><p class="eyebrow">03 / HOW LIFT BUILDS YOUR PLAN</p><h2>YOUR LIFE IN.<br><em>YOUR PLAN OUT.</em></h2><p>Tell LIFT about your goals, schedule, sleep, health, food habits and where you train. LIFT turns those details into a workout and nutrition plan built around your real life.</p><ol class="plan-flow" aria-label="How LIFT builds your plan"><li><small>01 / YOUR LIFE</small><strong>Share your context</strong><span>Goals, time, sleep, health, habits and training space.</span></li><li><small>02 / LIFT</small><strong>Build your rhythm</strong><span>Your details become one practical plan.</span></li><li><small>03 / YOUR PLAN</small><strong>Move, fuel, recover</strong><span>Workouts and nutrition that can adapt with you.</span></li></ol></div></section>
+    <section class="chapter chapter--pillars" id="pillars" data-scene="pillars"><div class="chapter-inner align-left"><p class="eyebrow">04 / A WHOLE LIFE APPROACH</p><h2>MOVE. FUEL.<br>RECOVER. GROW.</h2><p>Training, nutrition, recovery and progress belong in one rhythm. Each part informs the next.</p><ol class="pillar-copy"><li><b>MOVE</b><span>Workouts for your level and your time.</span></li><li><b>FUEL</b><span>Food guidance for how you really eat.</span></li><li><b>RECOVER</b><span>Space to rest and come back stronger.</span></li><li><b>PROGRESS</b><span>See what changes, then keep adapting.</span></li></ol></div></section>
+    <section class="chapter chapter--experts" id="experts" data-scene="experts"><div class="chapter-inner align-left"><p class="eyebrow">05 / INTELLIGENCE + EXPERTISE</p><h2>TECHNOLOGY<br>WITH PEOPLE IN IT.</h2><p>AI builds and adapts the foundation. With Premium, a coach can focus on training and a nutritionist can focus on food. You stay at the center of every decision.</p><div class="expert-legend"><span>AI / ADAPTS</span><span>COACH / TRAINS</span><span>NUTRITIONIST / FUELS</span></div></div></section>
+    <section class="chapter chapter--finish" id="start" data-scene="finish"><div class="chapter-inner center"><p class="eyebrow">06 / THE NEXT MOVE IS YOURS</p><h2>ONE LIFE.<br><em>A PLAN BUILT AROUND IT.</em></h2><p>Start where you are. LIFT will meet you there.</p><a class="lift-button" href="../../Client/Registration/registration.html">START YOUR JOURNEY <span>↗</span></a><div class="finish-links"><a href="../../Client/SubscriptionSelection/subscription-selection.html">EXPLORE FREE, AI PLAN & PREMIUM ↗</a><a href="#home">BACK TO THE START ↑</a></div></div></section>
+  </main><lift-footer></lift-footer>
+</body></html>

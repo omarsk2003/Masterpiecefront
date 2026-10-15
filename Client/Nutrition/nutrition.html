@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090D0E">
+  <title>Nutrition | LIFT</title>
+  <meta name="description" content="Your LIFT client experience, shaped by your subscription and goals.">
+  <link rel="stylesheet" href="../../Shared/Components/Client/Navbar/navbar.css">
+  <link rel="stylesheet" href="nutrition.css">
+  <script src="../../Shared/Components/Client/Navbar/navbar.js" defer></script>
+  <script src="../../Shared/JS/nutrition-plan.js" defer></script>
+  <script src="../../Shared/JS/nutrition-guidance.js" defer></script>
+  <script src="nutrition.js" defer></script>
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <link rel="stylesheet" href="../client-design-system.css">
+  <script src="../../Shared/JS/theme.js"></script>
+  <script src="../client-preview-states.js" defer></script>
+<link rel="stylesheet" href="../client-dark-mode.css">
+  <link rel="stylesheet" href="../client-tier.css">
+  <script src="../client-access.js"></script>
+</head>
+<body>
+  <div class="nutrition-shell">
+    <lift-client-navbar></lift-client-navbar>
+    <main class="nutrition-layout" id="main">
+      <div class="nutrition-main">
+        <header class="page-heading"><div><p class="eyebrow">YOUR APPROVED NUTRITION PLAN</p><h1>Eat for your goals.</h1><p>A clear daily plan, shaped around your routine by your nutritionist.</p></div><span class="premium-badge">PREMIUM PLAN</span></header>
+        <section class="overview-card" aria-labelledby="overview-title"><div class="overview-head"><div><p class="eyebrow">TODAY / NUTRITION OVERVIEW</p><h2 id="overview-title">Your daily targets</h2></div><span class="review-label"><span aria-hidden="true">✓</span> REVIEWED BY MAYA</span></div><div class="calorie-row"><div><span class="metric-label">DAILY ENERGY TARGET</span><strong>2,400 <small>kcal</small></strong><p>Planned across four meals</p></div><div class="calorie-ring" aria-hidden="true"><span id="ring-value">0%</span><small>LOGGED</small></div></div><div class="macro-grid"><div class="macro"><span>PROTEIN</span><strong>180 g</strong><div class="macro-track"><i style="width:75%"></i></div></div><div class="macro"><span>CARBS</span><strong>220 g</strong><div class="macro-track"><i style="width:70%"></i></div></div><div class="macro"><span>FATS</span><strong>65 g</strong><div class="macro-track"><i style="width:58%"></i></div></div></div></section>
+        <section class="meal-section" aria-labelledby="meal-title"><div class="section-heading"><div><p class="eyebrow">WEDNESDAY / DAILY MENU</p><h2 id="meal-title">Today's meals</h2></div><span id="meal-progress" aria-live="polite">0 OF 4 LOGGED</span></div><div class="meal-list">
+          <article class="meal-card" data-calories="520"><div class="meal-icon" aria-hidden="true">01</div><div class="meal-copy"><div class="meal-top"><span>BREAKFAST <span class="meal-time">8:00 AM</span></span><strong>520 kcal</strong></div><h3>Greek yogurt & oat bowl</h3><p>Greek yogurt, rolled oats, berries, banana and almonds.</p><div class="meal-meta"><span>Protein <b>35 g</b></span><span>Carbs <b>66 g</b></span><span>Fats <b>13 g</b></span></div></div><button class="log-button" type="button" aria-pressed="false" aria-label="Log breakfast">LOG MEAL</button></article>
+          <article class="meal-card" data-calories="760"><div class="meal-icon" aria-hidden="true">02</div><div class="meal-copy"><div class="meal-top"><span>LUNCH <span class="meal-time">1:00 PM</span></span><strong>760 kcal</strong></div><h3>Chicken & rice power plate</h3><p>Grilled chicken, rice, roasted vegetables and olive oil.</p><div class="meal-meta"><span>Protein <b>62 g</b></span><span>Carbs <b>78 g</b></span><span>Fats <b>21 g</b></span></div></div><button class="log-button" type="button" aria-pressed="false" aria-label="Log lunch">LOG MEAL</button></article>
+          <article class="meal-card" data-calories="280"><div class="meal-icon" aria-hidden="true">03</div><div class="meal-copy"><div class="meal-top"><span>SNACK <span class="meal-time">4:30 PM</span></span><strong>280 kcal</strong></div><h3>Apple & peanut butter</h3><p>One apple with peanut butter and a protein yogurt.</p><div class="meal-meta"><span>Protein <b>20 g</b></span><span>Carbs <b>29 g</b></span><span>Fats <b>10 g</b></span></div></div><button class="log-button" type="button" aria-pressed="false" aria-label="Log snack">LOG MEAL</button></article>
+          <article class="meal-card" data-calories="840"><div class="meal-icon" aria-hidden="true">04</div><div class="meal-copy"><div class="meal-top"><span>DINNER <span class="meal-time">7:30 PM</span></span><strong>840 kcal</strong></div><h3>Salmon, potatoes & greens</h3><p>Baked salmon, potatoes, green vegetables and avocado.</p><div class="meal-meta"><span>Protein <b>58 g</b></span><span>Carbs <b>64 g</b></span><span>Fats <b>37 g</b></span></div></div><button class="log-button" type="button" aria-pressed="false" aria-label="Log dinner">LOG MEAL</button></article>
+        </div></section>
+      </div>
+      <aside class="nutrition-sidebar" aria-label="Nutrition support"><section class="side-card hydration-card"><div class="side-heading"><span class="side-icon" aria-hidden="true">◈</span><h2>Hydration</h2></div><p>Today's water intake</p><div class="water-amount">2.4 <small>/ 2.4 L</small></div><div class="water-track"><span></span></div><div class="target-achieved"><span aria-hidden="true">✓</span> Daily target achieved</div></section><section class="side-card specialist-card"><p class="eyebrow">YOUR NUTRITION SPECIALIST</p><div class="specialist"><span class="specialist-avatar" aria-hidden="true">MH</span><div><h2>Maya Haddad</h2><p>Personal nutritionist</p></div></div><div class="review-status"><span aria-hidden="true">✓</span><div><strong>Plan reviewed</strong><small>Your nutrition plan is shaped with Maya's input.</small></div></div><p class="specialist-note">Need to change a meal, portion or eating time? Discuss it with Maya before changing your approved plan.</p><a class="message-link" href="../Messages/messages.html?chat=nutritionist">Message Maya <span aria-hidden="true">↗</span></a></section><section class="side-card plan-note"><p class="eyebrow">YOUR PLAN, YOUR LIFE</p><h2>Built to fit your day.</h2><p>Your AI-generated starting plan can be refined with Maya around your preferences and routine.</p></section></aside>
+    </main>
+  </div>
+</body>
+</html>

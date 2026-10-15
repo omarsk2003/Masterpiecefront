@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090D0E">
+  <title>Site appearance | LIFT Admin</title>
+  <meta name="description" content="Edit LIFT site colors and landing page text.">
+  <link rel="stylesheet" href="../../Shared/Components/Admin/Sidebar/sidebar.css">
+  <link rel="stylesheet" href="../Dashboard/dashboard.css">
+  <link rel="stylesheet" href="home-page-management.css">
+  <script src="../../Shared/Components/Admin/Sidebar/sidebar.js" defer></script>
+  <script src="home-page-management.js" defer></script>
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <script src="../../Shared/JS/theme.js"></script>
+</head>
+<body>
+  <div class="admin-shell">
+    <header class="admin-topbar"><div class="topbar-brand"><button class="admin-menu-toggle" type="button" aria-label="Open sidebar" aria-controls="admin-sidebar" aria-expanded="false">☰</button><a href="../Dashboard/dashboard.html" aria-label="LIFT admin home"><img src="../../Shared/Assets/Images/lift-logo.png" alt="LIFT"></a><span>SYSTEM ADMIN COMMAND</span></div><div class="topbar-account"><button class="admin-theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode"><span data-theme-icon aria-hidden="true">☼</span></button><span class="topbar-admin"><strong>Admin Root</strong><small><i aria-hidden="true"></i> Online</small></span><span class="admin-avatar" aria-hidden="true">AR</span></div></header>
+    <lift-admin-sidebar></lift-admin-sidebar>
+    <main class="admin-page studio-page" id="main">
+      <header class="studio-heading"><div><p class="eyebrow">SITE SETTINGS</p><h1>Site appearance</h1><p>Shape the colors across LIFT and edit the main landing page copy.</p></div><a class="view-site-link" href="../../Public/LandingPage/landing-page.html" target="_blank" rel="noopener">View landing page ↗</a></header>
+      <form id="settings-form">
+        <section class="studio-section" aria-labelledby="colors-title"><div class="studio-section-head"><div><p class="eyebrow">01 / THEME</p><h2 id="colors-title">Color system</h2><p>Customize the current green palette for Dark and Light separately. Saved colors apply to shared site surfaces and accents.</p></div><button id="reset-colors" class="reset-button" type="button">Set colors as default</button></div><div class="theme-grid"><fieldset class="theme-card"><legend>Dark mode</legend><div class="theme-preview dark" id="dark-preview"><span>LIFT / DARK</span><strong>YOUR LIFE SETS THE PACE.</strong><i>START YOUR JOURNEY ↗</i></div><div class="color-fields"><label>Background<input type="color" name="dark-background"></label><label>Cards &amp; surfaces<input type="color" name="dark-surface"></label><label>Accent<input type="color" name="dark-accent"></label><label>Text<input type="color" name="dark-text"></label></div></fieldset><fieldset class="theme-card"><legend>Light mode</legend><div class="theme-preview light" id="light-preview"><span>LIFT / LIGHT</span><strong>YOUR LIFE SETS THE PACE.</strong><i>START YOUR JOURNEY ↗</i></div><div class="color-fields"><label>Background<input type="color" name="light-background"></label><label>Cards &amp; surfaces<input type="color" name="light-surface"></label><label>Accent<input type="color" name="light-accent"></label><label>Text<input type="color" name="light-text"></label></div></fieldset></div></section>
+        <section class="studio-section" aria-labelledby="copy-title"><div class="studio-section-head"><div><p class="eyebrow">02 / CONTENT</p><h2 id="copy-title">Landing page text</h2><p>Edit the current story sections, plan explanations, and About and Contact previews.</p></div></div><div id="copy-editor" class="copy-editor"></div></section>
+        <div class="studio-actions"><p id="settings-status" role="status" aria-live="polite"></p><div><button class="save-button" type="submit">Save changes ↗</button></div></div>
+      </form>
+    </main>
+  </div>
+</body>
+</html>
+

@@ -1,0 +1,52 @@
+.personalization-gate {
+  max-width: 680px;
+  margin: clamp(2rem, 6vh, 5rem) auto;
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+.personalization-gate .eyebrow {
+  color: var(--brand-on-dark);
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .14em;
+}
+.personalization-gate h2 {
+  margin: 1rem 0;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.08;
+  letter-spacing: -.05em;
+}
+.personalization-gate > p:not(.eyebrow) {
+  max-width: 560px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.personalization-gate button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  min-height: 50px;
+  margin-top: 1.25rem;
+  padding: 0 1.25rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: var(--brand-on-dark);
+  color: #142018;
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: .05em;
+  cursor: pointer;
+}
+.personalization-gate button:focus-visible {
+  outline: 2px solid var(--brand-on-dark);
+  outline-offset: 4px;
+}
+:root:not([data-client-needs-profile="true"]) .personalization-gate { display: none; }
+:root[data-client-needs-profile="true"] :is(.assistant-actions, .suggested-prompts, .conversation-scroll, .composer, .assistant-sidebar) { display: none !important; }
+:root[data-client-needs-profile="true"] .assistant-layout { display: block; }
+.profile-dialog[data-required="true"] :is(#close-profile, [data-later]) { display: none !important; }
+:root[data-theme="light"] .personalization-gate button { background: var(--brand); color: var(--brand-contrast); }

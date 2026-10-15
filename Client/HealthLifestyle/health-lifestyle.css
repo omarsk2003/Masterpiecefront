@@ -1,0 +1,6 @@
+.health-chips .choice { flex: 0 1 auto; }
+.health-chips .choice>span { min-height: 35px; padding: 8px 14px; border-radius: 22px; font-size: 10px; }
+#health-note-field { margin-top: -8px; }
+#health-form .field-grid.two .choices .choice { flex-basis: 75px; }
+
+

@@ -1,0 +1,29 @@
+/* Isolated experimental hero. Production landing does not load this file. */
+.chapter--intro{min-height:calc(100svh - 84px);padding:clamp(3rem,5vw,5rem) clamp(1.25rem,5.4vw,7rem) 5rem;background:radial-gradient(ellipse at 68% 48%,#18382a 0,#0b1913 48%,#07110d 100%);isolation:isolate}
+.chapter--intro::before{display:none}
+.test-hero-layout{display:grid;grid-template-columns:minmax(0,.89fr) minmax(0,1.11fr);align-items:center;gap:clamp(2rem,3.5vw,4.5rem);width:min(100%,1500px);margin:auto}
+.test-hero-copy{position:relative;z-index:2;max-width:650px}
+.test-hero-copy .eyebrow{padding-left:.85rem;border-left:2px solid var(--brand);color:var(--text-secondary)!important}
+.chapter--intro .test-hero-copy h1{margin:0 0 1.6rem;font-size:clamp(2.8rem,4.05vw,4.9rem);line-height:1.04;letter-spacing:-.065em;color:var(--text-on-dark);text-wrap:pretty}
+.chapter--intro .test-hero-copy h1 em{display:block;margin-top:.08em;color:#b4ddc8;font-style:normal}
+.chapter--intro .test-hero-copy>p:not(.eyebrow){max-width:590px;margin:0;color:var(--muted-on-dark);font-size:clamp(1rem,1.15vw,1.13rem);line-height:1.72}
+.test-hero-actions{display:flex;align-items:center;flex-wrap:wrap;gap:1rem 1.35rem;margin-top:2rem}
+.test-hero-actions .lift-button{gap:2.5rem;background:var(--brand);color:var(--brand-contrast);border-radius:5px}
+.test-hero-actions .lift-button:hover{background:var(--brand-hover)}
+.test-hero-secondary{display:inline-flex;align-items:center;justify-content:space-between;gap:1.8rem;min-height:52px;padding:.8rem .15rem;border-bottom:1px solid #668273;color:var(--text-on-dark);font-size:.7rem;font-weight:800;letter-spacing:.08em;text-decoration:none;transition:border-color .2s,color .2s}
+.test-hero-secondary:hover{border-color:var(--brand);color:var(--brand)}
+.test-hero-secondary span{font-size:1.15rem;font-weight:400}
+.test-hero-note{display:flex;align-items:center;gap:.75rem;margin-top:2.7rem;color:var(--text-muted);font-size:.6rem;font-weight:800;letter-spacing:.18em}
+.test-hero-note span{width:22px;height:1px;background:var(--brand)}
+.human-journey{position:relative;width:100%;aspect-ratio:1.35;max-height:650px;min-height:420px;margin:0;overflow:hidden;border:1px solid #4c6457;border-radius:16px;background:#17231b;box-shadow:0 35px 100px #0008;color:#f2f5f1;isolation:isolate}
+.human-journey::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#07110d25,transparent 35%,#06100dcc);pointer-events:none}
+.human-journey img{display:block;width:100%;height:100%;object-fit:cover;object-position:53% center;filter:saturate(.74) contrast(1.04) brightness(.8);transform:scale(1.02)}
+.human-journey.is-visible img{animation:journey-forward 16s ease-out forwards}
+@keyframes journey-forward{to{transform:scale(1.2) translateX(-1.5%)}}
+.human-journey figcaption{position:absolute;z-index:1;left:clamp(1rem,2vw,2rem);right:clamp(1rem,2vw,2rem);bottom:clamp(1rem,2vw,2rem);display:grid;gap:.5rem;text-shadow:0 2px 14px #000}
+.human-journey figcaption span{color:#bbdfc8;font-size:.6rem;font-weight:800;letter-spacing:.16em}
+.human-journey figcaption strong{font-size:clamp(1.45rem,2.4vw,2.7rem);font-weight:600;letter-spacing:-.045em;line-height:1.12}
+.test-hero-actions a:focus-visible{outline:2px solid var(--brand);outline-offset:4px}
+@media(max-width:1100px){.chapter--intro{padding-top:4rem;padding-bottom:5rem}.test-hero-layout{grid-template-columns:1fr;gap:3rem}.test-hero-copy{max-width:800px}.chapter--intro .test-hero-copy h1{font-size:clamp(3rem,6.4vw,5rem)}.human-journey{width:min(100%,780px);margin:auto}}
+@media(max-width:700px){.chapter--intro{min-height:0;padding:4rem 1.25rem 2rem}.test-hero-layout{gap:2.5rem}.chapter--intro .test-hero-copy h1{font-size:clamp(2.65rem,10vw,4.2rem)}.test-hero-actions{align-items:flex-start;flex-direction:column}.test-hero-note{margin-top:1.7rem}.human-journey{aspect-ratio:4/5;min-height:0;border-radius:12px}.human-journey figcaption strong{font-size:clamp(1.5rem,6vw,2.2rem)}.scroll-cue{position:static;margin-top:2rem;color:var(--text-muted)}}
+@media(prefers-reduced-motion:reduce){.human-journey.is-visible img{animation:none}.test-hero-secondary{transition:none}}
