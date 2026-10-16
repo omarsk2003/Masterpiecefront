@@ -16,10 +16,25 @@ if (window.LiftCoachPlan) {
     summary.querySelector("small").textContent = `${plan.days} days per week · ${plan.minutes} minutes per session · ${plan.location}`;
     heading.after(summary);
     if (plan.updatedAt) {
-      // The original exercise cards represent the initial sample plan and must not
-      // appear as if they belong to a newly approved custom revision.
+      // Keep the demonstration videos available without presenting the original
+      // sample exercises as part of the coach's newly approved custom plan.
       document.querySelector(".schedule-card")?.remove();
-      document.querySelector(".exercise-section")?.remove();
+      const guideSection = document.querySelector(".exercise-section");
+      if (guideSection) {
+        guideSection.classList.add("exercise-guide-section");
+        guideSection.querySelector(".eyebrow").textContent = "GENERAL TECHNIQUE LIBRARY";
+        guideSection.querySelector("h2").textContent = "Exercise video guides";
+        guideSection.querySelector(".progress-count")?.remove();
+        guideSection.querySelectorAll(".exercise-card").forEach(card => {
+          card.querySelector(".status-button")?.remove();
+          card.querySelector(".exercise-meta")?.remove();
+          card.querySelector(".exercise-top p")?.remove();
+        });
+        const guidance = document.createElement("p");
+        guidance.className = "exercise-guide-note";
+        guidance.textContent = "These videos demonstrate general technique. Follow your coach's latest approved plan for your exercises, sets, and schedule.";
+        guideSection.querySelector(".section-heading").after(guidance);
+      }
       const note = document.createElement("p");
       note.className = "approved-plan-note";
       note.textContent = plan.coachNotes || "Ask your coach for more details about this approved update.";
@@ -40,7 +55,7 @@ const progressCount = document.getElementById("progress-count");
 
 function updateProgress() {
   const completed = document.querySelectorAll('.status-button[aria-pressed="true"]').length;
-  progressCount.textContent = `${completed} OF ${statusButtons.length} COMPLETED`;
+  if (progressCount) progressCount.textContent = `${completed} OF ${statusButtons.length} COMPLETED`;
 }
 
 statusButtons.forEach(button => {
@@ -116,23 +131,15 @@ async function renderCoachVideos() {
   catch { return; }
   coachGuideMap.clear();
   guides.forEach(guide => { if (!coachGuideMap.has(guide.exercise)) coachGuideMap.set(guide.exercise, guide); });
-  document.querySelectorAll(".exercise-card").forEach(card => {
-    const exerciseName = card.querySelector("h3")?.textContent;
-    const guide = coachGuideMap.get(exerciseName);
-    if (!guide) return;
-    const button = card.querySelector(".video-button span");
-    if (button) button.textContent = "Coach demonstration";
-    const source = card.querySelector(".exercise-actions>span");
-    if (source) source.textContent = "COACH VIDEO · SARAH";
-  });
   coachVideoUrls.forEach(url => URL.revokeObjectURL(url));
   coachVideoUrls = [];
   document.querySelector(".coach-video-section")?.remove();
   document.querySelectorAll(".exercise-card").forEach(card => {
     const button = card.querySelector(".video-button span");
-    if (button) button.textContent = "How to perform";
+    const hasCoachGuide = coachGuideMap.has(card.querySelector("h3")?.textContent);
+    if (button) button.textContent = hasCoachGuide ? "Coach demonstration" : "How to perform";
     const source = card.querySelector(".exercise-actions>span");
-    if (source) source.textContent = "VIDEO GUIDE · NASM";
+    if (source) source.textContent = hasCoachGuide ? "COACH VIDEO · SARAH" : "VIDEO GUIDE · NASM";
   });
   if (!guides.length) return;
   const section = document.createElement("section");

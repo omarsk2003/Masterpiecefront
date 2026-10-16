@@ -40,7 +40,7 @@ Each feature generally keeps its HTML, CSS, and JavaScript in its own directory.
 
 ## Preview data and limitations
 
-Several flows save demo state in `localStorage`, `sessionStorage`, or IndexedDB, including accounts, profile photos, plan reviews, messages, meeting requests, theme and site appearance, and specialist applications. These records stay in the current browser and origin; they are not synchronized between devices. The client, coach, and nutrition experiences may show different data if opened under `file://` versus the local server.
+Several flows save demo state in `localStorage`, `sessionStorage`, or IndexedDB, including accounts, profile photos, plan reviews, messages, meeting requests, theme and site appearance, specialist applications, and coach-uploaded exercise videos. These records stay in the current browser and origin; they are not synchronized between devices or uploaded to GitHub. The client, coach, and nutrition experiences may show different data if opened under `file://` versus the local server.
 
 Registered account passwords are stored as salted digests for this preview, but browser storage and client-side role checks are **not secure authentication**. Do not use real passwords or personal health information. The AI Assistant uses sample responses rather than a live model. Professional review, billing, support, and meetings are UI simulations until a backend is connected.
 
