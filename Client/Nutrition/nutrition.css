@@ -10,9 +10,12 @@
 .macro-track i{width:100%!important}
 .approved-menu{margin-top:20px;padding:21px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
 .approved-menu h2{margin:9px 0 16px;font-size:18px}
-.approved-menu-lines{display:grid;gap:9px}.approved-menu-lines p{margin:0;padding:12px;border:1px solid var(--line);border-radius:6px;background:var(--deep);color:var(--text);font-size:11px;line-height:1.6}
+.approved-menu-heading{display:flex;align-items:center;justify-content:space-between;gap:12px}.approved-menu-heading h2{margin-bottom:8px}.approved-menu-heading span{color:var(--accent);font-size:9px;font-weight:700;white-space:nowrap}
+.approved-menu-help{margin:0 0 16px;color:var(--muted);font-size:11px;line-height:1.6}
+.approved-menu-lines{display:grid;gap:9px}.approved-menu-line{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px;border:1px solid var(--line);border-radius:6px;background:var(--deep)}.approved-menu-line p{margin:0;color:var(--text);font-size:11px;line-height:1.6}.approved-menu-line .log-button{flex:none}
 .approved-menu-note{margin:17px 0 0;padding-top:14px;border-top:1px solid var(--line);color:var(--muted);font-size:10px;line-height:1.6}
-:root[data-theme="light"] .approved-menu-lines p{background:var(--surface-2)}
+:root[data-theme="light"] .approved-menu-line{background:var(--surface-2)}
+@media(max-width:600px){.approved-menu-heading,.approved-menu-line{align-items:flex-start;flex-direction:column}.approved-menu-line .log-button{min-width:110px}}
 .specialist-guidance{margin-top:22px;padding:20px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}.specialist-guidance h2{margin:8px 0 16px;font-size:18px}.guidance-items{display:grid;gap:10px}.guidance-items article{padding:14px;border:1px solid var(--line);border-radius:6px;background:var(--deep)}.guidance-items article span{color:var(--accent);font-size:8px;font-weight:800;letter-spacing:.6px}.guidance-items h3{margin:7px 0;font-size:13px}.guidance-items p{margin:0;color:var(--muted);font-size:10px;line-height:1.6;white-space:pre-wrap}
 :root[data-theme="light"] .guidance-items article{background:var(--surface-2)}:root[data-theme="light"] .guidance-items article span{color:#223C33}
 

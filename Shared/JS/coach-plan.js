@@ -13,6 +13,7 @@
     days: 4,
     minutes: 45,
     split: "Mon: Upper body • Tue: Conditioning • Wed: Lower body • Fri: Upper body",
+    dayExercises: "Mon | Barbell Back Squat | 3 sets × 8 reps\nMon | Romanian Deadlift | 3 sets × 10 reps\nTue | Conditioning | 30 minutes\nWed | Barbell Back Squat | 3 sets × 8 reps\nWed | Romanian Deadlift | 3 sets × 10 reps\nFri | Barbell Back Squat | 3 sets × 8 reps",
     coachNotes: "Keep sessions practical and progress at a steady pace.",
     updatedAt: null
   });
@@ -35,6 +36,7 @@
       days: Math.min(7, Math.max(1, Number(input.days) || initial.days)),
       minutes: Math.min(180, Math.max(15, Number(input.minutes) || initial.minutes)),
       split: String(input.split || initial.split).trim().slice(0, 600),
+      dayExercises: String(input.dayExercises ?? read().dayExercises ?? initial.dayExercises).trim().slice(0, 4000),
       coachNotes: String(input.coachNotes || "").trim().slice(0, 600),
       status,
       updatedAt: new Date().toISOString()

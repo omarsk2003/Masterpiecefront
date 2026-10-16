@@ -1,8 +1,12 @@
 "use strict";
 if (window.LiftClientAccess?.isPremium() !== false) {
 
-
+const clientAccess = window.LiftClientAccess;
 const approvedPlan = window.LiftNutritionPlan.readPublished();
+const mealDate = clientAccess.todayKey();
+const mealKey = index => `premium-meal:${mealDate}:${approvedPlan.updatedAt || "initial"}:${index}`;
+const isMealLogged = index => Boolean(clientAccess.getActivity().meals?.[mealKey(index)]);
+
 document.querySelector(".calorie-row strong").innerHTML = `${approvedPlan.calories.toLocaleString("en")} <small>kcal</small>`;
 const macroValues = document.querySelectorAll(".macro-grid .macro strong");
 [approvedPlan.protein, approvedPlan.carbs, approvedPlan.fats].forEach((value, index) => { macroValues[index].textContent = `${value} g`; });
@@ -12,41 +16,58 @@ if (approvedPlan.updatedAt) {
   document.querySelector(".calorie-row p").textContent = "Specialist-approved daily target";
   const menu = document.createElement("section");
   menu.className = "approved-menu";
-  menu.innerHTML = '<p class="eyebrow">APPROVED BY MAYA</p><h2>Your updated meal outline</h2><div class="approved-menu-lines"></div><p class="approved-menu-note"></p>';
-  approvedPlan.meals.split(/\n+/).filter(Boolean).forEach(line => {
+  menu.innerHTML = '<p class="eyebrow">APPROVED BY MAYA</p><div class="approved-menu-heading"><h2>Your updated meal outline</h2><span id="approved-meal-progress" aria-live="polite"></span></div><p class="approved-menu-help">Log each meal after you eat it. Your check-ins are saved in this browser and appear in Progress.</p><div class="approved-menu-lines"></div><p class="approved-menu-note"></p>';
+  approvedPlan.meals.split(/\n+/).filter(Boolean).forEach((line, index) => {
+    const row = document.createElement("div");
+    row.className = "approved-menu-line";
     const item = document.createElement("p");
     item.textContent = line.trim();
-    menu.querySelector(".approved-menu-lines").append(item);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "log-button";
+    button.dataset.mealIndex = index;
+    row.append(item, button);
+    menu.querySelector(".approved-menu-lines").append(row);
   });
   menu.querySelector(".approved-menu-note").textContent = approvedPlan.notes;
   document.querySelector(".overview-card").after(menu);
 }
 
 const meals = [...document.querySelectorAll(".meal-card")];
-const progress = document.getElementById("meal-progress");
+const progress = document.getElementById(approvedPlan.updatedAt ? "approved-meal-progress" : "meal-progress");
 const ring = document.querySelector(".calorie-ring");
 const ringValue = document.getElementById("ring-value");
+const logButtons = [...document.querySelectorAll(approvedPlan.updatedAt ? ".approved-menu-line .log-button" : ".meal-card .log-button")];
 
 function updateProgress() {
-  const completed = meals.filter((meal) => meal.classList.contains("logged")).length;
-  const loggedCalories = meals.filter((meal) => meal.classList.contains("logged")).reduce((total, meal) => total + Number(meal.dataset.calories), 0);
-  const percentage = Math.round(loggedCalories / approvedPlan.calories * 100);
-  progress.textContent = `${completed} OF ${meals.length} LOGGED`;
-  ringValue.textContent = `${percentage}%`;
-  ring.style.setProperty("--progress", `${percentage}%`);
+  const completed = logButtons.filter((_, index) => isMealLogged(index)).length;
+  progress.textContent = `${completed} OF ${logButtons.length} LOGGED`;
+  if (!approvedPlan.updatedAt) {
+    const loggedCalories = meals.reduce((total, meal, index) => total + (isMealLogged(index) ? Number(meal.dataset.calories) : 0), 0);
+    const percentage = Math.round(loggedCalories / approvedPlan.calories * 100);
+    ringValue.textContent = `${percentage}%`;
+    ring.style.setProperty("--progress", `${percentage}%`);
+  }
 }
 
-meals.forEach((meal) => {
-  const button = meal.querySelector(".log-button");
-  button.addEventListener("click", () => {
-    const logged = meal.classList.toggle("logged");
+logButtons.forEach((button, index) => {
+  const row = button.closest(".meal-card, .approved-menu-line");
+  const mealName = row.querySelector("h3, p")?.textContent.trim() || `meal ${index + 1}`;
+  const sync = () => {
+    const logged = isMealLogged(index);
+    row.classList.toggle("logged", logged);
     button.setAttribute("aria-pressed", String(logged));
     button.textContent = logged ? "✓ LOGGED" : "LOG MEAL";
-    const mealName = meal.querySelector(".meal-top > span").textContent.trim().split(" ")[0].toLowerCase();
     button.setAttribute("aria-label", `${logged ? "Remove" : "Log"} ${mealName}`);
+  };
+  sync();
+  button.addEventListener("click", () => {
+    clientAccess.setDone("meals", mealKey(index), !isMealLogged(index));
+    sync();
     updateProgress();
   });
 });
+updateProgress();
 
 function renderSpecialistGuidance() {
   if (!window.LiftNutritionGuidance) return;

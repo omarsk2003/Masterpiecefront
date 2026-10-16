@@ -3,6 +3,15 @@
 const form = document.getElementById("video-form");
 const fileInput = document.getElementById("video-file");
 const preview = document.getElementById("upload-preview");
+const plannedExercises = [...new Set((window.LiftCoachPlan?.read().dayExercises || "")
+  .split(/\r?\n/).map(line => line.split("|")[1]?.trim()).filter(Boolean))];
+const exerciseSelect = document.getElementById("exercise-select");
+exerciseSelect.replaceChildren(...plannedExercises.map(name => {
+  const option = document.createElement("option");
+  option.value = name;
+  option.textContent = name;
+  return option;
+}), Object.assign(document.createElement("option"), { value: "Other", textContent: "Other exercise…" }));
 const previewBox = document.getElementById("preview-box");
 const status = document.getElementById("form-status");
 let previewUrl = null;

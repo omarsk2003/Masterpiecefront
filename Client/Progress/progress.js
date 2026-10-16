@@ -152,6 +152,36 @@ entryForm.addEventListener("submit", (event) => {
   dialog.close();
 });
 
+function renderActivityCheckins() {
+  const access = window.LiftClientAccess;
+  if (!access) return;
+  const activity = access.getActivity();
+  const start = new Date();
+  start.setHours(0, 0, 0, 0);
+  start.setDate(start.getDate() - 6);
+  const firstDay = [start.getFullYear(), String(start.getMonth() + 1).padStart(2, "0"), String(start.getDate()).padStart(2, "0")].join("-");
+  const countRecent = (entries, prefix) => Object.entries(entries || {}).filter(([key, done]) => done && key.startsWith(prefix) && key.slice(prefix.length, prefix.length + 10) >= firstDay).length;
+  const workouts = countRecent(activity.workouts, "premium-workout:");
+  const meals = countRecent(activity.meals, "premium-meal:");
+  const cards = document.querySelectorAll(".summary-card");
+  const routines = document.querySelectorAll(".routine-item");
+  cards[1].querySelector(".card-label").textContent = "WORKOUT CHECK-INS";
+  cards[1].querySelector("strong").textContent = String(workouts);
+  cards[1].querySelector(".card-note").textContent = "Exercises or sessions logged in the last 7 days";
+  cards[2].querySelector(".card-label").textContent = "MEAL CHECK-INS";
+  cards[2].querySelector("strong").textContent = String(meals);
+  cards[2].querySelector(".card-note").textContent = "Meals logged in the last 7 days";
+  routines[0].querySelector(".routine-head span").textContent = "Workout check-ins";
+  routines[0].querySelector(".routine-head strong").textContent = `${workouts} logged`;
+  routines[0].querySelector(".routine-track span").style.width = `${Math.min(100, workouts / 7 * 100)}%`;
+  routines[1].querySelector(".routine-head span").textContent = "Meal check-ins";
+  routines[1].querySelector(".routine-head strong").textContent = `${meals} logged`;
+  routines[1].querySelector(".routine-track span").style.width = `${Math.min(100, meals / 28 * 100)}%`;
+}
+
+window.addEventListener("focus", renderActivityCheckins);
+window.addEventListener("storage", renderActivityCheckins);
+renderActivityCheckins();
 renderChart();
 renderMeasurements();
 }

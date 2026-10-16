@@ -59,13 +59,18 @@ const planForm = document.getElementById("plan-form");
 const planFeedback = document.getElementById("plan-feedback");
 function openPlanDialog() {
   const plan = window.LiftCoachPlan.read();
-  for (const name of ["goal", "location", "days", "minutes", "split", "coachNotes"]) planForm.elements[name].value = plan[name];
+  for (const name of ["goal", "location", "days", "minutes", "split", "dayExercises", "coachNotes"]) planForm.elements[name].value = plan[name];
   document.getElementById("plan-dialog-status").textContent = plan.status === "approved" ? "APPROVED" : "NEEDS REVIEW";
   planFeedback.textContent = "";
   planDialog.showModal();
 }
 function savePlan(status) {
   if (!planForm.reportValidity()) return;
+  const lines = planForm.elements.dayExercises.value.split(/\r?\n/).map(line => line.trim()).filter(Boolean);
+  if (!lines.every(line => /^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s*\|\s*[^|]+\s*\|\s*[^|]+$/i.test(line))) {
+    planFeedback.textContent = "Use one line per exercise: Mon | Exercise name | Sets and reps.";
+    return;
+  }
   if (!window.LiftCoachPlan.save(Object.fromEntries(new FormData(planForm)), status)) {
     planFeedback.textContent = "Could not save on this device. Check browser storage.";
     return;
