@@ -56,6 +56,136 @@
   });
 })();
 
+// Shared action feedback for every workspace. Messages are only shown after callers
+// know whether an action succeeded; destructive actions can ask first.
+(() => {
+  function container() {
+    const dialogs = document.querySelectorAll("dialog[open]");
+    const parent = dialogs.length ? dialogs[dialogs.length - 1] : document.body;
+    let host = parent.querySelector(":scope > .lift-notices");
+    if (!host) {
+      host = document.createElement("div");
+      host.className = "lift-notices";
+      host.setAttribute("aria-live", "polite");
+      parent.append(host);
+    }
+    return host;
+  }
+  function show(message, type = "info") {
+    const notice = document.createElement("div");
+    notice.className = `lift-notice lift-notice--${type}`;
+    notice.setAttribute("role", type === "error" ? "alert" : "status");
+    const content = document.createElement("span");
+    content.textContent = String(message);
+    const close = document.createElement("button");
+    close.type = "button";
+    close.textContent = "×";
+    close.setAttribute("aria-label", "Dismiss notification");
+    close.addEventListener("click", () => notice.remove());
+    notice.append(content, close);
+    container().append(notice);
+    const timer = setTimeout(() => notice.remove(), type === "error" ? 8000 : 5000);
+    close.addEventListener("click", () => clearTimeout(timer), { once: true });
+    return notice;
+  }
+  function confirm(message, options = {}) {
+    return new Promise(resolve => {
+      const dialog = document.createElement("dialog");
+      dialog.className = "lift-confirm-dialog";
+      const title = document.createElement("h2");
+      title.textContent = options.title || "Please confirm";
+      const copy = document.createElement("p");
+      copy.textContent = message;
+      const actions = document.createElement("div");
+      actions.className = "lift-confirm-actions";
+      const cancel = document.createElement("button");
+      cancel.type = "button";
+      cancel.textContent = options.cancelText || "Keep it";
+      const accept = document.createElement("button");
+      accept.type = "button";
+      accept.className = options.danger === false ? "lift-confirm-accept" : "lift-confirm-danger";
+      accept.textContent = options.confirmText || "Confirm";
+      actions.append(cancel, accept);
+      dialog.append(title, copy, actions);
+      document.body.append(dialog);
+      let chosen = false;
+      cancel.addEventListener("click", () => dialog.close());
+      accept.addEventListener("click", () => { chosen = true; dialog.close(); });
+      dialog.addEventListener("close", () => { dialog.remove(); resolve(chosen); }, { once: true });
+      dialog.showModal();
+      cancel.focus();
+    });
+  }
+  window.LiftNotice = {
+    show,
+    success: message => show(message, "success"),
+    warning: message => show(message, "warning"),
+    error: message => show(message, "error"),
+    confirm,
+    flash(message, type = "success") {
+      try { sessionStorage.setItem("lift-next-notice", JSON.stringify({ message, type })); } catch { /* Navigation can continue. */ }
+    }
+  };
+  document.addEventListener("DOMContentLoaded", () => {
+    try {
+      const pending = JSON.parse(sessionStorage.getItem("lift-next-notice") || "null");
+      sessionStorage.removeItem("lift-next-notice");
+      if (pending?.message) show(pending.message, pending.type);
+    } catch { /* No pending message. */ }
+  });
+})();
+
+// Browser-local account states shared by login and every workspace preview.
+(() => {
+  const key = "lift-account-status-v1";
+  const read = () => { try { return JSON.parse(localStorage.getItem(key) || "{}"); } catch { return {}; } };
+  const id = (role, email) => `${role}:${String(email || "").trim().toLowerCase()}`;
+  const get = (role, email, fallback = "active") => read()[id(role, email)] || fallback;
+  const set = (role, email, status) => {
+    if (!email || !["active", "pending", "suspended", "blocked", "rejected"].includes(status)) return false;
+    try {
+      const values = read();
+      values[id(role, email)] = status;
+      localStorage.setItem(key, JSON.stringify(values));
+      window.dispatchEvent(new Event("lift:account-status-change"));
+      return true;
+    } catch { return false; }
+  };
+  window.LiftAccountStatus = { key, get, set };
+  function guard() {
+    const area = location.pathname.match(/\/(Admin|Coach|Nutrition|Client)\//)?.[1];
+    if (!area) return;
+    if (area === "Client" && /\/(Registration|SubscriptionSelection)\//.test(location.pathname)) return;
+    let role, email;
+    try {
+      if (area === "Admin") { role = "admin"; email = localStorage.getItem("lift-admin-session-email"); }
+      else if (area === "Coach" || area === "Nutrition") {
+        role = area === "Coach" ? "coach" : "nutritionist";
+        if (localStorage.getItem("lift-specialist-session-role") !== role) return;
+        email = localStorage.getItem("lift-specialist-session-email");
+      } else {
+        role = "client";
+        email = JSON.parse(localStorage.getItem("lift-preview-member-v1") || sessionStorage.getItem("lift-preview-member-v1") || "null")?.email;
+      }
+    } catch { return; }
+    if (!email || (role === "admin" && email === "admin@lift.demo")) return;
+    const status = get(role, email);
+    if (!["suspended", "blocked", "rejected"].includes(status)) return;
+    try {
+      if (role === "admin") localStorage.removeItem("lift-admin-session-email");
+      if (role === "coach" || role === "nutritionist") {
+        localStorage.removeItem("lift-specialist-session-email");
+        localStorage.removeItem("lift-specialist-session-role");
+      }
+    } catch { /* Continue to the sign-in page even if storage is unavailable. */ }
+    location.replace(new URL(`../../Shared/Login/login.html?account=${encodeURIComponent(status)}`, location.href).href);
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", guard);
+  else guard();
+  window.addEventListener("storage", event => { if (event.key === key) guard(); });
+  window.addEventListener("lift:account-status-change", guard);
+})();
+
 // Admin-managed theme colors and selected landing-page copy.
 (() => {
   const storageKey = "lift-site-settings-v1";

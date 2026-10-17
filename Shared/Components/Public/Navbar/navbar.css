@@ -10,17 +10,17 @@ lift-navbar{
 .public-navbar{
   max-width:1440px;
   margin:auto;
-  padding:18px 6%;
+  padding:10px 6%;
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:25px;
-  min-height:82px
+  min-height:66px
 }
 .public-brand{
   display:flex;
   align-items:center;
-  width:79px;
+  width:72px;
   flex-shrink:0
 }
 .public-brand img{
@@ -56,7 +56,7 @@ lift-navbar{
 .public-nav-actions{
   display:flex;
   align-items:center;
-  gap:23px
+  gap:18px
 }
 .theme-toggle{
   border:1px solid var(--line,#FFFFFF20);
@@ -71,15 +71,15 @@ lift-navbar{
   line-height:1
 }
 .nav-start{
-  padding:13px 18px;
+  padding:10px 15px;
   background:var(--accent,var(--brand));
   color:#162822;
-  font-size:12px;
+  font-size:11px;
   border-radius:4px;
   font-weight:600;
   text-decoration:none;
   display:flex;
-  gap:20px;
+  gap:14px;
   align-items:center;
   white-space:nowrap;
   transition:transform .3s
@@ -131,8 +131,8 @@ lift-navbar{
 }
 @media(max-width:800px){
   .public-navbar{
-    min-height:73px;
-    padding-block:15px
+    min-height:62px;
+    padding-block:10px
   }
   .public-nav-links{
     display:none;
@@ -160,7 +160,7 @@ lift-navbar{
     gap:17px
   }
   .public-brand{
-    width:68px
+    width:62px
   }
 }
 @media(max-width:430px){

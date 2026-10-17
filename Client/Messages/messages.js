@@ -66,12 +66,13 @@ $("message-form").addEventListener("submit", (event) => {
   const text = messageText.value.trim();
   if (!text) return;
   if (activeChat === "coach") {
-    if (!window.LiftClientCoachChat.send("client", text)) return;
+    if (!window.LiftClientCoachChat.send("client", text)) return window.LiftNotice.error("Could not save the message on this device.");
   } else {
-    if (!window.LiftClientNutritionChat.send("client", text)) return;
+    if (!window.LiftClientNutritionChat.send("client", text)) return window.LiftNotice.error("Could not save the message on this device.");
   }
   messageText.value = "";
   renderConversation();
+  window.LiftNotice.success("Message sent.");
   messageText.focus();
 });
 messageText.addEventListener("keydown", (event) => {

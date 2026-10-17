@@ -6,6 +6,7 @@
     status.textContent = message;
     status.dataset.state = state;
     status.hidden = false;
+    window.LiftNotice[state === "success" ? "success" : "error"](message);
   };
   form.addEventListener("input", () => { status.hidden = true; });
   form.addEventListener("submit", async event => {

@@ -15,3 +15,4 @@
 @media(max-width:950px){.plan-options{grid-template-columns:repeat(2,minmax(0,1fr))}.plan-option:last-child{grid-column:1/-1}}
 @media(max-width:650px){.plan-options{grid-template-columns:1fr}.plan-option{min-height:0}.plan-option:last-child{grid-column:auto}}
 
+.promo-field{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin:14px 0}.promo-field input{min-height:40px;padding:9px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text-primary)}.promo-field button{min-height:40px;padding:9px 14px;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text-primary);cursor:pointer}#promo-result{color:var(--brand);font-weight:700}

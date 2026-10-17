@@ -116,12 +116,15 @@ dialog::backdrop{background:#050809CF;backdrop-filter:blur(5px)}
 .daily-exercises{margin:0 0 22px;padding:22px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
 .daily-exercises .section-heading{margin-bottom:18px}
 .daily-count{color:var(--accent);font-size:10px;font-weight:800}
+.daily-session-note{margin:12px 0 18px;color:var(--muted);font-size:12px;line-height:1.5}
 .daily-list{display:grid;gap:14px}
 .daily-exercise-card{display:grid;grid-template-columns:minmax(160px,1fr) minmax(220px,1.4fr) auto;align-items:center;gap:18px;padding:18px;border:1px solid var(--line);border-radius:8px;background:var(--deep)}
 .daily-exercise-info h3{margin:0 0 8px;font-size:17px}
 .daily-exercise-info p,.daily-video p,.daily-empty{margin:0;color:var(--muted);font-size:11px;line-height:1.6}
 .daily-video video{display:block;width:100%;max-height:230px;aspect-ratio:16/9;background:#050809;border-radius:6px}
+.daily-video iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:6px;background:#050809}
 .daily-video p{margin-top:8px}
+.daily-video a{display:inline-block;margin-top:7px;color:var(--accent);font-size:10px;font-weight:800;text-decoration:none}
 .daily-video-state{padding:25px 12px;border:1px dashed var(--line);border-radius:6px;text-align:center}
 .daily-empty{padding:28px;text-align:center}
 :root[data-theme="light"] .daily-exercise-card{background:var(--surface-2)}

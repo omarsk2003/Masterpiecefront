@@ -3,7 +3,8 @@
 (() => {
   const root = new URL("../../../../", document.currentScript.src);
   const dashboard = new URL("Admin/Dashboard/dashboard.html", root).href;
-  const manageUsers = new URL("Admin/ClientManagement/client-management.html", root).href;
+  const clients = new URL("Admin/ClientManagement/client-management.html", root).href;
+  const admins = new URL("Admin/Admins/admins.html", root).href;
   const coaches = new URL("Admin/CoachManagement/coach-management.html", root).href;
   const nutritionists = new URL("Admin/NutritionistManagement/nutritionist-management.html", root).href;
   const messages = new URL("Admin/Messages/messages.html", root).href;
@@ -16,14 +17,15 @@
   }
   class LiftAdminSidebar extends HTMLElement {
     connectedCallback() {
-      const onUsers = location.pathname === new URL(manageUsers).pathname;
+      const onClients = location.pathname === new URL(clients).pathname;
+      const onAdmins = location.pathname === new URL(admins).pathname;
       const onCoaches = location.pathname === new URL(coaches).pathname;
       const onNutritionists = location.pathname === new URL(nutritionists).pathname;
       const onMessages = location.pathname === new URL(messages).pathname;
       const onSubscriptions = location.pathname === new URL(subscriptions).pathname;
       const onStudio = location.pathname === new URL(siteStudio).pathname;
-      const onDashboard = !onUsers && !onCoaches && !onNutritionists && !onMessages && !onSubscriptions && !onStudio;
-      this.innerHTML = `<aside class="admin-sidebar" id="admin-sidebar" aria-label="Admin sidebar"><nav aria-label="Admin sections"><a class="sidebar-link${onDashboard ? " current" : ""}" href="${dashboard}" data-section="overview"${onDashboard ? ' aria-current="page"' : ""}><span aria-hidden="true">▥</span> Overview</a><a class="sidebar-link${onUsers ? " current" : ""}" href="${manageUsers}" data-section="users"${onUsers ? ' aria-current="page"' : ""}><span aria-hidden="true">◫</span> Manage users</a><a class="sidebar-link${onCoaches ? " current" : ""}" href="${coaches}" data-section="coaches"${onCoaches ? ' aria-current="page"' : ""}><span aria-hidden="true">♧</span> Coaches <b id="sidebar-coach-pending-count">1</b></a><a class="sidebar-link${onNutritionists ? " current" : ""}" href="${nutritionists}" data-section="nutritionists"${onNutritionists ? ' aria-current="page"' : ""}><span aria-hidden="true">◈</span> Nutritionists <b id="sidebar-nutritionist-pending-count">1</b></a><a class="sidebar-link${onMessages ? " current" : ""}" href="${messages}" data-section="messages"${onMessages ? ' aria-current="page"' : ""}><span aria-hidden="true">✉</span> Messages</a><a class="sidebar-link${onSubscriptions ? " current" : ""}" href="${subscriptions}" data-section="subscriptions"${onSubscriptions ? ' aria-current="page"' : ""}><span aria-hidden="true">▤</span> Subscriptions</a><a class="sidebar-link${onStudio ? " current" : ""}" href="${siteStudio}" data-section="site-studio"${onStudio ? ' aria-current="page"' : ""}><span aria-hidden="true">◩</span> Site appearance</a></nav><div class="sidebar-bottom"><a href="${login}"><span aria-hidden="true">↪</span> Log out</a></div></aside>`;
+      const onDashboard = !onClients && !onAdmins && !onCoaches && !onNutritionists && !onMessages && !onSubscriptions && !onStudio;
+      this.innerHTML = `<aside class="admin-sidebar" id="admin-sidebar" aria-label="Admin sidebar"><nav aria-label="Admin sections"><a class="sidebar-link${onDashboard ? " current" : ""}" href="${dashboard}" data-section="overview"${onDashboard ? ' aria-current="page"' : ""}><span aria-hidden="true">▥</span> Overview</a><a class="sidebar-link${onClients ? " current" : ""}" href="${clients}" data-section="clients"${onClients ? ' aria-current="page"' : ""}><span aria-hidden="true">♙</span> Clients</a><a class="sidebar-link${onAdmins ? " current" : ""}" href="${admins}" data-section="admins"${onAdmins ? ' aria-current="page"' : ""}><span aria-hidden="true">♔</span> Admins</a><a class="sidebar-link${onCoaches ? " current" : ""}" href="${coaches}" data-section="coaches"${onCoaches ? ' aria-current="page"' : ""}><span aria-hidden="true">♧</span> Coaches <b id="sidebar-coach-pending-count">1</b></a><a class="sidebar-link${onNutritionists ? " current" : ""}" href="${nutritionists}" data-section="nutritionists"${onNutritionists ? ' aria-current="page"' : ""}><span aria-hidden="true">◈</span> Nutritionists <b id="sidebar-nutritionist-pending-count">1</b></a><a class="sidebar-link${onMessages ? " current" : ""}" href="${messages}" data-section="messages"${onMessages ? ' aria-current="page"' : ""}><span aria-hidden="true">✉</span> Messages</a><a class="sidebar-link${onSubscriptions ? " current" : ""}" href="${subscriptions}" data-section="subscriptions"${onSubscriptions ? ' aria-current="page"' : ""}><span aria-hidden="true">▤</span> Subscriptions</a><a class="sidebar-link${onStudio ? " current" : ""}" href="${siteStudio}" data-section="site-studio"${onStudio ? ' aria-current="page"' : ""}><span aria-hidden="true">◩</span> Site appearance</a></nav><div class="sidebar-bottom"><a href="${login}"><span aria-hidden="true">↪</span> Log out</a></div></aside>`;
       this.querySelectorAll(".sidebar-link").forEach(link => link.addEventListener("click", () => {
         this.classList.remove("open");
         const toggle = document.querySelector(".admin-menu-toggle");

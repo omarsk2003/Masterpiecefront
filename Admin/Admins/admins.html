@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090D0E">
+  <title>Admins | LIFT Admin</title>
+  <link rel="stylesheet" href="../../Shared/Components/Admin/Sidebar/sidebar.css">
+  <link rel="stylesheet" href="../Dashboard/dashboard.css">
+  <link rel="stylesheet" href="../Subscriptions/subscriptions.css">
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <link rel="stylesheet" href="../../Shared/CSS/password-dialog.css">
+  <link rel="stylesheet" href="admins.css">
+  <script src="../../Shared/JS/theme.js"></script>
+  <script src="../../Shared/JS/account-security.js" defer></script>
+  <script src="../../Shared/Components/Admin/Sidebar/sidebar.js" defer></script>
+  <script src="admins.js" defer></script>
+</head>
+<body>
+  <div class="admin-shell">
+    <header class="admin-topbar">
+      <div class="topbar-brand"><button class="admin-menu-toggle" type="button" aria-label="Open sidebar" aria-expanded="false">☰</button><a href="../Dashboard/dashboard.html"><img src="../../Shared/Assets/Images/lift-logo.png" alt="LIFT"></a><span>SYSTEM ADMIN COMMAND</span></div>
+      <div class="topbar-account"><button class="admin-theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode"><span data-theme-icon>☼</span></button><strong>Admin</strong></div>
+    </header>
+    <lift-admin-sidebar></lift-admin-sidebar>
+    <main class="admin-page pricing-page admins-page" id="main">
+      <header class="admins-heading">
+        <div><p class="eyebrow">ACCOUNT ACCESS</p><h1>Admins</h1><p>Manage admin access and review account status.</p></div>
+        <button id="open-add-admin" class="admin-add-button" type="button">Add admin ↗</button>
+      </header>
+      <section class="admin-stats" aria-label="Admin account statistics">
+        <article><span>TOTAL ADMINS</span><strong id="admin-stat-total">0</strong></article>
+        <article><span>ACTIVE</span><strong id="admin-stat-active">0</strong></article>
+        <article><span>SUSPENDED</span><strong id="admin-stat-suspended">0</strong></article>
+        <article><span>BLOCKED</span><strong id="admin-stat-blocked">0</strong></article>
+      </section>
+      <section class="pricing-panel" aria-labelledby="admin-list-title">
+        <div class="admin-panel-head"><div><p class="eyebrow">ACCESS DIRECTORY</p><h2 id="admin-list-title">Admin accounts</h2></div><p id="admin-list-count"></p></div>
+        <div id="admin-list" class="admin-list"></div>
+        <p id="admin-action-status" role="status"></p>
+      </section>
+      <section class="pricing-panel admin-security" aria-labelledby="security-title">
+        <div><p class="eyebrow">ACCOUNT SECURITY</p><h2 id="security-title">Your password</h2><p>Change the password used to sign in to this admin account.</p></div>
+        <button id="open-admin-password" class="password-trigger" type="button">Change password ↗</button>
+      </section>
+      <p class="preview-note">Account changes are stored in this browser preview. Production access requires server authentication.</p>
+    </main>
+  </div>
+  <dialog id="add-admin-dialog" class="password-dialog admin-add-dialog" aria-labelledby="add-admin-title">
+    <div class="password-dialog-head"><div><p class="eyebrow">ACCOUNT ACCESS</p><h2 id="add-admin-title">Add an admin</h2></div><button id="close-add-admin" class="password-dialog-close" type="button" aria-label="Close add admin dialog">×</button></div>
+    <form id="add-admin-form">
+      <label>Full name<input name="name" maxlength="80" autocomplete="name" required></label>
+      <label>Email<input name="email" type="email" autocomplete="email" required></label>
+      <label>Initial password<input name="password" type="password" minlength="8" autocomplete="new-password" required></label>
+      <button type="submit">Create admin ↗</button>
+      <p id="add-status" role="status"></p>
+    </form>
+  </dialog>
+  <dialog id="admin-password-dialog" class="password-dialog" aria-labelledby="admin-password-title">
+    <div class="password-dialog-head"><div><p class="eyebrow">ACCOUNT SECURITY</p><h2 id="admin-password-title">Change password</h2></div><button id="close-admin-password" class="password-dialog-close" type="button" aria-label="Close password dialog">×</button></div>
+    <form id="admin-password-form">
+      <label>Current password<input name="current" type="password" autocomplete="current-password" required></label>
+      <label>New password<input name="next" type="password" minlength="8" autocomplete="new-password" required></label>
+      <label>Confirm password<input name="confirm" type="password" minlength="8" autocomplete="new-password" required></label>
+      <button type="submit">Save new password ↗</button><p id="password-status" role="status"></p>
+    </form>
+  </dialog>
+</body>
+</html>

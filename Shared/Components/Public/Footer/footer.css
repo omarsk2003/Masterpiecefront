@@ -65,6 +65,58 @@ lift-footer{
   font-size:38px;
   margin-top:10px
 }
+.footer-social{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+  padding:0 0 28px
+}
+.footer-social>span{
+  color:var(--muted,#A3B3BC);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  white-space:nowrap
+}
+.footer-social-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px
+}
+.footer-social-links a{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  padding:7px 11px 7px 7px;
+  border:1px solid var(--line,#FFFFFF20);
+  border-radius:999px;
+  color:var(--text,#FFFFFF);
+  font-size:11px;
+  font-weight:600;
+  text-decoration:none;
+  transition:border-color .2s,transform .2s
+}
+.footer-social-links a:hover{
+  border-color:var(--accent,var(--brand));
+  transform:translateY(-2px)
+}
+.footer-social-links a:focus-visible{
+  outline:2px solid var(--accent,var(--brand));
+  outline-offset:3px
+}
+.footer-social-links b{
+  display:grid;
+  place-items:center;
+  width:27px;
+  height:27px;
+  border-radius:50%;
+  background:color-mix(in srgb,var(--accent,var(--brand)) 17%,transparent);
+  color:var(--accent,var(--brand));
+  font-size:11px;
+  font-weight:800
+}
+.footer-social-links a>span{color:var(--accent,var(--brand))}
 .footer-bottom{
   display:flex;
   justify-content:space-between;
@@ -99,6 +151,7 @@ lift-footer{
   .footer-statement{
     display:none
   }
+  .footer-social{align-items:flex-start;flex-direction:column}
   .footer-bottom{
     flex-wrap:wrap;
     font-size:8px

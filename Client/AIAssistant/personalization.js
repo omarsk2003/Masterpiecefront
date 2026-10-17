@@ -14,9 +14,7 @@
   const tier = document.getElementById("member-tier");
   tier.textContent = ({ free: "FREE MEMBER", ai: "AI PLAN MEMBER", premium: "PREMIUM MEMBER" })[member.plan] || "PREVIEW MEMBER";
   document.getElementById("premium-team").hidden = member.plan !== "premium";
-  const gateButton = document.getElementById("complete-profile");
   const build = document.getElementById("build-plan");
-  const edit = document.getElementById("edit-profile");
   const note = document.getElementById("profile-usage-note");
   const dialog = document.createElement("dialog");
   dialog.className = "profile-dialog";
@@ -50,18 +48,19 @@
     stepHost.innerHTML = `<div class="profile-heading"><p>STEP ${String(step+1).padStart(2,"0")} / 04 · ${stages[step]}</p><h2 id="profile-title">${step === 3 ? "Here's what LIFT knows about you." : ["What are you working toward?","Where are you starting?","How does your day work?"][step]}</h2><span>${step === 3 ? "Review what you shared before continuing to AI." : "A few details help LIFT fit guidance to your real life."}</span></div><form id="profile-form">${body}<p class="profile-error" id="profile-error" role="alert" hidden></p><div class="profile-actions">${backOrLater}<button type="submit">${step === 3 ? "SAVE & CONTINUE TO AI" : "CONTINUE"} ↗</button></div>${step === 3 && !required ? '<button class="save-later" type="button" data-later>SAVE FOR LATER</button>' : ""}</form>`;
     stepHost.querySelectorAll("[data-edit]").forEach(button => button.addEventListener("click", () => { step = Number(button.dataset.edit); render(); }));
     stepHost.querySelector("[data-back]")?.addEventListener("click", () => { step--; render(); });
-    stepHost.querySelectorAll("[data-later]").forEach(button => button.addEventListener("click", () => { capture(); if (!access?.isPersonalizationProfileComplete(draft)) draft.completed = false; save(draft); dialog.close(); refresh(); }));
+    stepHost.querySelectorAll("[data-later]").forEach(button => button.addEventListener("click", () => { capture(); if (!access?.isPersonalizationProfileComplete(draft)) draft.completed = false; if (!save(draft)) return window.LiftNotice.error("Could not save your profile in this browser."); dialog.close(); refresh(); window.LiftNotice.success("Profile saved for later."); }));
     stepHost.querySelector("#profile-form").addEventListener("submit", event => {
       event.preventDefault();
       const form = event.currentTarget;
       if (!form.reportValidity()) return;
       capture();
-      if (step === 2 && !draft.days?.length) { const error = form.querySelector("#profile-error"); error.textContent = "Choose at least one workout day."; error.hidden = false; return; }
+      if (step === 2 && !draft.days?.length) { const error = form.querySelector("#profile-error"); error.textContent = "Choose at least one workout day."; error.hidden = false; window.LiftNotice.warning(error.textContent); return; }
       if (step < 3) { step++; render(); return; }
       const complete = { ...draft, completed: true, updatedAt: new Date().toISOString() };
-      if (!access?.isPersonalizationProfileComplete(complete)) { const error = form.querySelector("#profile-error"); error.textContent = "Complete every required detail before continuing. Use Edit to return to a section."; error.hidden = false; return; }
-      if (!save(complete)) { const error = form.querySelector("#profile-error"); error.textContent = "Your profile could not be saved in this browser. Please try again."; error.hidden = false; return; }
+      if (!access?.isPersonalizationProfileComplete(complete)) { const error = form.querySelector("#profile-error"); error.textContent = "Complete every required detail before continuing. Use Edit to return to a section."; error.hidden = false; window.LiftNotice.warning(error.textContent); return; }
+      if (!save(complete)) { const error = form.querySelector("#profile-error"); error.textContent = "Your profile could not be saved in this browser. Please try again."; error.hidden = false; window.LiftNotice.error(error.textContent); return; }
       draft = complete; dialog.close(); refresh();
+      window.LiftNotice.success("Your profile is ready for the AI Assistant.");
       window.LiftChat?.addMessage("You're all set. I'll use your profile to keep my guidance relevant to your goals and real life.", false);
       document.getElementById("message-input").focus();
     });
@@ -76,7 +75,7 @@
   function openSetup(target=0) {
     draft = read() || draft;
     step = target;
-    dialog.dataset.required = String(Boolean(access?.needsPersonalizationProfile()));
+    dialog.dataset.required = "false";
     render();
     if (!dialog.open) dialog.showModal();
   }
@@ -85,27 +84,16 @@
     const complete = Boolean(access?.isPersonalizationProfileComplete(profile));
     const required = Boolean(access?.needsPersonalizationProfile());
     document.documentElement.dataset.clientNeedsProfile = required ? "true" : "false";
-    document.getElementById("profile-summary").textContent = complete ? `${profile.goal} · ${profile.fitness} · ${profile.location} · ${profile.duration} min` : "Add your context when you are ready for a personal plan.";
-    document.getElementById("profile-updated").textContent = profile?.updatedAt ? `Last updated ${new Date(profile.updatedAt).toLocaleDateString()}` : "Not set up yet";
-    note.textContent = member.plan === "free" ? "General guidance only. Personalized planning is available with AI Plan." : complete ? "Your saved profile informs this conversation." : "Add your context before personalized planning.";
+    build.textContent = complete ? "CHANGE MY PLAN ↗" : member.plan === "free" ? "SET UP MY PROFILE ↗" : "BUILD MY PLAN ↗";
+    note.textContent = required ? "Complete your profile to start chatting with LIFT Engine." : member.plan === "free" ? "General guidance based on your profile. Personalized planning is available with AI Plan." : "Your saved profile informs this conversation.";
     document.getElementById("message-input").disabled = required;
     document.getElementById("send-button").disabled = required;
     document.querySelectorAll("[data-prompt]").forEach(button => { button.disabled = required; });
-    build.disabled = required;
+    build.disabled = false;
   }
-  function requestPlan() {
-    if (access?.needsPersonalizationProfile()) { openSetup(0); return; }
-    if (member.plan === "free") { window.LiftChat?.addMessage("Personalized planning is available with AI Plan. Open Plan & Billing to upgrade your plan when you are ready.", false); return; }
-    const profile = read();
-    if (!access?.isPersonalizationProfileComplete(profile)) { openSetup(0); return; }
-    const current = access?.getPlan();
-    window.LiftChat?.addMessage(`Your plan preview uses your ${profile.goal} goal, ${profile.duration}-minute workout window, and ${profile.location} location. Your next session is ${current?.sessions[0] || "movement"}. Update your profile when your routine changes; live AI generation will connect later.`, false);
-  }
-  gateButton.addEventListener("click", () => openSetup());
-  build.addEventListener("click", requestPlan);
-  edit.addEventListener("click", () => openSetup());
-  dialog.querySelector("#close-profile").addEventListener("click", () => { if (dialog.dataset.required !== "true") dialog.close(); });
-  dialog.addEventListener("cancel", event => { if (dialog.dataset.required === "true") event.preventDefault(); });
+  build.addEventListener("click", () => openSetup());
+  document.getElementById("start-profile-setup")?.addEventListener("click", () => openSetup());
+  dialog.querySelector("#close-profile").addEventListener("click", () => dialog.close());
   document.getElementById("assistant-form").addEventListener("submit", event => {
     if (access?.needsPersonalizationProfile()) { event.preventDefault(); event.stopImmediatePropagation(); openSetup(0); return; }
     if (member.plan === "free") return;
@@ -113,11 +101,6 @@
       event.preventDefault(); event.stopImmediatePropagation(); openSetup(0);
     }
   }, true);
-  if (member.plan === "free") {
-    build.hidden = true;
-    document.querySelector(".assistant-sidebar .profile-card").hidden = true;
-    document.querySelector(".assistant-sidebar .capabilities").hidden = true;
-  }
   refresh();
   if (new URLSearchParams(location.search).get("profile") === "edit") openSetup();
 })();

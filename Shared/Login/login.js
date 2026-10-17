@@ -86,11 +86,13 @@ form.addEventListener("submit", async event => {
     updateJourney("error");
     return;
   }
-  let account = previewAccounts.find(item => item.email === address.toLowerCase() && item.password === password.value);
+  let account = null;
+  const preview = previewAccounts.find(item => item.email === address.toLowerCase());
+  if (preview && await window.LiftAccountSecurity.verify(address, password.value, preview.password)) account = preview;
   if (!account) {
     try {
       const registered = window.LiftClientAccounts.find(address);
-      if (registered && await window.LiftClientAccounts.verify(registered, password.value)) {
+      if (registered && await window.LiftAccountSecurity.verify(address, password.value, value => window.LiftClientAccounts.verify(registered, value))) {
         account = { ...registered, page: "../../Client/Dashboard/dashboard.html" };
       }
     } catch {
@@ -104,9 +106,10 @@ form.addEventListener("submit", async event => {
     try {
       const applications = await window.LiftSpecialistApplications.all();
       const application = applications.find(item => item.email === address.toLowerCase());
-      if (application && await window.LiftSpecialistApplications.verifyCredential(application, password.value)) {
-        if (application.status !== "active") {
-          message.textContent = ({ pending: "Your application is awaiting admin review.", rejected: "Your application was not approved.", blocked: "This account is blocked." })[application.status] || "This account is not active.";
+      if (application && await window.LiftAccountSecurity.verify(address, password.value, value => window.LiftSpecialistApplications.verifyCredential(application, value))) {
+        const applicationStatus = window.LiftAccountStatus.get(application.role, address, application.status);
+        if (applicationStatus !== "active") {
+          message.textContent = ({ pending: "Your application is awaiting admin review.", rejected: "Your application was not approved.", suspended: "This account is suspended.", blocked: "This account is blocked." })[applicationStatus] || "This account is not active.";
           message.hidden = false;
           updateJourney("error");
           return;
@@ -115,6 +118,20 @@ form.addEventListener("submit", async event => {
       }
     } catch {
       message.textContent = "Local account storage is unavailable in this browser. Try opening LIFT on a local server.";
+      message.hidden = false;
+      updateJourney("error");
+      return;
+    }
+  }
+  if (!account) {
+    const admin = await window.LiftAccountSecurity.verifyAdmin(address, password.value);
+    if (admin) account = { ...admin, page: "../../Admin/Dashboard/dashboard.html" };
+  }
+  if (account) {
+    const role = account.plan ? "client" : account.page.includes("/Coach/") ? "coach" : account.page.includes("/Nutrition/") ? "nutritionist" : "admin";
+    const state = role === "admin" && address.toLowerCase() === "admin@lift.demo" ? "active" : window.LiftAccountStatus.get(role, address, account.status || "active");
+    if (state !== "active") {
+      message.textContent = ({ pending: "This account is pending approval.", rejected: "This account was not approved.", suspended: "This account is suspended. Contact LIFT Admin.", blocked: "This account is blocked. Contact LIFT Admin." })[state] || "This account is not active.";
       message.hidden = false;
       updateJourney("error");
       return;
@@ -138,6 +155,11 @@ form.addEventListener("submit", async event => {
     updateJourney("error");
     return;
   }
+  if (/\.\.\/\.\.\/(Coach|Nutrition)\//.test(account.page)) {
+    localStorage.setItem("lift-specialist-session-email", address.toLowerCase());
+    localStorage.setItem("lift-specialist-session-role", account.page.includes("/Coach/") ? "coach" : "nutritionist");
+  }
+  if (account.page.includes("../../Admin/")) localStorage.setItem("lift-admin-session-email", address.toLowerCase());
   updateJourney("success");
   submitButton.disabled = true;
   submitButton.querySelector(".button-arrow").hidden = true;
@@ -163,5 +185,10 @@ window.addEventListener("pageshow", () => {
   status.textContent = "";
   syncJourney();
 });
+const accountState = new URLSearchParams(location.search).get("account");
+if (["suspended", "blocked", "rejected"].includes(accountState)) {
+  message.textContent = accountState === "suspended" ? "This account is suspended. Contact LIFT Admin." : accountState === "blocked" ? "This account is blocked. Contact LIFT Admin." : "This account was not approved.";
+  message.hidden = false;
+}
 
 

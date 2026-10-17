@@ -46,7 +46,7 @@
   outline-offset: 4px;
 }
 :root:not([data-client-needs-profile="true"]) .personalization-gate { display: none; }
-:root[data-client-needs-profile="true"] :is(.assistant-actions, .suggested-prompts, .conversation-scroll, .composer, .assistant-sidebar) { display: none !important; }
-:root[data-client-needs-profile="true"] .assistant-layout { display: block; }
+:root[data-client-needs-profile="true"] :is(.suggested-prompts, .conversation-scroll, .composer) { display: none !important; }
+:root[data-client-needs-profile="true"] .assistant-actions { display: none; }
 .profile-dialog[data-required="true"] :is(#close-profile, [data-later]) { display: none !important; }
 :root[data-theme="light"] .personalization-gate button { background: var(--brand); color: var(--brand-contrast); }

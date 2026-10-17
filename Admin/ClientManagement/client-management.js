@@ -2,13 +2,17 @@
 
 // Static preview data; changes remain in this page's memory only.
 const users = [
-  { id: 1, name: "Alexander Drake", email: "alexander@example.com", phone: "+962 79 000 0001", role: "client", detail: "Build Muscle", status: "active", profile: { plan: "premium", age: 28, weight: 78.2, height: 182, goal: "muscle", sport: "", experience: "intermediate", location: "gym", activity: "moderate", duration: "90", sleep: 7, work: 45, cooking: "home", days: ["mon", "wed", "fri"], conditions: ["none"], healthNote: "", foodPreferences: "" } },
-  { id: 2, name: "Sarah Chen", email: "sarah@example.com", phone: "+962 79 000 0002", role: "coach", detail: "Strength & conditioning", status: "active" },
-  { id: 3, name: "Maya Haddad", email: "maya@example.com", phone: "+962 79 000 0003", role: "nutritionist", detail: "Sports nutrition", status: "active" },
+  { id: 1, name: "Alexander Drake", email: "client@lift.demo", phone: "+962 79 000 0001", role: "client", detail: "Build Muscle", status: "active", profile: { plan: "premium", age: 28, weight: 78.2, height: 182, goal: "muscle", sport: "", experience: "intermediate", location: "gym", activity: "moderate", duration: "90", sleep: 7, work: 45, cooking: "home", days: ["mon", "wed", "fri"], conditions: ["none"], healthNote: "", foodPreferences: "" } },
+  { id: 2, name: "Sarah Chen", email: "coach@lift.demo", phone: "+962 79 000 0002", role: "coach", detail: "Strength & conditioning", status: "active" },
+  { id: 3, name: "Maya Haddad", email: "nutritionist@lift.demo", phone: "+962 79 000 0003", role: "nutritionist", detail: "Sports nutrition", status: "active" },
   { id: 4, name: "Omar Khalil", email: "omar@example.com", phone: "", role: "coach", detail: "Weight loss", status: "pending" },
-  { id: 5, name: "Lina Mansour", email: "lina@example.com", phone: "", role: "nutritionist", detail: "Clinical nutrition", status: "pending" }
+  { id: 5, name: "Lina Mansour", email: "lina@example.com", phone: "", role: "nutritionist", detail: "Clinical nutrition", status: "pending" },
+  { id: 6, name: "Free Client", email: "client.free@lift.demo", phone: "", role: "client", detail: "General fitness", status: "active", profile: { plan: "free" } },
+  { id: 7, name: "AI Plan Client", email: "client.ai@lift.demo", phone: "", role: "client", detail: "General fitness", status: "active", profile: { plan: "ai" } }
 ];
-let nextId = 6;
+users.forEach(user => { user.status = window.LiftAccountStatus.get(user.role, user.email, user.status); });
+const clientsOnly = true;
+let nextId = 8;
 let editingId = null;
 let viewingId = null;
 const $ = (selector) => document.querySelector(selector);
@@ -50,14 +54,14 @@ function openView(user) {
 
 function render() {
   const query = $("#user-search").value.trim().toLowerCase();
-  const role = $("#role-filter").value;
   const status = $("#status-filter").value;
-  const shown = users.filter((user) => (role === "all" || user.role === role) && (status === "all" || user.status === status) && (!query || `${user.name} ${user.email}`.toLowerCase().includes(query)));
+  const shown = users.filter((user) => user.role === "client" && (status === "all" || user.status === status) && (!query || `${user.name} ${user.email}`.toLowerCase().includes(query)));
   $("#users-body").innerHTML = shown.map((user) => `<tr><td><div class="table-person"><span class="table-avatar" aria-hidden="true">${escapeHtml(user.name.split(/\s+/).map((part) => part[0]).slice(0, 2).join("").toUpperCase())}</span><div><strong>${escapeHtml(user.name)}</strong><small>${escapeHtml(user.email)}</small></div></div></td><td><span class="table-role">${roleNames[user.role]}</span></td><td class="detail-cell">${escapeHtml(user.role === "client" ? `${user.detail || "—"} · ${planNames[user.profile?.plan] || "No plan"}` : user.detail || "—")}</td><td><span class="table-status ${user.status}"><i aria-hidden="true"></i>${statusNames[user.status]}</span></td><td><div class="row-actions">${actionButtons(user)}</div></td></tr>`).join("");
   $("#directory-empty").hidden = shown.length !== 0;
   $("#result-count").textContent = `${shown.length} ${shown.length === 1 ? "account" : "accounts"}`;
-  $("#stat-total").textContent = users.length;
-  for (const state of ["active", "pending", "suspended", "blocked"]) $("#stat-" + state).textContent = users.filter((user) => user.status === state).length;
+  const statisticUsers = clientsOnly ? users.filter(user => user.role === "client") : users;
+  $("#stat-total").textContent = statisticUsers.length;
+  for (const state of ["active", "pending", "suspended", "blocked"]) $("#stat-" + state).textContent = statisticUsers.filter((user) => user.status === state).length;
   for (const role of ["coach", "nutritionist"]) {
     const badge = $(`#sidebar-${role}-pending-count`);
     if (!badge) continue;
@@ -72,7 +76,7 @@ function updateRoleFields() {
   $("#specialist-fields").hidden = !specialist;
   $("#client-fields").hidden = specialist;
   $("#account-detail").required = specialist;
-  for (const field of $("#client-fields").querySelectorAll("select, input[type=number]")) field.required = !specialist && field.id !== "account-sport";
+  for (const field of $("#client-fields").querySelectorAll("select, input[type=number]")) field.required = !specialist && field.id === "account-plan";
   updateSportField();
   $("#role-note").textContent = editingId ? "Changes to account details keep its current status." : specialist ? "New specialists start Pending until an admin approves them." : "New client accounts start Active.";
 }
@@ -89,9 +93,10 @@ function openDialog(user = null) {
   $("#user-form").reset();
   $("#form-error").hidden = true;
   $("#account-role").disabled = Boolean(user);
-  $("#user-dialog-title").textContent = user ? "Edit user" : "Add user";
-  $("#dialog-description").textContent = user ? `Update ${user.name}'s account details.` : "Create a new account for a client, coach, or nutritionist.";
-  $("#save-user").innerHTML = user ? 'Save changes <span aria-hidden="true">↗</span>' : 'Add user <span aria-hidden="true">↗</span>';
+  if (clientsOnly && !user) { $("#account-role").value = "client"; $("#account-role").disabled = true; }
+  $("#user-dialog-title").textContent = user ? "Edit client" : "Add client";
+  $("#dialog-description").textContent = user ? `Update ${user.name}'s account details.` : "Create a new client account.";
+  $("#save-user").innerHTML = user ? 'Save changes <span aria-hidden="true">↗</span>' : 'Add client <span aria-hidden="true">↗</span>';
   if (user) {
     $("#account-name").value = user.name;
     $("#account-email").value = user.email;
@@ -111,14 +116,20 @@ function openDialog(user = null) {
   $("#account-name").focus();
 }
 
-function setStatus(user, action) {
-  if (action === "suspend" && user.status === "active") user.status = "suspended";
-  else if (action === "reactivate" && user.status === "suspended") user.status = "active";
-  else if (action === "block" && user.status !== "blocked") { user.previousStatus = user.status; user.status = "blocked"; }
-  else if (action === "unblock" && user.status === "blocked") user.status = user.previousStatus || "active";
-  else return;
+async function setStatus(user, action) {
+  if (["suspend", "block"].includes(action) && !await window.LiftNotice.confirm(`${action === "block" ? "Block" : "Suspend"} ${user.name}'s account?`, { confirmText: action === "block" ? "Block account" : "Suspend account" })) return false;
+  let next;
+  if (action === "suspend" && user.status === "active") next = "suspended";
+  else if (action === "reactivate" && user.status === "suspended") next = "active";
+  else if (action === "block" && user.status !== "blocked") next = "blocked";
+  else if (action === "unblock" && user.status === "blocked") next = "active";
+  else return false;
+  if (!window.LiftAccountStatus.set(user.role, user.email, next)) { window.LiftNotice.error("Could not save this account status."); return false; }
+  user.status = next;
   render();
   $("#user-action-status").textContent = `${user.name}: ${statusNames[user.status]}.`;
+  window.LiftNotice[["blocked", "suspended"].includes(user.status) ? "warning" : "success"]($("#user-action-status").textContent);
+  return true;
 }
 
 $("#add-user").addEventListener("click", () => openDialog());
@@ -130,7 +141,7 @@ $("#user-form").querySelectorAll('[name="conditions"]').forEach(checkbox => chec
   if (!checkbox.checked) return;
   for (const peer of $("#user-form").querySelectorAll('[name="conditions"]')) if (checkbox.value === "none" ? peer !== checkbox : peer.value === "none") peer.checked = false;
 }));
-for (const filter of ["#user-search", "#role-filter", "#status-filter"]) $(filter).addEventListener(filter === "#user-search" ? "input" : "change", render);
+for (const filter of ["#user-search", "#status-filter"]) $(filter).addEventListener(filter === "#user-search" ? "input" : "change", render);
 $("#users-body").addEventListener("click", (event) => {
   const button = event.target.closest("button[data-action]");
   if (!button) return;
@@ -147,11 +158,10 @@ $("#view-edit-user").addEventListener("click", () => {
   $("#view-user-dialog").close();
   if (user) openDialog(user);
 });
-$("#view-status-user").addEventListener("click", (event) => {
+$("#view-status-user").addEventListener("click", async (event) => {
   const user = users.find((item) => item.id === viewingId);
   if (!user) return;
-  setStatus(user, event.currentTarget.dataset.action);
-  $("#view-user-dialog").close();
+  if (await setStatus(user, event.currentTarget.dataset.action)) $("#view-user-dialog").close();
 });
 $("#user-form").addEventListener("submit", (event) => {
   event.preventDefault();
@@ -165,19 +175,15 @@ $("#user-form").addEventListener("submit", (event) => {
     for (const key of ["age", "weight", "height", "sleep", "work"]) profile[key] = Number(profile[key]);
     for (const key of ["days", "conditions"]) profile[key] = [...form.querySelectorAll(`[name="${key}"]:checked`)].map(input => input.value);
   }
-  const detail = role === "client" ? goalNames[profile.goal] : $("#account-detail").value.trim();
+  const detail = role === "client" ? goalNames[profile.goal] || "Not set" : $("#account-detail").value.trim();
   $("#account-name").value = name;
   $("#account-email").value = email;
   if (!form.checkValidity()) { form.reportValidity(); return; }
   const error = $("#form-error");
-  if (role === "client" && (!profile.days.length || !profile.conditions.length)) {
-    error.textContent = !profile.days.length ? "Choose at least one available workout day." : "Choose a health condition or None.";
-    error.hidden = false;
-    return;
-  }
   if (users.some((user) => user.email.toLowerCase() === email && user.id !== editingId)) {
     error.textContent = "This email address is already used by another account.";
     error.hidden = false;
+    window.LiftNotice.warning(error.textContent);
     $("#account-email").focus();
     return;
   }
@@ -186,10 +192,10 @@ $("#user-form").addEventListener("submit", (event) => {
   else users.unshift({ id: nextId++, name, email, phone, role, detail, status: role === "client" ? "active" : "pending", ...(profile ? { profile } : {}) });
   $("#user-dialog").close();
   $("#user-search").value = "";
-  $("#role-filter").value = "all";
   $("#status-filter").value = "all";
   render();
   $("#user-action-status").textContent = editingId ? `${name}'s account updated.` : `${name}'s account added.`;
+  window.LiftNotice.success($("#user-action-status").textContent);
 });
 const menuButton = $(".admin-menu-toggle");
 menuButton?.addEventListener("click", () => {
@@ -200,5 +206,14 @@ menuButton?.addEventListener("click", () => {
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape") { $("lift-admin-sidebar").classList.remove("open"); menuButton?.setAttribute("aria-expanded", "false"); }
 });
+if (clientsOnly) {
+  document.title = "Clients | LIFT Admin";
+  $(".users-heading h1").textContent = "Clients";
+  $(".users-heading p:not(.eyebrow)").textContent = "Manage client accounts and membership details.";
+  $("#directory-title").textContent = "Client directory";
+  $(".directory-top .eyebrow").textContent = "CLIENT ACCOUNTS";
+  $(".review-links").hidden = true;
+  $(".add-user-button").textContent = "+ Add client";
+}
 render();
 

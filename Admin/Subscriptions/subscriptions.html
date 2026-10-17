@@ -1,1 +1,49 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090D0E"><title>Subscriptions | LIFT Admin</title><link rel="stylesheet" href="../../Shared/Components/Admin/Sidebar/sidebar.css"><link rel="stylesheet" href="../Dashboard/dashboard.css"><link rel="stylesheet" href="subscriptions.css"><script src="../../Shared/Components/Admin/Sidebar/sidebar.js" defer></script><script src="subscriptions.js" defer></script><link rel="stylesheet" href="../../Shared/CSS/theme.css"><script src="../../Shared/JS/theme.js"></script></head><body><div class="admin-shell"><header class="admin-topbar"><div class="topbar-brand"><button class="admin-menu-toggle" type="button" aria-label="Open sidebar" aria-controls="admin-sidebar" aria-expanded="false">☰</button><a href="../Dashboard/dashboard.html" aria-label="LIFT admin home"><img src="../../Shared/Assets/Images/lift-logo.png" alt="LIFT"></a><span>SYSTEM ADMIN COMMAND</span></div><div class="topbar-account"><button class="admin-theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode"><span data-theme-icon aria-hidden="true">☼</span></button><span class="topbar-admin"><strong>Admin Root</strong><small><i aria-hidden="true"></i> Online</small></span><span class="admin-avatar" aria-hidden="true">AR</span></div></header><lift-admin-sidebar></lift-admin-sidebar><main class="admin-page subscription-page" id="main"><header class="subscription-heading"><div><p class="eyebrow">MEMBERSHIP OVERVIEW</p><h1>Subscriptions</h1><p>Review Premium access and related client conversations.</p></div><span class="heading-pill">PREMIUM CLIENT</span></header><section class="subscription-stats" aria-label="Subscription statistics"><article><span>TOTAL MEMBERSHIPS</span><strong id="stat-total">0</strong></article><article><span>ACTIVE PREMIUM</span><strong id="stat-active">0</strong></article><article><span>PAUSED</span><strong id="stat-paused">0</strong></article></section><section class="subscription-panel" aria-labelledby="list-title"><div class="panel-heading"><div><p class="eyebrow">CLIENT ACCESS</p><h2 id="list-title">Membership directory</h2></div><span id="result-count"></span></div><div class="subscription-tools"><label class="subscription-search"><span class="sr-only">Search memberships</span><input id="subscription-search" type="search" placeholder="Search member or email…"></label><label>Status<select id="subscription-filter"><option value="all">All statuses</option><option value="active">Active</option><option value="paused">Paused</option></select></label></div><div id="subscription-list" class="subscription-list"></div><p id="subscription-empty" hidden>No subscriptions match this search.</p></section><p class="subscription-note">Sample membership data. Changes stay on this page until refresh; payments are not connected.</p><p id="subscription-action-status" class="sr-only" role="status"></p></main></div><dialog id="subscription-dialog" class="subscription-dialog" aria-labelledby="member-title"><div class="dialog-heading"><div><p class="eyebrow">MEMBERSHIP DETAILS</p><h2 id="member-title"></h2><p id="member-email"></p></div><button type="button" id="close-subscription" aria-label="Close details">×</button></div><span id="member-status" class="member-status"></span><dl id="member-details"></dl><div class="membership-benefits"><h3>Premium access</h3><p>AI plans reviewed by a coach and nutritionist, specialist messages, and coach meetings.</p></div><div class="subscription-actions"><a id="member-messages" href="../Messages/messages.html">View client messages ↗</a><button type="button" id="toggle-subscription">Pause access</button></div></dialog></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Subscriptions | LIFT Admin</title>
+  <link rel="stylesheet" href="../../Shared/Components/Admin/Sidebar/sidebar.css">
+  <link rel="stylesheet" href="../Dashboard/dashboard.css">
+  <link rel="stylesheet" href="../../Shared/CSS/theme.css">
+  <link rel="stylesheet" href="subscriptions.css">
+  <script src="../../Shared/JS/theme.js"></script>
+  <script src="../../Shared/JS/pricing.js" defer></script>
+  <script src="../../Shared/Components/Admin/Sidebar/sidebar.js" defer></script>
+  <script src="subscriptions.js" defer></script>
+</head>
+<body>
+  <div class="admin-shell">
+    <header class="admin-topbar"><div class="topbar-brand"><button class="admin-menu-toggle" type="button" aria-label="Open sidebar" aria-expanded="false">☰</button><a href="../Dashboard/dashboard.html"><img src="../../Shared/Assets/Images/lift-logo.png" alt="LIFT"></a><span>SYSTEM ADMIN COMMAND</span></div><div class="topbar-account"><button class="admin-theme-toggle" type="button" data-theme-toggle aria-label="Switch to light mode"><span data-theme-icon>☼</span></button><strong>Admin</strong></div></header>
+    <lift-admin-sidebar></lift-admin-sidebar>
+    <main class="admin-page pricing-page">
+      <header class="pricing-heading"><p class="eyebrow">BILLING SETTINGS</p><h1>Subscriptions</h1><p>Review plan prices and manage discount codes for clients.</p></header>
+      <section class="pricing-panel" aria-labelledby="prices-title">
+        <div class="panel-heading"><div><p class="eyebrow">PLAN PRICING</p><h2 id="prices-title">Monthly prices</h2><p>Prices shown to clients when they choose or change plans.</p></div></div>
+        <div id="prices-list" class="prices-list"></div><p id="price-status" class="sr-only" role="status"></p>
+      </section>
+      <section class="pricing-panel" aria-labelledby="promos-title">
+        <div class="panel-heading"><div><p class="eyebrow">DISCOUNTS</p><h2 id="promos-title">Promo codes</h2><p>Clients can enter an active code when changing plans.</p></div><button id="add-promo" class="primary-action" type="button">Add promo code ↗</button></div>
+        <div id="promo-list" class="promo-list"></div><p id="promo-status" class="sr-only" role="status"></p>
+      </section>
+      <p class="preview-note">This frontend preview saves prices and codes in this browser. Payment processing is not connected.</p>
+    </main>
+  </div>
+  <dialog id="price-dialog" class="pricing-dialog" aria-labelledby="price-dialog-title">
+    <form id="price-form"><div class="dialog-heading"><div><p class="eyebrow">MONTHLY PRICE</p><h2 id="price-dialog-title">Plan price</h2></div><button class="dialog-close" type="button" data-close="price-dialog" aria-label="Close">×</button></div>
+      <p id="price-dialog-description" class="dialog-description"></p>
+      <label id="price-field">Monthly price (USD)<input name="amount" type="number" min="0" max="10000" step="0.01" required></label>
+      <p id="price-error" class="dialog-error" role="alert" hidden></p>
+      <div class="dialog-actions"><button type="button" class="secondary-action" data-close="price-dialog">Close</button><button id="save-price" class="primary-action" type="submit">Save price ↗</button></div>
+    </form>
+  </dialog>
+  <dialog id="promo-dialog" class="pricing-dialog" aria-labelledby="promo-dialog-title">
+    <form id="promo-form"><div class="dialog-heading"><div><p class="eyebrow">PROMO CODE</p><h2 id="promo-dialog-title">Promo code</h2></div><button class="dialog-close" type="button" data-close="promo-dialog" aria-label="Close">×</button></div>
+      <p id="promo-dialog-description" class="dialog-description"></p><div id="promo-view" class="promo-view" hidden></div><div id="promo-view-actions" class="promo-view-actions" hidden><button id="toggle-promo" class="secondary-action" type="button">Deactivate</button><button id="remove-promo" class="secondary-action danger-action" type="button">Remove code</button></div>
+      <div id="promo-fields" class="promo-fields"><label>Code<input name="code" maxlength="24" pattern="[A-Za-z0-9_-]{3,24}" placeholder="WELCOME20" required></label><label>Discount %<input name="discount" type="number" min="1" max="100" step="1" required></label><label>Applies to<select name="plan"><option value="all">All paid plans</option><option value="ai">AI Plan</option><option value="premium">Premium</option></select></label></div>
+      <p id="promo-error" class="dialog-error" role="alert" hidden></p><div class="dialog-actions"><button type="button" class="secondary-action" data-close="promo-dialog">Close</button><button id="save-promo" class="primary-action" type="submit">Save code ↗</button></div>
+    </form>
+  </dialog>
+</body>
+</html>

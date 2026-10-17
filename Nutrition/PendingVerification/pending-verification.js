@@ -27,4 +27,5 @@ form.addEventListener("submit", async event => {
   }
   result.replaceChildren(title, detail);
   result.hidden = false;
+  window.LiftNotice[/not approved|blocked|No application|unavailable/i.test(title.textContent) ? "warning" : "show"](`${title.textContent}. ${detail.textContent}`);
 });

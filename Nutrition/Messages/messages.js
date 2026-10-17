@@ -84,6 +84,7 @@ $("message-form").addEventListener("submit", event => {
     try { localStorage.setItem(adminKey, JSON.stringify(data)); saved = true; } catch { saved = false; }
   }
   $("message-status").textContent = saved ? "Message sent." : "Could not save the message on this device.";
+  window.LiftNotice[saved ? "success" : "error"]($("message-status").textContent);
   if (!saved) return;
   field.value = "";
   render();

@@ -14,6 +14,9 @@ exerciseSelect.replaceChildren(...plannedExercises.map(name => {
 }), Object.assign(document.createElement("option"), { value: "Other", textContent: "Other exercise…" }));
 const previewBox = document.getElementById("preview-box");
 const status = document.getElementById("form-status");
+const audience = document.getElementById("guide-audience");
+const clientGroup = document.getElementById("guide-clients");
+audience.addEventListener("change", () => { clientGroup.hidden = audience.value !== "selected"; });
 let previewUrl = null;
 let cardUrls = [];
 function clearPreview() {
@@ -29,6 +32,7 @@ fileInput.addEventListener("change", () => {
   if (!file) return;
   if (!["video/mp4", "video/webm", "video/ogg"].includes(file.type) || file.size > 80 * 1024 * 1024) {
     status.textContent = "Choose an MP4, WebM or Ogg video that is 80 MB or smaller.";
+    window.LiftNotice.warning(status.textContent);
     fileInput.value = "";
     return;
   }
@@ -50,7 +54,7 @@ async function renderLibrary() {
   const list = document.getElementById("video-list");
   list.replaceChildren();
   try {
-    const guides = (await window.LiftExerciseLibrary.all()).filter(item => item.clientId === "alexander-drake");
+    const guides = await window.LiftExerciseLibrary.all();
     guides.forEach(guide => {
       const article = document.createElement("article");
       article.className = "video-card";
@@ -79,7 +83,9 @@ async function renderLibrary() {
       remove.type = "button";
       remove.dataset.remove = guide.id;
       remove.textContent = "Remove guide";
-      content.append(kicker, title, steps, cues, mistakes, remove);
+      const sharedWith = document.createElement("p");
+      sharedWith.textContent = guide.clientId === "all" ? "Shared with all assigned clients" : `Shared with ${guide.clientIds?.length || 1} selected client(s)`;
+      content.append(kicker, title, sharedWith, steps, cues, mistakes, remove);
       article.append(video, content);
       list.append(article);
     });
@@ -87,6 +93,7 @@ async function renderLibrary() {
     document.getElementById("video-count").textContent = `${guides.length} ${guides.length === 1 ? "VIDEO" : "VIDEOS"}`;
   } catch {
     status.textContent = "Local video storage is unavailable. Open LIFT on a local server in this browser.";
+    window.LiftNotice.error(status.textContent);
   }
 }
 form.addEventListener("submit", async event => {
@@ -95,25 +102,32 @@ form.addEventListener("submit", async event => {
   const file = fileInput.files[0];
   if (!file) return;
   const exercise = form.elements.exercise.value === "Other" ? form.elements.customExercise.value : form.elements.exercise.value;
+  const selectedClients = [...clientGroup.querySelectorAll('input[name="clientIds"]:checked')].map(input => input.value);
+  if (audience.value === "selected" && !selectedClients.length) { status.textContent = "Choose at least one client."; window.LiftNotice.warning(status.textContent); return; }
   const save = document.getElementById("save-video");
   save.disabled = true;
   status.textContent = "Saving the video on this device…";
   try {
     await window.LiftExerciseLibrary.add({
       file,
+      clientId: audience.value === "all" ? "all" : selectedClients[0],
+      clientIds: audience.value === "all" ? null : selectedClients,
       exercise,
       steps: form.elements.steps.value,
       cues: form.elements.cues.value,
       mistakes: form.elements.mistakes.value
     });
     form.reset();
+    clientGroup.hidden = true;
     document.getElementById("custom-exercise-label").hidden = true;
     document.getElementById("custom-exercise-label").querySelector("input").required = false;
     clearPreview();
     await renderLibrary();
-    status.textContent = "Video guide saved. Alexander can watch it from his Workout page on this device.";
+    status.textContent = "Video guide saved for the selected audience on this device.";
+    window.LiftNotice.success(status.textContent);
   } catch (error) {
     status.textContent = error instanceof Error ? error.message : "Could not save the video on this device.";
+    window.LiftNotice.error(status.textContent);
   } finally {
     save.disabled = false;
   }
@@ -121,14 +135,17 @@ form.addEventListener("submit", async event => {
 document.getElementById("video-list").addEventListener("click", async event => {
   const button = event.target.closest("[data-remove]");
   if (!button) return;
+  if (!await window.LiftNotice.confirm("Remove this exercise video guide?", { confirmText: "Remove guide" })) return;
   button.disabled = true;
   try {
     await window.LiftExerciseLibrary.remove(button.dataset.remove);
     await renderLibrary();
     status.textContent = "Video guide removed.";
+    window.LiftNotice.success(status.textContent);
   } catch {
     button.disabled = false;
     status.textContent = "Could not remove the guide.";
+    window.LiftNotice.error(status.textContent);
   }
 });
 window.addEventListener("pagehide", () => { clearPreview(); cardUrls.forEach(url => URL.revokeObjectURL(url)); });

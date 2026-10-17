@@ -64,6 +64,7 @@ form.addEventListener("submit", event => {
   if (!form.reportValidity()) return;
   if (new Date(startField.value).getTime() <= Date.now()) {
     feedback.textContent = "Choose a future date and time.";
+    window.LiftNotice.warning(feedback.textContent);
     startField.focus();
     return;
   }
@@ -73,22 +74,25 @@ form.addEventListener("submit", event => {
     if (url.protocol !== "https:" || !/(^|\.)zoom\.(us|com)$/.test(url.hostname)) throw new Error();
   } catch {
     feedback.textContent = "Enter a valid HTTPS Zoom meeting link.";
+    window.LiftNotice.warning(feedback.textContent);
     form.elements.link.focus();
     return;
   }
   const data = Object.fromEntries(new FormData(form).entries());
   if (!window.LiftNutritionMeetings.create(data)) {
     feedback.textContent = "Could not save the request on this device.";
+    window.LiftNotice.error(feedback.textContent);
     return;
   }
   form.reset();
   refreshMinimum();
   feedback.textContent = "Nutrition meeting request sent to Alexander. Waiting for his response.";
+  window.LiftNotice.success(feedback.textContent);
   renderMeetings();
 });
-document.getElementById("meeting-list").addEventListener("click", event => {
+document.getElementById("meeting-list").addEventListener("click", async event => {
   const button = event.target.closest("[data-cancel]");
-  if (button && window.LiftNutritionMeetings.setStatus(button.dataset.cancel, "cancelled")) renderMeetings();
+  if (button) { if (!await window.LiftNotice.confirm("Cancel this nutrition meeting request?", { confirmText: "Cancel meeting" })) return; if (window.LiftNutritionMeetings.setStatus(button.dataset.cancel, "cancelled")) { renderMeetings(); window.LiftNotice.success("Meeting request cancelled."); } else window.LiftNotice.error("Could not cancel the meeting."); }
 });
 window.addEventListener("storage", event => { if (event.key === window.LiftNutritionMeetings.key) renderMeetings(); });
 refreshMinimum();

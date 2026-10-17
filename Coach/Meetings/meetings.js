@@ -40,17 +40,31 @@ function renderMeetings() {
     actions.append(state);
     if (meeting.status === "accepted") {
       const link = document.createElement("a");
-      link.href = meeting.link;
+      link.href = meeting.room ? `../../Shared/MeetingRoom/meeting.html?room=${encodeURIComponent(meeting.room)}` : meeting.link;
       link.target = "_blank";
       link.rel = "noopener noreferrer";
-      link.textContent = "Open Zoom ↗";
+      link.textContent = "Join meeting ↗";
       actions.append(link);
+      if (meeting.room) {
+        const copy = document.createElement("button");
+        copy.type = "button";
+        copy.dataset.copyRoom = meeting.room;
+        copy.textContent = "Copy meeting link";
+        actions.append(copy);
+      }
     } else if (meeting.status === "pending") {
       const cancel = document.createElement("button");
       cancel.type = "button";
       cancel.dataset.cancel = meeting.id;
       cancel.textContent = "Cancel request";
       actions.append(cancel);
+    }
+    if (!meeting.demo) {
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.dataset.remove = meeting.id;
+      remove.textContent = "Remove";
+      actions.append(remove);
     }
     card.append(info, actions);
     list.append(card);
@@ -64,31 +78,33 @@ form.addEventListener("submit", event => {
   if (!form.reportValidity()) return;
   if (new Date(startField.value).getTime() <= Date.now()) {
     feedback.textContent = "Choose a future date and time.";
+    window.LiftNotice.warning(feedback.textContent);
     startField.focus();
-    return;
-  }
-  const link = form.elements.link.value.trim();
-  try {
-    const url = new URL(link);
-    if (url.protocol !== "https:" || !/(^|\.)zoom\.(us|com)$/.test(url.hostname)) throw new Error();
-  } catch {
-    feedback.textContent = "Enter a valid HTTPS Zoom meeting link.";
-    form.elements.link.focus();
     return;
   }
   const data = Object.fromEntries(new FormData(form).entries());
   if (!window.LiftCoachMeetings.create(data)) {
     feedback.textContent = "Could not save the request on this device.";
+    window.LiftNotice.error(feedback.textContent);
     return;
   }
   form.reset();
   refreshMinimum();
   feedback.textContent = "Meeting request sent to Alexander. Waiting for his response.";
+  window.LiftNotice.success(feedback.textContent);
   renderMeetings();
 });
-document.getElementById("meeting-list").addEventListener("click", event => {
+document.getElementById("meeting-list").addEventListener("click", async event => {
   const button = event.target.closest("[data-cancel]");
-  if (button && window.LiftCoachMeetings.setStatus(button.dataset.cancel, "cancelled")) renderMeetings();
+  if (button) { if (!await window.LiftNotice.confirm("Cancel this meeting request?", { confirmText: "Cancel meeting" })) return; if (window.LiftCoachMeetings.setStatus(button.dataset.cancel, "cancelled")) { renderMeetings(); window.LiftNotice.success("Meeting request cancelled."); } else window.LiftNotice.error("Could not cancel the meeting."); }
+  const remove = event.target.closest("[data-remove]");
+  if (remove) { if (!await window.LiftNotice.confirm("Remove this meeting from the list?", { confirmText: "Remove meeting" })) return; if (window.LiftCoachMeetings.remove(remove.dataset.remove)) { renderMeetings(); window.LiftNotice.success("Meeting removed."); } else window.LiftNotice.error("Could not remove the meeting."); }
+  const copy = event.target.closest("[data-copy-room]");
+  if (copy) {
+    const url = new URL(`../../Shared/MeetingRoom/meeting.html?room=${encodeURIComponent(copy.dataset.copyRoom)}`, location.href).href;
+    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(url).then(() => { feedback.textContent = "Meeting link copied."; }, () => { feedback.textContent = `Copy this meeting link: ${url}`; });
+    else feedback.textContent = `Copy this meeting link: ${url}`;
+  }
 });
 window.addEventListener("storage", event => { if (event.key === window.LiftCoachMeetings.key) renderMeetings(); });
 refreshMinimum();

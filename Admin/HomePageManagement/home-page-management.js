@@ -75,16 +75,18 @@ form.addEventListener("submit", event => {
   const settings = siteSettings.get();
   for (const mode of modes) for (const token of tokens) settings.colors[mode][token] = form.elements.namedItem(mode + "-" + token).value;
   for (const field of siteSettings.copyFields) settings.copy[field.key] = form.elements.namedItem(field.key).value.trim();
-  if (siteSettings.save(settings)) status.textContent = "Saved locally. Open or refresh the landing page to see your changes.";
-  else status.textContent = "Browser storage is unavailable. Your changes could not be saved.";
+  if (siteSettings.save(settings)) { status.textContent = "Saved locally. Open or refresh the landing page to see your changes."; window.LiftNotice.success(status.textContent); }
+  else { status.textContent = "Browser storage is unavailable. Your changes could not be saved."; window.LiftNotice.error(status.textContent); }
 });
 
-document.getElementById("reset-colors").addEventListener("click", () => {
+document.getElementById("reset-colors").addEventListener("click", async () => {
+  if (!await window.LiftNotice.confirm("Restore the original colors for both themes?", { confirmText: "Restore colors" })) return;
   const settings = siteSettings.get();
   const defaults = siteSettings.defaults();
   settings.colors = defaults.colors;
   if (!siteSettings.save(settings)) {
     status.textContent = "Browser storage is unavailable. Original colors could not be restored.";
+    window.LiftNotice.error(status.textContent);
     return;
   }
   for (const mode of modes) {
@@ -92,22 +94,26 @@ document.getElementById("reset-colors").addEventListener("click", () => {
     updatePreview(mode);
   }
   status.textContent = "Original Dark and Light colors restored. Landing page text was not changed.";
+  window.LiftNotice.success(status.textContent);
 });
 
-copyEditor.addEventListener("click", event => {
+copyEditor.addEventListener("click", async event => {
   const button = event.target.closest("[data-reset-section]");
   if (!button) return;
   const section = button.dataset.resetSection;
+  if (!await window.LiftNotice.confirm(`Restore the original text in ${section}?`, { confirmText: "Restore text" })) return;
   const settings = siteSettings.get();
   const defaults = siteSettings.defaults();
   const fields = siteSettings.copyFields.filter(field => field.section === section);
   for (const field of fields) settings.copy[field.key] = defaults.copy[field.key];
   if (!siteSettings.save(settings)) {
     status.textContent = "Browser storage is unavailable. Section text could not be restored.";
+    window.LiftNotice.error(status.textContent);
     return;
   }
   for (const field of fields) form.elements.namedItem(field.key).value = defaults.copy[field.key];
   status.textContent = `${section} text restored. Colors and other sections were not changed.`;
+  window.LiftNotice.success(status.textContent);
 });
 
 const menuButton = document.querySelector(".admin-menu-toggle");

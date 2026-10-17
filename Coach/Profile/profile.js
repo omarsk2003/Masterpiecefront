@@ -38,19 +38,23 @@ form.addEventListener("submit", event => {
   const input = Object.fromEntries(new FormData(form).entries());
   if (!input.name.trim() || !input.specialty.trim() || !input.experience.trim() || !input.bio.trim()) {
     feedback.textContent = "Complete the required profile fields.";
+    window.LiftNotice.warning(feedback.textContent);
     return;
   }
   if (input.phone && !/^[+()\d\s-]{7,24}$/.test(input.phone.trim())) {
     feedback.textContent = "Enter a valid phone number or leave it blank.";
+    window.LiftNotice.warning(feedback.textContent);
     form.elements.phone.focus();
     return;
   }
   if (!window.LiftCoachProfile.save(input)) {
     feedback.textContent = "Could not save changes on this device.";
+    window.LiftNotice.error(feedback.textContent);
     return;
   }
   renderProfile();
   closeEditor();
   feedback.textContent = "Profile saved on this device.";
+  window.LiftNotice.success(feedback.textContent);
 });
 renderProfile();

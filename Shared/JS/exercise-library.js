@@ -30,7 +30,8 @@
     if (file.size > 80 * 1024 * 1024) throw new Error("The video must be 80 MB or smaller.");
     const record = {
       id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now()),
-      clientId: "alexander-drake",
+      clientId: input.clientId || "alexander-drake",
+      clientIds: input.clientIds || null,
       coachName: "Sarah Chen",
       exercise: input.exercise.trim().slice(0, 100),
       steps: input.steps.trim().slice(0, 1000),

@@ -4,8 +4,8 @@
 const specialists = [
   { id: 1, name: "Omar Khalil", role: "coach", specialty: "Fat loss & beginner fitness", experience: "5 years", email: "omar@lift.demo", applied: "08 Oct 2026", status: "pending", certificates: [{ title: "Certified Personal Trainer", issuer: "Sample Fitness Academy", year: "2021" }, { title: "Weight Management Coaching", issuer: "Sample Coaching Institute", year: "2023" }] },
   { id: 2, name: "Lina Mansour", role: "nutritionist", specialty: "Balanced nutrition", experience: "4 years", email: "lina@lift.demo", applied: "09 Oct 2026", status: "pending", certificates: [{ title: "Nutrition & Dietetics", issuer: "Sample Health University", year: "2020" }, { title: "Sports Nutrition Practice", issuer: "Sample Nutrition Academy", year: "2022" }] },
-  { id: 3, name: "Sarah Chen", role: "coach", specialty: "Strength & conditioning", experience: "8 years", email: "sarah@lift.demo", applied: "02 Oct 2026", status: "active" },
-  { id: 4, name: "Maya Haddad", role: "nutritionist", specialty: "Everyday nutrition", experience: "6 years", email: "maya@lift.demo", applied: "03 Oct 2026", status: "active" }
+  { id: 3, name: "Sarah Chen", role: "coach", specialty: "Strength & conditioning", experience: "8 years", email: "coach@lift.demo", applied: "02 Oct 2026", status: "active" },
+  { id: 4, name: "Maya Haddad", role: "nutritionist", specialty: "Everyday nutrition", experience: "6 years", email: "nutritionist@lift.demo", applied: "03 Oct 2026", status: "active" }
 ];
 
 const requestList = document.getElementById("request-list");
@@ -149,15 +149,18 @@ approveButton.addEventListener("click", () => {
   dialog.close();
   render();
   document.getElementById("approval-status").textContent = `${person.name} has moved to the active team.`;
+  window.LiftNotice.success(document.getElementById("approval-status").textContent);
 });
-rejectButton.addEventListener("click", () => {
+rejectButton.addEventListener("click", async () => {
   if (rejectButton.disabled) return;
   const person = specialists.find(item => item.id === selectedId && item.status === "pending");
   if (!person) return;
+  if (!await window.LiftNotice.confirm(`Reject ${person.name}'s application?`, { confirmText: "Reject application" })) return;
   person.status = "rejected";
   dialog.close();
   render();
   document.getElementById("approval-status").textContent = `${person.name}'s application was rejected.`;
+  window.LiftNotice.warning(document.getElementById("approval-status").textContent);
 });
 
 render();

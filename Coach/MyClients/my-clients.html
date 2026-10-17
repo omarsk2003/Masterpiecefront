@@ -16,9 +16,16 @@
   <script src="../../Shared/Components/Coach/Navbar/navbar.js" defer></script>
   <script src="../../Shared/Components/Coach/Sidebar/sidebar.js" defer></script>
   <script src="my-clients.js" defer></script>
+  <script src="../../Shared/JS/activity-chart.js" defer></script>
+  <script src="../../Shared/JS/measurement-charts.js" defer></script>
+  <script src="../../Shared/JS/specialist-progress-dialog.js" defer></script>
+  <script src="../../Shared/JS/specialist-daily-status.js" defer></script>
 <link rel="stylesheet" href="../../Client/client-design-system.css">
   <link rel="stylesheet" href="../../Client/client-dark-mode.css">
   <link rel="stylesheet" href="../../Shared/CSS/specialist-workspace.css">
+  <link rel="stylesheet" href="../../Shared/CSS/activity-chart.css">
+  <link rel="stylesheet" href="../../Shared/CSS/measurement-charts.css">
+  <link rel="stylesheet" href="../../Shared/CSS/specialist-progress-dialog.css">
 </head>
 <body>
   <div class="coach-shell">
@@ -33,6 +40,7 @@
         <div class="client-list" id="client-list"></div>
         <div class="list-empty" id="list-empty" hidden><span aria-hidden="true">⌕</span><h3>No clients in this view</h3><p>Try another search or plan status.</p></div>
         <div class="directory-footer"><span>Showing <strong id="visible-count">1</strong> of 1 assigned client</span><span>Only clients matched to your coach account appear here.</span></div>
+        <p id="roster-feedback" role="status" aria-live="polite" class="roster-feedback"></p>
       </section>
 
       <div class="support-grid"><section class="support-card"><span class="support-icon" aria-hidden="true">✳</span><div><p class="eyebrow">YOUR ROLE</p><h2>Review the workout. Shape the outcome.</h2><p>LIFT suggests a training plan. You make sure it fits the client's goal, fitness level and available time before approving it.</p></div><button type="button" data-open-plan>Review plan <span aria-hidden="true">↗</span></button></section><section class="support-card"><span class="support-icon" aria-hidden="true">↗</span><div><p class="eyebrow">STAY CONNECTED</p><h2>Talk through the changes.</h2><p>If Alexander needs a different schedule or exercise, discuss the update in messages or a meeting before changing his approved plan.</p></div><a href="../Messages/messages.html">Open messages <span aria-hidden="true">↗</span></a></section></div>

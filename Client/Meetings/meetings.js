@@ -45,10 +45,10 @@ function renderMeetings(group) {
       }
     } else if (meeting.status === "accepted") {
       const link = document.createElement("a");
-      link.href = meeting.link;
+      link.href = meeting.room ? `../../Shared/MeetingRoom/meeting.html?room=${encodeURIComponent(meeting.room)}` : meeting.link;
       link.target = "_blank";
       link.rel = "noopener noreferrer";
-      link.textContent = "Join Zoom ↗";
+      link.textContent = "Join meeting ↗";
       actions.append(link);
     }
     card.append(person, content, actions);
@@ -61,9 +61,13 @@ const meetingGroups = [
   { service: window.LiftCoachMeetings, prefix: "meeting", initials: "SC", name: "Coach Sarah Chen", context: "Training conversation" }
 ];
 for (const group of meetingGroups) {
-  document.getElementById(`${group.prefix}-list`).addEventListener("click", event => {
+  document.getElementById(`${group.prefix}-list`).addEventListener("click", async event => {
     const button = event.target.closest("[data-decision]");
-    if (button && group.service.setStatus(button.dataset.id, button.dataset.decision)) renderMeetings(group);
+    if (!button) return;
+    const declining = button.dataset.decision === "declined";
+    if (declining && !await window.LiftNotice.confirm("Decline this meeting request?", { confirmText: "Decline request" })) return;
+    if (group.service.setStatus(button.dataset.id, button.dataset.decision)) { renderMeetings(group); window.LiftNotice[declining ? "warning" : "success"](declining ? "Meeting request declined." : "Meeting request accepted."); }
+    else window.LiftNotice.error("Could not update the meeting request.");
   });
   window.addEventListener("storage", event => { if (event.key === group.service.key) renderMeetings(group); });
   renderMeetings(group);

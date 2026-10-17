@@ -31,7 +31,7 @@ function renderClients() {
   visible.forEach(client => {
     const card = document.createElement("article");
     card.className = "roster-card";
-    card.innerHTML = `<div class="client-primary"><span class="roster-avatar" aria-hidden="true">${client.initials}</span><div><span class="member-type">${client.subscription.toUpperCase()} MEMBER</span><h3>${client.name}</h3><p>${client.goal}</p></div></div><div class="client-facts"><div><span>DAILY TARGET</span><strong>${client.dailyTarget}</strong></div><div><span>LATEST PLAN ACTIVITY</span><strong>${client.status === "approved" ? "Plan active" : "Revision awaiting approval"}</strong></div></div><div class="client-status"><span><i aria-hidden="true"></i> ${client.statusLabel}</span><small>Nutrition plan ${client.status === "approved" ? "active" : "in review"}</small></div><div class="roster-actions"><a class="details-button" href="../ClientDetails/client-details.html">View client ↗</a><button class="plan-link" type="button" data-open-plan>Review plan ↗</button><a class="plan-link" href="../Messages/messages.html">Message ↗</a></div>`;
+    card.innerHTML = `<div class="client-primary"><span class="roster-avatar" aria-hidden="true">${client.initials}</span><div><span class="member-type">${client.subscription.toUpperCase()} MEMBER</span><h3>${client.name}</h3><p>${client.goal}</p></div></div><div class="client-facts"><div><span>DAILY TARGET</span><strong>${client.dailyTarget}</strong></div><div><span>LATEST PLAN ACTIVITY</span><strong>${client.status === "approved" ? "Plan active" : "Revision awaiting approval"}</strong></div></div><div class="client-status"><span><i aria-hidden="true"></i> ${client.statusLabel}</span><small>Nutrition plan ${client.status === "approved" ? "active" : "in review"}</small></div><div class="roster-actions"><a class="details-button" href="../ClientDetails/client-details.html">View client ↗</a><button class="plan-link" type="button" data-open-plan>Review plan ↗</button><button class="plan-link" type="button" data-open-progress data-client-email="client@lift.demo" data-client-name="Alexander Drake">Progress ↗</button><button class="plan-link" type="button" data-open-daily-status data-daily-kind="meals" data-client-email="client@lift.demo" data-client-name="Alexander Drake">Today's meals ↗</button><a class="plan-link" href="../Messages/messages.html">Message ↗</a></div>`;
     list.append(card);
   });
   document.getElementById("empty-roster").hidden = visible.length > 0;
@@ -64,11 +64,13 @@ function savePlan(status) {
   if (!planForm.reportValidity()) return;
   if (!window.LiftNutritionPlan.save(Object.fromEntries(new FormData(planForm)), status)) {
     planFeedback.textContent = "Could not save the plan on this device.";
+    window.LiftNotice.error(planFeedback.textContent);
     return;
   }
   renderClients();
   document.getElementById("plan-dialog-status").textContent = status === "approved" ? "APPROVED" : "NEEDS REVIEW";
   planFeedback.textContent = status === "approved" ? "Nutrition plan approved. Alexander can see the updated targets and meals." : "Revision saved for review. Alexander keeps the last approved plan until you approve it.";
+  window.LiftNotice.success(planFeedback.textContent);
 }
 document.addEventListener("click", event => { if (event.target.closest("[data-open-plan]")) openPlanDialog(); });
 document.getElementById("close-plan-dialog").addEventListener("click", () => planDialog.close());

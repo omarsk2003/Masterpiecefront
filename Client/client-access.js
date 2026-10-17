@@ -15,8 +15,30 @@
   const preview = Boolean(member?.preview);
   const identity = member?.email || "sample-premium";
   const profileKey = `lift-profile-session-${member?.email || "preview"}`;
-  const requiresPersonalizationProfile = Boolean(member?.requiresPersonalization || member?.createdAt);
   const activityKey = `lift-client-activity-${identity}`;
+  // The fixed Free and AI demo accounts represent returning clients. Seed their
+  // completed profiles once; registered clients still complete first-use setup.
+  const demoProfiles = {
+    "client.free@lift.demo": {
+      goal: "Stay active", goalNote: "Build a consistent routine", age: "27", weight: "70", height: "173",
+      fitness: "Beginner", activity: "Lightly active", location: "Home", days: ["Mon", "Wed", "Fri"],
+      duration: "30", trainingTime: "Evening", sleep: "7", cooking: "Some days",
+      schedule: "Weekdays 9–5", health: "None", foodHabits: "Three regular meals most days",
+      dietary: "No preference", completed: true
+    },
+    "client.ai@lift.demo": {
+      goal: "Build strength", goalNote: "Get stronger with a realistic schedule", age: "30", weight: "76", height: "178",
+      fitness: "Intermediate", activity: "Moderately active", location: "Gym", days: ["Mon", "Tue", "Thu", "Sat"],
+      duration: "45", trainingTime: "Morning", sleep: "7.5", cooking: "Most days",
+      schedule: "Weekdays 8–4", health: "None", foodHabits: "Regular meals with protein and vegetables",
+      dietary: "No preference", completed: true
+    }
+  };
+  const savedDemoProfile = readJson(sessionStorage, profileKey) || readJson(localStorage, profileKey);
+  if (demoProfiles[member?.email] && !savedDemoProfile?.completed) {
+    try { localStorage.setItem(profileKey, JSON.stringify(demoProfiles[member.email])); sessionStorage.removeItem(profileKey); }
+    catch { try { sessionStorage.setItem(profileKey, JSON.stringify(demoProfiles[member.email])); } catch { /* Setup remains available if storage is disabled. */ } }
+  }
   const capabilities = Object.freeze({
     canUseAdvancedAI: plan !== "free",
     canUsePersonalizedAI: plan !== "free",
@@ -44,19 +66,24 @@
       && inRange(profile.sleep, 1, 24)
       && [profile.schedule, profile.health, profile.foodHabits, profile.dietary].every(filled);
   };
-  const needsPersonalizationProfile = () => requiresPersonalizationProfile && !isPersonalizationProfileComplete(getProfile());
+  const needsPersonalizationProfile = () => !isPersonalizationProfileComplete(getProfile());
   if (needsPersonalizationProfile()) document.documentElement.dataset.clientNeedsProfile = "true";
   const getActivity = () => readJson(localStorage, activityKey) || { workouts: {}, meals: {}, measurements: [] };
   const saveActivity = activity => {
-    try { localStorage.setItem(activityKey, JSON.stringify(activity)); } catch { /* Preview still works for this page. */ }
+    try { localStorage.setItem(activityKey, JSON.stringify(activity)); } catch { return false; }
     window.dispatchEvent(new CustomEvent("lift:activity-change", { detail: activity }));
+    return true;
   };
   const setDone = (group, id, done) => {
     const activity = getActivity();
     activity[group] ||= {};
     activity[group][id] = Boolean(done);
+    activity.completedAt ||= {};
+    activity.completedAt[group] ||= {};
+    if (done) activity.completedAt[group][id] = todayKey();
+    else delete activity.completedAt[group][id];
     if (done) { activity.activeDays ||= {}; activity.activeDays[todayKey()] = true; }
-    saveActivity(activity);
+    return saveActivity(activity);
   };
   const labels = { free: "Free Plan", ai: "AI Plan", premium: "Premium" };
   const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
@@ -69,6 +96,40 @@
     monday.setDate(monday.getDate() - (monday.getDay() + 6) % 7);
     return [monday.getFullYear(), String(monday.getMonth() + 1).padStart(2, "0"), String(monday.getDate()).padStart(2, "0")].join("-");
   };
+  // Alexander is the fixed Premium demo. Give only this account a visible history;
+  // registered clients continue with a genuinely empty chart.
+  if (member?.email === "client@lift.demo") {
+    const activity = getActivity();
+    if (!activity.demoSeeded) {
+      activity.workouts ||= {};
+      activity.meals ||= {};
+      activity.completedAt ||= {};
+      activity.completedAt.workouts ||= {};
+      activity.completedAt.meals ||= {};
+      activity.activeDays ||= {};
+      const dateAt = offset => {
+        const date = new Date(); date.setDate(date.getDate() + offset);
+        return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, "0"), String(date.getDate()).padStart(2, "0")].join("-");
+      };
+      for (const offset of [-6, -4, -2, -1]) {
+        const date = dateAt(offset), id = `demo-workout:${date}:session`;
+        activity.workouts[id] = true;
+        activity.completedAt.workouts[id] = date;
+        activity.activeDays[date] = true;
+      }
+      for (const offset of [-6, -5, -4, -3, -2, -1, 0]) {
+        const date = dateAt(offset);
+        for (const meal of offset % 2 ? ["Breakfast", "Dinner"] : ["Breakfast", "Lunch", "Dinner"]) {
+          const id = `demo-meal:${date}:${meal}`;
+          activity.meals[id] = true;
+          activity.completedAt.meals[id] = date;
+        }
+        activity.activeDays[date] = true;
+      }
+      activity.demoSeeded = true;
+      saveActivity(activity);
+    }
+  }
   const getStreak = () => {
     const days = getActivity().activeDays || {};
     const date = new Date();

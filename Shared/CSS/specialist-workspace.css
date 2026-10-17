@@ -51,6 +51,7 @@ lift-coach-navbar,lift-nutrition-navbar{position:sticky;top:0;z-index:50}
 @media(max-width:1150px){.roster-card{grid-template-columns:repeat(2,minmax(0,1fr))}.roster-card .roster-actions{justify-self:stretch}}
 @media(max-width:560px){.roster-card{grid-template-columns:1fr}.roster-card .roster-actions{width:100%}}
 .roster-card .roster-actions a{width:100%;justify-self:stretch}
+.roster-card .roster-actions button.plan-link{display:flex;align-items:center;justify-content:center;width:100%;min-height:36px;padding:7px 9px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text-primary);font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:var(--type-label);font-weight:700;line-height:1.2;white-space:normal;text-align:center;cursor:pointer}.roster-card .roster-actions button.plan-link:hover{background:var(--surface-hover);border-color:var(--brand)}#client-progress{scroll-margin-top:96px}
 :is(.filter-tabs,.filters) button{min-height:36px;font-size:var(--type-label)}
 :is(.search-box,.search-field) input{font-size:var(--type-small);color:var(--text-primary)}
 :is(.profile-panel,.identity-card,.guidance-panel,.guidance-list-panel,.upload-panel,.library-panel,.note-card,.roster-panel){background:var(--surface);border-color:var(--border);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)}
@@ -69,3 +70,4 @@ lift-coach-navbar,lift-nutrition-navbar{position:sticky;top:0;z-index:50}
 @media(max-width:1150px){.specialist-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:780px){.specialist-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.workspace-activity{grid-template-columns:1fr}.workspace-summary{align-items:stretch;flex-direction:column}.workspace-summary a{align-self:flex-start}}
 @media(max-width:490px){.specialist-metrics{gap:8px}.specialist-metrics article{min-height:120px;padding:14px}.specialist-metrics strong{font-size:1.75rem}}
+.client-progress-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}.client-progress-grid>div{display:grid;gap:5px;padding:16px;border:1px solid var(--border);border-radius:8px;background:var(--bg-subtle)}.client-progress-grid strong{font-size:28px;color:var(--brand)}.client-progress-grid span,.client-progress-note{color:var(--text-secondary);font-size:11px}#specialist-progress-chart{margin:20px 0}#specialist-latest-metric{font-weight:700}

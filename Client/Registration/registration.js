@@ -40,10 +40,11 @@
       fieldError("confirm-password", !confirmation.value ? "Confirm your password." : confirmation.value !== password.value ? "Passwords do not match." : ""),
       fieldError("terms", terms.checked ? "" : "Review and accept the preview terms to continue.")
     ];
-    if (checks.includes(false)) { form.querySelector('[aria-invalid="true"]')?.focus(); return; }
+    if (checks.includes(false)) { form.querySelector('[aria-invalid="true"]')?.focus(); window.LiftNotice.warning("Please correct the highlighted fields."); return; }
     const address = email.value.toLowerCase();
     if (["client@lift.demo", "client.free@lift.demo", "client.ai@lift.demo", "coach@lift.demo", "nutritionist@lift.demo", "admin@lift.demo"].includes(address) || window.LiftClientAccounts.find(address)) {
       fieldError("register-email", "An account with this email already exists.");
+      window.LiftNotice.warning("An account with this email already exists.");
       email.focus();
       return;
     }
@@ -55,12 +56,14 @@
       localStorage.setItem("lift-preview-member-v1", JSON.stringify(member));
     } catch {
       fieldError("register-email", "Local account storage is unavailable. Open LIFT on a local server and try again.");
+      window.LiftNotice.error("Could not create the account on this device.");
       return;
     }
     visual.dataset.progress = "complete";
     visual.querySelector(".activation-top span:last-child").textContent = "READY / 05";
     visual.querySelectorAll(".activation-segment,.activation-point,.activation-end,.activation-label").forEach(item => item.classList.add("active"));
     form.querySelector('button[type="submit"]').disabled = true;
+    window.LiftNotice.flash("Account created. Welcome to LIFT.");
     window.setTimeout(() => location.assign("../Dashboard/dashboard.html"), 650);
   });
   document.querySelectorAll("[data-password]").forEach(button => button.addEventListener("click", () => {

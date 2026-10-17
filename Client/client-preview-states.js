@@ -54,13 +54,12 @@
     const main = document.querySelector(".dashboard-grid");
     if (!main) return false;
     const p = access.getPlan(), workouts = count("workouts"), meals = count("meals");
-    const measurements = activity().measurements?.length || 0;
     const name = access.member.name?.split(" ")[0] || "there";
     const grid = shell(main, access.plan === "free" ? "YOUR SPACE / FREE PLAN" : "YOUR SPACE / AI PLAN", "Welcome, " + name + ".", access.plan === "free" ? "Build consistency with movement, food check-ins, and progress." : "Your plan follows your saved context and the progress you record here.");
     if (access.plan === "free") {
       const movement = card("ACTIVITY", "Movement logged", "Completed basic workouts.");
       movement.append(stat(workouts), actions(action("Open workouts", "../Workout/workout.html", true)));
-      const food = card("DAILY HABITS", "Food and progress", meals + " meal check-ins and " + measurements + " body measurements saved on this device.");
+      const food = card("DAILY HABITS", "Food and progress", meals + " meal check-ins saved on this device.");
       food.append(actions(action("Nutrition basics", "../Nutrition/nutrition.html"), action("View progress", "../Progress/progress.html")));
       const guidance = card("GUIDANCE", "Keep the next step small", "Choose a realistic movement window and keep a simple record of what works for you.");
       guidance.append(actions(action("General guidance", "../AIAssistant/ai-assistant.html")));
@@ -79,7 +78,7 @@
       nutrition.append(stat(meals), actions(action("View nutrition", "../Nutrition/nutrition.html")));
       const recommendation = card("TODAY'S RECOMMENDATION", "A manageable next step", ready ? p.adjusted + " Your usual window is " + p.duration + " minutes at " + p.location + "." : "Ask LIFT Engine for guidance when you are ready.", true);
       recommendation.append(actions(action("Ask LIFT Engine", "../AIAssistant/ai-assistant.html", true)));
-      const tracking = card("PROGRESS", "See the pattern", measurements + " measurements saved alongside workouts and meals.");
+      const tracking = card("PROGRESS", "See the pattern", "Your workout and meal check-ins are saved here.");
       tracking.append(actions(action("Track progress", "../Progress/progress.html")));
       const adaptation = card("PLAN ADAPTATION", ready ? "Adjusted to your current context" : "Ready when you are", ready ? p.adjusted : "Your saved sleep, available time, fitness level, and logged progress can shape the next suggestion.");
       const premium = card("OPTIONAL SUPPORT", "Add human expertise.", "Keep your AI-powered plan and add Coach and Nutritionist support.");
@@ -106,16 +105,12 @@
         const button = make("button", "", activity().workouts?.[item.id] ? "✓ Completed" : "Mark complete");
         button.type = "button";
         button.setAttribute("aria-pressed", String(Boolean(activity().workouts?.[item.id])));
-        button.addEventListener("click", () => { access.setDone("workouts", item.id, button.getAttribute("aria-pressed") !== "true"); draw(); });
+        button.addEventListener("click", () => { const completing = button.getAttribute("aria-pressed") !== "true"; if (!access.setDone("workouts", item.id, completing)) return window.LiftNotice.error("Could not update this workout on this device."); draw(); window.LiftNotice.success(`${item.title} ${completing ? "completed" : "marked incomplete"}.`); });
         row.append(description, button);
         list.append(row);
       });
       week.append(list);
-      const guidance = card(ai ? "PLAN ADJUSTMENT" : "BASIC GUIDANCE", ai ? "As your life changes" : "Start where you are", ai ? p.adjusted : "If a session feels too long, shorten it. Consistency matters more than a perfect schedule.");
-      guidance.append(actions(action(ai ? "Update profile" : "Track progress", ai ? "../AIAssistant/ai-assistant.html?profile=edit" : "../Progress/progress.html")));
-      const next = card("NEXT STEP", ai ? "Ask about your plan" : "See your activity", ai ? "LIFT Engine can discuss today's adjustment using your saved context. Professional review is part of Premium." : "Your completed sessions appear in Progress. AI personalization is available with AI Plan.");
-      next.append(actions(action(ai ? "Open AI Assistant" : "View progress", ai ? "../AIAssistant/ai-assistant.html" : "../Progress/progress.html", true)));
-      grid.append(week, guidance, next);
+      grid.append(week);
     };
     draw();
   }
@@ -133,7 +128,7 @@
         const row = make("li"), button = make("button", "", activity().meals?.[key(name)] ? "✓ Logged" : "Log meal");
         button.type = "button";
         button.setAttribute("aria-pressed", String(Boolean(activity().meals?.[key(name)])));
-        button.addEventListener("click", () => { access.setDone("meals", key(name), button.getAttribute("aria-pressed") !== "true"); draw(); });
+        button.addEventListener("click", () => { const logging = button.getAttribute("aria-pressed") !== "true"; if (!access.setDone("meals", key(name), logging)) return window.LiftNotice.error("Could not update this meal on this device."); draw(); window.LiftNotice.success(`${name} ${logging ? "logged" : "removed from today's log"}.`); });
         const description = make("span");
         description.append(make("strong", "", name));
         if (ai) description.append(make("br"), make("small", "", p.mealIdeas[index]));
@@ -142,48 +137,20 @@
       });
       checkIn.append(list);
       const context = card(ai ? "YOUR FOOD CONTEXT" : "EVERYDAY BASICS", ai ? "What your plan considers" : "Keep it practical", ai ? "Food habits: " + p.food + ". Cooking: " + p.cooking + ". Dietary preferences: " + p.dietary + "." : "Include foods you enjoy, keep water nearby, and aim for regular meals when your day allows.");
-      context.append(actions(action(ai ? "Edit food profile" : "See progress", ai ? "../AIAssistant/ai-assistant.html?profile=edit" : "../Progress/progress.html")));
-      const next = card("NEXT STEP", ai ? "Guidance that can adapt" : "See your consistency", ai ? "Ask LIFT Engine about a busy day or a change in meal timing. Your saved preferences inform its local preview response." : "Your meal check-ins appear beside workouts and measurements in Progress.");
-      next.append(actions(action(ai ? "Open AI Assistant" : "View progress", ai ? "../AIAssistant/ai-assistant.html" : "../Progress/progress.html", true)));
-      grid.append(checkIn, context, next);
+      context.append(actions(action(ai ? "Open AI Assistant" : "See progress", ai ? "../AIAssistant/ai-assistant.html" : "../Progress/progress.html")));
+      grid.append(checkIn, context);
     };
     draw();
   }
 
   function renderProgress(main) {
     const draw = () => {
-      const records = activity().measurements || [], latest = records.at(-1);
-      const grid = shell(main, access.labels[access.plan].toUpperCase() + " / PROGRESS", "See how your routine adds up.", "Movement, food check-ins, and body measurements stay together in this browser preview.");
+      const grid = shell(main, access.labels[access.plan].toUpperCase() + " / PROGRESS", "See how your routine adds up.", "Movement and food check-ins stay together in this browser preview.");
       const workout = card("WORKOUTS", "Movement completed", "Sessions you marked complete.");
       workout.append(stat(count("workouts")), actions(action("Open workout", "../Workout/workout.html")));
       const meals = card("NUTRITION", "Meal check-ins", "Meal moments you recorded today.");
       meals.append(stat(count("meals")), actions(action("Open nutrition", "../Nutrition/nutrition.html")));
-      const measurements = card("BODY MEASUREMENTS", latest ? "Latest weight: " + Number(latest.weight).toFixed(1) + " kg" : "Start with one measurement", "Entries are saved on this device for your account.", true);
-      const form = make("form", "tier-measurement");
-      const weight = make("input"), waist = make("input");
-      weight.name = "weight"; weight.type = "number"; weight.min = "30"; weight.max = "300"; weight.step = "0.1"; weight.required = true;
-      waist.name = "waist"; waist.type = "number"; waist.min = "30"; waist.max = "250"; waist.step = "0.1";
-      const weightLabel = make("label", "", "Weight (kg)"), waistLabel = make("label", "", "Waist (cm) · optional");
-      weightLabel.append(weight); waistLabel.append(waist);
-      const save = make("button", "tier-action primary", "Save entry ↗"); save.type = "submit";
-      form.append(weightLabel, waistLabel, save);
-      form.addEventListener("submit", event => {
-        event.preventDefault();
-        if (!form.reportValidity()) return;
-        const next = activity();
-        next.measurements ||= [];
-        next.measurements.push({ date: new Date().toLocaleDateString(), weight: Number(weight.value), waist: waist.value ? Number(waist.value) : null });
-        access.saveActivity(next);
-        draw();
-      });
-      const history = make("ul", "tier-list");
-      records.slice(-3).reverse().forEach(item => {
-        const row = make("li");
-        row.append(make("strong", "", item.date), make("span", "", Number(item.weight).toFixed(1) + " kg" + (item.waist ? " · " + Number(item.waist).toFixed(1) + " cm waist" : "")));
-        history.append(row);
-      });
-      measurements.append(form, history);
-      grid.append(workout, meals, measurements);
+      grid.append(workout, meals);
     };
     draw();
   }
@@ -203,7 +170,6 @@
     if (!main) return;
     if (page === "workout") renderWorkout(main);
     else if (page === "nutrition") renderNutrition(main);
-    else if (page === "progress") renderProgress(main);
     else if (page === "messages" || page === "meetings") renderRestricted(main, page);
   });
 })();

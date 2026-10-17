@@ -3,11 +3,18 @@
 // Same-device meeting requests shared by the assigned coach and client pages.
 (() => {
   const key = "lift-coach-meetings-v1";
+  function demoMeeting() {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(17, 0, 0, 0);
+    return { id: "lift-demo-meeting", clientId: "alexander-drake", clientName: "Alexander Drake", coachName: "Sarah Chen", start: tomorrow.toISOString(), minutes: 30, topic: "Demo: training plan check-in", room: "lift-demo-sarah-alexander-preview", link: "", status: "accepted", createdAt: new Date().toISOString(), demo: true };
+  }
   function read() {
     try {
       const saved = JSON.parse(localStorage.getItem(key) || "[]");
-      return Array.isArray(saved) ? saved.filter(item => item && item.clientId === "alexander-drake") : [];
-    } catch { return []; }
+      const meetings = Array.isArray(saved) ? saved.filter(item => item && item.clientId === "alexander-drake") : [];
+      return meetings.length ? meetings : [demoMeeting()];
+    } catch { return [demoMeeting()]; }
   }
   function write(meetings) {
     try { localStorage.setItem(key, JSON.stringify(meetings)); }
@@ -24,7 +31,8 @@
       start: input.start,
       minutes: Number(input.minutes),
       topic: input.topic.trim().slice(0, 160),
-      link: input.link.trim(),
+      room: `lift-${crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36)}`,
+      link: "",
       status: "pending",
       createdAt: new Date().toISOString()
     };
@@ -38,5 +46,6 @@
     meeting.status = status;
     return write(meetings);
   }
-  window.LiftCoachMeetings = { key, read, create, setStatus };
+  function remove(id) { return write(read().filter(item => item.id !== id)); }
+  window.LiftCoachMeetings = { key, read, create, setStatus, remove };
 })();

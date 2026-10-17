@@ -142,6 +142,7 @@ $("#reply-form").addEventListener("submit", event => {
   renderList();
   renderConversation();
   $("#reply-status").textContent = `Reply added to ${item.name}'s conversation.`;
+  window.LiftNotice.success($("#reply-status").textContent);
 });
 
 const menuButton = $(".admin-menu-toggle");

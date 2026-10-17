@@ -13,7 +13,12 @@
     days: 4,
     minutes: 45,
     split: "Mon: Upper body • Tue: Conditioning • Wed: Lower body • Fri: Upper body",
-    dayExercises: "Mon | Barbell Back Squat | 3 sets × 8 reps\nMon | Romanian Deadlift | 3 sets × 10 reps\nTue | Conditioning | 30 minutes\nWed | Barbell Back Squat | 3 sets × 8 reps\nWed | Romanian Deadlift | 3 sets × 10 reps\nFri | Barbell Back Squat | 3 sets × 8 reps",
+    dayExercises: ["Mon", "Tue", "Wed", "Fri"].flatMap(day => [
+      day + " | Barbell Back Squat | 3 sets × 8 reps",
+      day + " | Romanian Deadlift | 3 sets × 10 reps",
+      day + " | Dumbbell Bench Press | 3 sets × 10 reps",
+      day + " | Lat Pulldown | 3 sets × 12 reps"
+    ]).join("\n"),
     coachNotes: "Keep sessions practical and progress at a steady pace.",
     updatedAt: null
   });

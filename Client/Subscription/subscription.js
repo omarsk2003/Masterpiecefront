@@ -11,6 +11,8 @@
     { id: "premium", name: "Premium", price: "$39.99", description: "AI planning with professional support from real people.", features: ["Everything in AI Plan", "Coach and Nutritionist review and support", "Professional messages and meetings"] }
   ];
   const tier = { free: 0, ai: 1, premium: 2 };
+  const money = value => `$${Number(value).toFixed(2)}`;
+  let promoCode = "";
   let selected = null;
 
   const current = document.createElement("section");
@@ -32,7 +34,7 @@
   const choice = document.createElement("div");
   choice.className = "plan-choice";
   choice.hidden = true;
-  choice.innerHTML = '<p class="tier-kicker">SELECTED PLAN</p><strong class="plan-choice-name"></strong><p>Confirm this change to update your local preview membership. No payment is taken.</p><div class="tier-actions"><button type="button" class="primary plan-confirm">Confirm plan change ↗</button><button type="button" class="plan-cancel">Cancel</button></div>';
+  choice.innerHTML = '<p class="tier-kicker">SELECTED PLAN</p><strong class="plan-choice-name"></strong><label class="promo-field">Promo code <input id="promo-code" autocomplete="off" placeholder="Enter code"><button type="button" id="apply-promo">Apply</button></label><p id="promo-result" role="status"></p><p>Confirm this change to update your local preview membership. No payment is taken.</p><div class="tier-actions"><button type="button" class="primary plan-confirm">Confirm plan change ↗</button><button type="button" class="plan-cancel">Cancel</button></div>';
   root.append(choice);
 
   const render = () => {
@@ -53,7 +55,7 @@
       title.textContent = plan.name;
       const price = document.createElement("p");
       price.className = "plan-option-price";
-      price.innerHTML = `<strong>${plan.price}</strong><small> / month</small>`;
+      price.innerHTML = `<strong>${money(window.LiftPricing.price(plan.id).base)}</strong><small> / month</small>`;
       const description = document.createElement("p");
       description.textContent = plan.description;
       const list = document.createElement("ul");
@@ -72,8 +74,11 @@
         button.setAttribute("aria-pressed", String(isSelected));
         button.addEventListener("click", () => {
           selected = plan.id;
+          promoCode = "";
+          choice.querySelector("#promo-code").value = "";
+          choice.querySelector("#promo-result").textContent = "";
           choice.hidden = false;
-          choice.querySelector(".plan-choice-name").textContent = `${plan.name} · ${plan.price} / month`;
+          choice.querySelector(".plan-choice-name").textContent = `${plan.name} · ${money(window.LiftPricing.price(plan.id).base)} / month`;
           render();
           choice.scrollIntoView({ block: "nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
         });
@@ -89,12 +94,24 @@
   };
 
   choice.querySelector(".plan-confirm").addEventListener("click", () => {
-    if (selected) access.setPlan(selected);
+    if (selected) {
+      if (promoCode) localStorage.setItem("lift-applied-promo-v1", JSON.stringify({ plan: selected, code: promoCode }));
+      window.LiftNotice.flash("Your plan has been changed.");
+      if (!access.setPlan(selected)) { try { sessionStorage.removeItem("lift-next-notice"); } catch {} window.LiftNotice.error("Could not change your plan."); }
+    }
   });
   choice.querySelector(".plan-cancel").addEventListener("click", () => {
     selected = null;
     choice.hidden = true;
     render();
+  });
+  choice.querySelector("#apply-promo").addEventListener("click", () => {
+    const code = choice.querySelector("#promo-code").value.trim().toUpperCase();
+    const result = window.LiftPricing.price(selected, code);
+    const status = choice.querySelector("#promo-result");
+    promoCode = result.valid ? code : "";
+    status.textContent = result.valid ? `${result.discount}% discount applied · ${money(result.total)} / month` : "Promo code is not valid for this plan.";
+    window.LiftNotice[result.valid ? "success" : "warning"](status.textContent);
   });
   render();
   access.finishRender();

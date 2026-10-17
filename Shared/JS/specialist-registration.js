@@ -24,7 +24,7 @@
     const form = $("#application-form");
     const fileInput = $("#certificate-files");
     const error = $("#form-message");
-    function showError(message) { error.textContent = message; error.hidden = false; }
+    function showError(message) { error.textContent = message; error.hidden = false; window.LiftNotice.warning(message); }
     fileInput.addEventListener("change", () => {
       $("#upload-list").innerHTML = [...fileInput.files].map(file => `<li><span>${escapeHtml(file.name)}</span><small>${(file.size / 1048576).toFixed(1)} MB</small></li>`).join("");
       error.hidden = true;
@@ -65,6 +65,7 @@
         await window.LiftSpecialistApplications.put(record);
         form.hidden = true;
         $("#success-panel").hidden = false;
+        window.LiftNotice.success("Application submitted for admin review.");
         $("#success-panel").scrollIntoView({ block: "center" });
       } catch { showError("Could not save the PDFs in this browser. Open LIFT on a local server and try again."); }
       finally { button.disabled = false; button.textContent = "Submit application ↗"; }

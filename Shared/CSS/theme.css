@@ -137,3 +137,36 @@
 :root :is(.info-message,.status-info){color:var(--info);background:var(--info-bg);border-color:var(--info-border)}
 :root[data-theme="light"] :is(.public-navbar,.client-navbar,.coach-navbar,.nutrition-navbar,.admin-topbar,.coach-sidebar,.nutrition-sidebar-nav,.admin-sidebar){background:var(--nav-bg);border-color:var(--border)}
 :root[data-theme="light"] :is(.client-theme-toggle,.coach-theme-toggle,.nutrition-theme-toggle,.admin-theme-toggle,.auth-theme-toggle,.theme-toggle,.floating-theme-toggle){background:var(--surface);border-color:var(--border);color:var(--text-primary)}
+
+/* Dialogs live in the browser's top layer; keep their surfaces and controls on the active palette. */
+:root[data-theme="light"] dialog{background:var(--surface);border-color:var(--border);color:var(--text-primary);color-scheme:light}
+:root[data-theme="light"] dialog :is(input:not([type="checkbox"]):not([type="radio"]),select,textarea){background:var(--input);border-color:var(--border-strong);color:var(--text-primary)}
+:root[data-theme="light"] dialog :is(.dialog-header,.profile-top){background:var(--surface);border-color:var(--border)}
+:root[data-theme="light"] .profile-dialog{background:var(--surface);border-color:var(--border);color:var(--text-primary)}
+:root[data-theme="light"] .profile-top,:root[data-theme="light"] .profile-top button,:root[data-theme="light"] .profile-heading p,:root[data-theme="light"] .review-list span,:root[data-theme="light"] .review-list button{color:var(--brand)}
+:root[data-theme="light"] .profile-heading span,:root[data-theme="light"] .personalization-banner p,:root[data-theme="light"] .profile-card p,:root[data-theme="light"] .assistant-actions span{color:var(--text-secondary)}
+:root[data-theme="light"] #profile-form label,:root[data-theme="light"] .review-list p{color:var(--text-primary)}
+:root[data-theme="light"] #profile-form :is(input,select,textarea){background:var(--input);border-color:var(--border-strong);color:var(--text-primary)}
+:root[data-theme="light"] .profile-choices span{border-color:var(--border);color:var(--text-secondary)}
+:root[data-theme="light"] .profile-choices input:checked+span{background:var(--brand);border-color:var(--brand);color:var(--brand-contrast)}
+:root[data-theme="light"] .profile-progress{background:var(--brand-soft)}
+:root[data-theme="light"] .profile-progress i{background:var(--brand)}
+:root[data-theme="light"] .profile-dialog:has(#profile-form) .profile-actions button,:root[data-theme="light"] .profile-dialog .save-later{border-color:var(--border-strong);color:var(--brand)}
+:root[data-theme="light"] .profile-dialog:has(#profile-form) .profile-actions button[type="submit"]{background:var(--brand);border-color:var(--brand);color:var(--brand-contrast)}
+:root[data-theme="light"] .personalization-banner button{background:var(--brand);border-color:var(--brand);color:var(--brand-contrast)}
+:root[data-theme="light"] .personalization-banner button:last-child,:root[data-theme="light"] .assistant-shell .profile-card button{background:transparent;color:var(--brand)}
+:root[data-theme="light"] .assistant-actions button{background:transparent;border-color:var(--brand);color:var(--brand)}
+:root[data-theme="light"] .assistant-shell .profile-card small{color:var(--text-muted)}
+:root[data-theme="light"] .pdf-preview{background:var(--surface-raised);border-color:var(--border)}
+
+/* Solid green actions need white text on the light palette. */
+:root[data-theme="light"] :is(.reply-form button,.add-entry,.save-entry,.submit-button,.support-button,.approve-action,.approve-button,.add-user-button,.save-button,.save-profile,.message-link,.message-button,.team-link,.details-button,.details-link,.main-action,.composer button,.engine-form button,.chat-form button,.form-end button,.form-bottom button,.form-actions button[type="submit"],.submit-row button,.success-panel a,#meeting-form>button,#status-form button,#meal-video-form button,.plan-dialog-actions button[type="submit"],.profile-actions button[type="submit"]){color:var(--brand-contrast)}
+
+/* Shared notifications and confirmation dialog across client, specialist, and admin pages. */
+.lift-notices{position:fixed;inset:auto 20px 20px auto;z-index:10000;display:grid;gap:10px;width:min(380px,calc(100vw - 40px));pointer-events:none}
+.lift-notice{display:flex;align-items:start;justify-content:space-between;gap:16px;padding:14px 16px;border:1px solid var(--border);border-left:4px solid var(--info);border-radius:12px;background:var(--surface);color:var(--text-primary);box-shadow:0 12px 32px #0003;font:inherit;line-height:1.5;pointer-events:auto}
+.lift-notice--success{border-left-color:var(--success)}.lift-notice--warning{border-left-color:var(--warning)}.lift-notice--error{border-left-color:var(--danger)}
+.lift-notice button{flex:none;border:0;background:transparent;color:var(--text-secondary);font:inherit;font-size:22px;line-height:1;cursor:pointer}
+.lift-confirm-dialog{width:min(440px,calc(100vw - 32px));max-width:none;padding:28px;border:1px solid var(--border);border-radius:18px;background:var(--surface);color:var(--text-primary);box-shadow:0 24px 70px #0006;font:inherit}
+.lift-confirm-dialog::backdrop{background:#0009}.lift-confirm-dialog h2{margin:0 0 10px;color:var(--text-primary);font-size:1.35rem}.lift-confirm-dialog p{margin:0 0 26px;color:var(--text-secondary);line-height:1.55}
+.lift-confirm-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap}.lift-confirm-actions button{padding:11px 18px;border:1px solid var(--border-strong);border-radius:8px;background:var(--surface-raised);color:var(--text-primary);font:inherit;font-weight:700;cursor:pointer}.lift-confirm-actions .lift-confirm-danger{background:var(--danger);border-color:var(--danger);color:#fff}.lift-confirm-actions .lift-confirm-accept{background:var(--brand);border-color:var(--brand);color:var(--brand-contrast)}

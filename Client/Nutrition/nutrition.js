@@ -62,12 +62,83 @@ logButtons.forEach((button, index) => {
   };
   sync();
   button.addEventListener("click", () => {
-    clientAccess.setDone("meals", mealKey(index), !isMealLogged(index));
+    const logging = !isMealLogged(index);
+    if (!clientAccess.setDone("meals", mealKey(index), logging)) return window.LiftNotice.error("Could not update this meal on this device.");
     sync();
     updateProgress();
+    window.LiftNotice.success(`${mealName} ${logging ? "logged" : "removed from today's log"}.`);
   });
 });
 updateProgress();
+
+let mealVideoUrls = [];
+const exampleMeals = new Map([
+  ["greek yogurt & oat bowl", "ai_p-JJs_yw"],
+  ["chicken & rice power plate", "9D0SS-BdO3s"],
+  ["apple & peanut butter", "U_vrXvbviT0"],
+  ["salmon, potatoes & greens", "N5_TEGENBCI"]
+]);
+async function renderMealVideos() {
+  if (!window.LiftMealVideos) return;
+  let videos;
+  try { videos = await window.LiftMealVideos.all(); } catch { videos = []; }
+  mealVideoUrls.forEach(url => URL.revokeObjectURL(url));
+  mealVideoUrls = [];
+  logButtons.forEach((button, index) => {
+    const row = button.closest(".meal-card, .approved-menu-line");
+    const rawName = approvedPlan.updatedAt
+      ? row.querySelector("p").textContent
+      : row.querySelector("h3").textContent;
+    const name = rawName.replace(/^[^:]+:\s*/, "").trim();
+    const exampleId = exampleMeals.get(name.toLowerCase());
+    const guide = videos.find(item => item.meal === name.toLowerCase());
+    let area = row.querySelector(".meal-prep-video");
+    if (!area) {
+      area = document.createElement("div");
+      area.className = "meal-prep-video";
+      row.append(area);
+    }
+    area.replaceChildren();
+    const title = document.createElement("strong");
+    title.textContent = "HOW TO PREPARE";
+    area.append(title);
+    if (guide) {
+      const player = document.createElement("video");
+      const url = URL.createObjectURL(guide.file);
+      mealVideoUrls.push(url);
+      player.src = url;
+      player.controls = true;
+      player.playsInline = true;
+      player.preload = "metadata";
+      player.setAttribute("aria-label", name + " preparation by Maya");
+      const steps = document.createElement("p");
+      steps.textContent = "Maya's preparation steps: " + guide.instructions;
+      area.append(player, steps);
+    } else if (exampleId) {
+      const frame = document.createElement("iframe");
+      frame.src = "https://www.youtube-nocookie.com/embed/" + exampleId;
+      frame.title = name + " example preparation";
+      frame.loading = "lazy";
+      frame.allow = "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share";
+      frame.allowFullscreen = true;
+      const note = document.createElement("p");
+      note.textContent = "Example recipe · Maya's video will replace it after upload";
+      const link = document.createElement("a");
+      link.href = "https://www.youtube.com/watch?v=" + exampleId;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "Watch on YouTube ↗";
+      area.append(frame, note, link);
+    } else {
+      const pending = document.createElement("p");
+      pending.textContent = "Maya's preparation video awaiting upload";
+      area.append(pending);
+    }
+  });
+}
+window.addEventListener("focus", renderMealVideos);
+window.addEventListener("pagehide", () => mealVideoUrls.forEach(url => URL.revokeObjectURL(url)));
+renderMealVideos();
 
 function renderSpecialistGuidance() {
   if (!window.LiftNutritionGuidance) return;
